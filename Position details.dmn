@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0e5fau1" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="5.45.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.24.0">
+  <decision id="position_details" name="Decision 1">
+    <decisionTable id="DecisionTable_1639di0">
+      <input id="Input_1" label="Job Title">
+        <inputExpression id="InputExpression_1" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="Output_1" label="Title" typeRef="string" />
+      <output id="OutputClause_1f120gu" label="Pensum" typeRef="string" />
+      <output id="OutputClause_0l6qz27" label="Address" typeRef="string" />
+      <output id="OutputClause_10isykq" label="About the job" typeRef="string" />
+      <output id="OutputClause_1cm9swq" label="Your mission" typeRef="string" />
+      <output id="OutputClause_07sbfmh" label="Your profile" typeRef="string" />
+      <output id="OutputClause_0ugosls" label="Your benefits" typeRef="string" />
+      <output id="OutputClause_1lcja9z" label="Contact person" typeRef="string" />
+      <rule id="DecisionRule_11u6e44">
+        <inputEntry id="UnaryTests_0exf7pi">
+          <text>"Software Engineer"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0sdu0fj">
+          <text>"Software Engineer"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_10al4a8">
+          <text>"80–100%"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0d9nv5j">
+          <text>"Hans-Muster-Strasse 30"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1ic1rey">
+          <text>"-Design, develop, and maintain software applications and internal tools
+-Collaborate with cross-functional teams to deliver technical solutions
+-Analyze requirements and translate them into efficient code
+-Test, debug, and optimize existing systems
+-Support innovation through modern technologies and best practices"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_03ul78c">
+          <text>"-Develop high-quality software solutions tailored to business needs
+-Improve existing applications and system performance
+-Contribute to digital transformation projects
+-Ensure reliable and secure software operations
+-Work closely with internal teams and stakeholders"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_05aj1zn">
+          <text>"-Degree in Computer Science or related field
+-Experience in software development and programming languages
+-Analytical mindset and problem-solving skills
+-Team-oriented with strong communication abilities
+-Fluent in English; German is a plus"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1f8xktk">
+          <text>"-Competitive salary and performance-based incentives
+-Flexible working hours and hybrid work options
+-Modern workplace with up-to-date technology
+-Opportunities for professional development and training
+-Flat hierarchies and short decision-making paths
+-Supportive and collaborative team culture
+-Exciting projects with diverse clients and industries
+-Central office location in Switzerland"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1bu771n">
+          <text>"If you have any questions regarding this position, please contact our HR team:
+Anna Keller
+HR Manager
+Alpenblick Consulting AG
+📧 careers@alpenblick-consulting.ch
+📞 +41 44 123 45 67"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1lf3mvd">
+        <inputEntry id="UnaryTests_10c5dhf">
+          <text>"Business Analyst"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0n7oaw4">
+          <text>"Business Analyst"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1lf5mh2">
+          <text>"60–100%"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_06dl84e">
+          <text>"Hans-Muster-Strasse 30"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_19u23zu">
+          <text>"-Analyze business processes and identify improvement opportunities
+-Gather and document business requirements from stakeholders
+-Translate business needs into clear functional specifications
+-Support project implementation and change management activities
+-Act as a bridge between business teams and technical departments"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1ii2x4v">
+          <text>"-Evaluate and improve business processes and workflows
+-Support requirement engineering and project planning
+-Deliver insights based on data and stakeholder input
+-Ensure alignment between business goals and solutions
+-Support successful implementation of strategic initiatives"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1f0qy0y">
+          <text>"-Degree in Business Administration, IT, or related field
+-Experience in business analysis or consulting
+-Strong analytical and communication skills
+-Structured and solution-oriented working style
+-Fluent in English; German is a plus"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_12r2ih9">
+          <text>"-Competitive salary and performance-based incentives
+-Flexible working hours and hybrid work options
+-Modern workplace with up-to-date technology
+-Opportunities for professional development and training
+-Flat hierarchies and short decision-making paths
+-Supportive and collaborative team culture
+-Exciting projects with diverse clients and industries
+-Central office location in Switzerland"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_15s3vqc">
+          <text>"If you have any questions regarding this position, please contact our HR team:
+Anna Keller
+HR Manager
+Alpenblick Consulting AG
+📧 careers@alpenblick-consulting.ch
+📞 +41 44 123 45 67"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0mynbmu">
+        <inputEntry id="UnaryTests_0nakl8g">
+          <text>"ERP Consultant"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0yr0m7d">
+          <text>"ERP Consultant"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0m3syld">
+          <text>"40–60%"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_08dc0tm">
+          <text>"Hans-Muster-Strasse 30"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1pctf2q">
+          <text>"-Implement and optimize ERP systems for business clients
+-Analyze client requirements and configure suitable ERP solutions
+-Train users and support system adoption across departments
+-Provide troubleshooting and continuous improvement recommendations
+-Collaborate with project teams to ensure successful deployments"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_13upnoq">
+          <text>"-Lead ERP implementation and optimization projects
+-Support clients in process digitalization initiatives
+-Configure systems according to operational needs
+-Provide training and post-go-live support
+-Build long-term client relationships through excellent service"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1hn1lqy">
+          <text>"-Degree in Business Informatics, IT, or related field
+-Experience with ERP systems and consulting projects
+-Strong understanding of business processes
+-Customer-focused and proactive mindset
+-Fluent in English; German is a plus"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1bk98sa">
+          <text>"-Competitive salary and performance-based incentives
+-Flexible working hours and hybrid work options
+-Modern workplace with up-to-date technology
+-Opportunities for professional development and training
+-Flat hierarchies and short decision-making paths
+-Supportive and collaborative team culture
+-Exciting projects with diverse clients and industries
+-Central office location in Switzerland"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0xkuuvy">
+          <text>"If you have any questions regarding this position, please contact our HR team:
+Anna Keller
+HR Manager
+Alpenblick Consulting AG
+📧 careers@alpenblick-consulting.ch
+📞 +41 44 123 45 67"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape id="Decision_1qwkxed_di" dmnElementRef="position_details">
+        <dc:Bounds height="80" width="180" x="160" y="100" />
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>
