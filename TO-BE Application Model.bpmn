@@ -1,0 +1,546 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_TOBE_v2" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.45.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.24.0">
+  <bpmn:collaboration id="Collaboration_TOBE_v2">
+    <bpmn:participant id="Participant_Company" name="Employee Recruitment (TO-BE)" processRef="Process_TOBE_v2" />
+    <bpmn:participant id="Participant_Applier" name="Applier" />
+    <bpmn:messageFlow id="MsgFlow_ApplierToProcess" name="Application submission" sourceRef="Participant_Applier" targetRef="Event_ApplicationReceived" />
+    <bpmn:messageFlow id="MsgFlow_InterviewInvitation" name="Interview invitation" sourceRef="Task_ScheduleFirstInterview" targetRef="Participant_Applier" />
+    <bpmn:messageFlow id="MsgFlow_Cancellation" name="Cancellation" sourceRef="Task_SendCancellation" targetRef="Participant_Applier" />
+    <bpmn:messageFlow id="MsgFlow_SecondInterview" name="Assessment invitation" sourceRef="Task_ScheduleSecondInterview" targetRef="Participant_Applier" />
+    <bpmn:messageFlow id="Flow_0og80vw" name="Contract" sourceRef="Task_SendContract" targetRef="Participant_Applier" />
+    <bpmn:messageFlow id="Flow_0rsrf49" name="Contract" sourceRef="Participant_Applier" targetRef="Event_0h88k8b" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_TOBE_v2" isExecutable="true">
+    <bpmn:laneSet id="LaneSet_TOBE_v2">
+      <bpmn:lane id="Lane_HRManager" name="HR Manager">
+        <bpmn:flowNodeRef>StartEvent_1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_DefinePosition</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_AdvertisePosition</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Event_ApplicationReceived</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_GatherApplications</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_CreateContract</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_SendContract</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_TriggerOnboarding</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>EndEvent_Onboarded</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Event_0h88k8b</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_HRRecruiter" name="System">
+        <bpmn:flowNodeRef>Task_CVScoring</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_DMNShortlist</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_ApplicationSuitable</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_SendCancellation</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>EndEvent_Denied</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_ScheduleFirstInterview</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_HiringManager" name="Hiring Manager">
+        <bpmn:flowNodeRef>Task_ConductFirstInterview</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_EvaluateCandidate</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_InviteSecondInterview</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_ConductSecondInterview</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_HireCandidate</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_13ubzbu</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_ScheduleSecondInterview</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="StartEvent_1" name="New position requested">
+      <bpmn:outgoing>Flow_Start_Define</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="Task_DefinePosition" name="Define Position" camunda:formKey="embedded:app:forms/start-form.html" camunda:assignee="${hrManager}">
+      <bpmn:documentation>
+        AS-IS: HR Manager definiert Stelle manuell (Word/E-Mail).
+        TO-BE: Camunda Start Form — strukturierte Erfassung von
+               jobTitle, department, location, salaryRange, hiringManager.
+               Daten werden als Prozessvariablen gespeichert.
+      </bpmn:documentation>
+      <bpmn:incoming>Flow_Start_Define</bpmn:incoming>
+      <bpmn:outgoing>Flow_Define_Advertise</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:serviceTask id="Task_AdvertisePosition" name="Post Job to Portals" camunda:type="external" camunda:topic="post-job-portals">
+      <bpmn:documentation>
+        AS-IS: HR Manager postet Stelle manuell auf einzelne Web-Portale.
+        TO-BE: Make Webhook postet automatisch auf LinkedIn, Indeed und Firmen-Website.
+        Input:  jobTitle, department, location, salaryRange
+        Output: jobPostingStatus, jobPostingUrl, jobPostedAt
+      </bpmn:documentation>
+      <bpmn:incoming>Flow_Define_Advertise</bpmn:incoming>
+      <bpmn:outgoing>Flow_Advertise_WaitApplication</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:intermediateCatchEvent id="Event_ApplicationReceived" name="Application received">
+      <bpmn:documentation>
+        AS-IS: HR Manager wartet manuell auf eingehende Bewerbungen per E-Mail.
+        TO-BE: Make überwacht E-Mail-Postfach und Bewerbungsportal.
+               Bei neuer Bewerbung löst Make dieses Event aus und setzt
+               candidateName, candidateEmail, cvFileUrl als Prozessvariablen.
+      </bpmn:documentation>
+      <bpmn:incoming>Flow_Advertise_WaitApplication</bpmn:incoming>
+      <bpmn:outgoing>Flow_Application_Gather</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MsgDef_ApplicationReceived" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:serviceTask id="Task_GatherApplications" name="Collect &#38; Structure Application" camunda:type="external" camunda:topic="collect-applications">
+      <bpmn:documentation>
+        AS-IS: HR Manager sammelt Bewerbung manuell aus Web-Portal.
+        TO-BE: Make extrahiert automatisch alle Bewerbungsdaten aus E-Mail/Portal
+               und speichert strukturiert in Google Sheets.
+        Output: yearsExperience, educationLevel, languageLevel, cvFileUrl
+      </bpmn:documentation>
+      <bpmn:incoming>Flow_Application_Gather</bpmn:incoming>
+      <bpmn:outgoing>Flow_Gather_CVScoring</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_Start_Define" sourceRef="StartEvent_1" targetRef="Task_DefinePosition" />
+    <bpmn:sequenceFlow id="Flow_Define_Advertise" sourceRef="Task_DefinePosition" targetRef="Task_AdvertisePosition" />
+    <bpmn:sequenceFlow id="Flow_Advertise_WaitApplication" sourceRef="Task_AdvertisePosition" targetRef="Event_ApplicationReceived" />
+    <bpmn:sequenceFlow id="Flow_Application_Gather" sourceRef="Event_ApplicationReceived" targetRef="Task_GatherApplications" />
+    <bpmn:sequenceFlow id="Flow_Gather_CVScoring" sourceRef="Task_GatherApplications" targetRef="Task_CVScoring" />
+    <bpmn:sequenceFlow id="Flow_CVScoring_DMN" sourceRef="Task_CVScoring" targetRef="Task_DMNShortlist" />
+    <bpmn:sequenceFlow id="Flow_Rejection_End" sourceRef="Task_SendCancellation" targetRef="EndEvent_Denied" />
+    <bpmn:sequenceFlow id="Flow_Suitable_No" name="No" sourceRef="Gateway_ApplicationSuitable" targetRef="Task_SendCancellation" />
+    <bpmn:sequenceFlow id="Flow_SecondInterviewNo_Reject" name="No" sourceRef="Gateway_InviteSecondInterview" targetRef="Task_SendCancellation" />
+    <bpmn:sequenceFlow id="Flow_AfterSecondEvaluate" sourceRef="Task_EvaluateCandidate" targetRef="Gateway_HireCandidate" />
+    <bpmn:sequenceFlow id="Flow_HireYes_Contract" name="Yes" sourceRef="Gateway_HireCandidate" targetRef="Task_CreateContract" />
+    <bpmn:sequenceFlow id="Flow_HireNo_Reject" name="No" sourceRef="Gateway_HireCandidate" targetRef="Task_SendCancellation" />
+    <bpmn:sequenceFlow id="Flow_1nnc321" name="Yes" sourceRef="Gateway_ApplicationSuitable" targetRef="Task_ScheduleFirstInterview" />
+    <bpmn:sequenceFlow id="Flow_0omxnex" sourceRef="Task_DMNShortlist" targetRef="Gateway_ApplicationSuitable" />
+    <bpmn:serviceTask id="Task_CVScoring" name="Score CV Automatically" camunda:type="external" camunda:topic="cv-scoring-python">
+      <bpmn:documentation>
+        AS-IS: HR Recruiter sichtet CV manuell, subjektive Beurteilung.
+        TO-BE: Python Script berechnet automatisch CV Score (0-100, Hit Policy: SUM):
+               yearsExperience → 10/25/40 Punkte
+               educationLevel  → 10/20/40 Punkte
+               languageLevel   → 0/10/20 Punkte
+        Output: cvScore (Integer, 0-100)
+      </bpmn:documentation>
+      <bpmn:incoming>Flow_Gather_CVScoring</bpmn:incoming>
+      <bpmn:outgoing>Flow_CVScoring_DMN</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:businessRuleTask id="Task_DMNShortlist" name="DMN: Shortlist Decision" camunda:resultVariable="shortlistResult" camunda:decisionRef="Decision_CandidateEvaluation" camunda:mapDecisionResult="singleEntry">
+      <bpmn:documentation>
+        AS-IS: HR Recruiter entscheidet subjektiv ob Kandidat geeignet ist.
+        TO-BE: Camunda DMN Decision Table (UNIQUE Hit Policy):
+               cvScore &lt; 40   → "Absage"
+               cvScore 40-69  → "Interview"
+               cvScore &gt;= 70  → "Shortlist"
+        Output: shortlistResult (String)
+      </bpmn:documentation>
+      <bpmn:incoming>Flow_CVScoring_DMN</bpmn:incoming>
+      <bpmn:outgoing>Flow_0omxnex</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:exclusiveGateway id="Gateway_ApplicationSuitable" name="Application suitable?">
+      <bpmn:incoming>Flow_0omxnex</bpmn:incoming>
+      <bpmn:outgoing>Flow_Suitable_No</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1nnc321</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="Task_SendCancellation" name="Send Cancellation">
+      <bpmn:documentation>
+        AS-IS: HR Recruiter schreibt Absage manuell per E-Mail (an Applier Pool).
+        TO-BE: Make sendet automatisch personalisierte Absage-E-Mail via Gmail.
+               Message Flow zum Applier Pool bleibt erhalten.
+        Input:  candidateName, candidateEmail, jobTitle
+        Output: rejectionEmailSent, rejectionEmailSentAt
+      </bpmn:documentation>
+      <bpmn:incoming>Flow_Suitable_No</bpmn:incoming>
+      <bpmn:incoming>Flow_SecondInterviewNo_Reject</bpmn:incoming>
+      <bpmn:incoming>Flow_HireNo_Reject</bpmn:incoming>
+      <bpmn:outgoing>Flow_Rejection_End</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="EndEvent_Denied" name="Application denied">
+      <bpmn:incoming>Flow_Rejection_End</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:userTask id="Task_CreateContract" name="Create Contract" camunda:formKey="embedded:app:forms/contract-form.html" camunda:assignee="${hrManager}">
+      <bpmn:documentation>
+        AS-IS: HR Manager erstellt Vertrag manuell in Word.
+        TO-BE: Camunda Form — Felder: salary, startDate, contractType,
+               workingHours, probationMonths.
+               Daten werden für automatischen Vertragsversand via Make verwendet.
+      </bpmn:documentation>
+      <bpmn:incoming>Flow_HireYes_Contract</bpmn:incoming>
+      <bpmn:outgoing>Flow_Contract_SendContract</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:serviceTask id="Task_SendContract" name="Send Contract" camunda:type="external" camunda:topic="send-contract-email">
+      <bpmn:documentation>
+        AS-IS: HR Manager versendet Vertrag manuell per E-Mail.
+        TO-BE: Make befüllt Google Docs Template, generiert DocuSign-Link,
+               sendet Vertrag automatisch an Kandidaten.
+        Input:  salary, startDate, contractType, workingHours, candidateEmail
+        Output: contractSent, docusignLink, contractSentAt
+      </bpmn:documentation>
+      <bpmn:incoming>Flow_Contract_SendContract</bpmn:incoming>
+      <bpmn:outgoing>Flow_0byl64l</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_Contract_SendContract" sourceRef="Task_CreateContract" targetRef="Task_SendContract" />
+    <bpmn:sequenceFlow id="Flow_Onboarding_End" sourceRef="Task_TriggerOnboarding" targetRef="EndEvent_Onboarded" />
+    <bpmn:sequenceFlow id="Flow_InviteFirst_Conduct" sourceRef="Task_ScheduleFirstInterview" targetRef="Task_ConductFirstInterview" />
+    <bpmn:userTask id="Task_ConductFirstInterview" name="Conduct first Interview" camunda:formKey="embedded:app:forms/interview-form.html" camunda:assignee="${hiringManager}">
+      <bpmn:documentation>
+        AS-IS: Hiring Manager führt Interview durch, Notizen auf Papier.
+        TO-BE: Camunda Form — strukturierte Erfassung:
+               interviewScore (0-10), technicalSkill (1-5), culturalFit (1-5),
+               recommendation, interviewNotes.
+      </bpmn:documentation>
+      <bpmn:incoming>Flow_InviteFirst_Conduct</bpmn:incoming>
+      <bpmn:outgoing>Flow_ConductFirst_Evaluate</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Task_EvaluateCandidate" name="Evaluate Candidate" camunda:formKey="embedded:app:forms/evaluation-form.html" camunda:assignee="${hiringManager}">
+      <bpmn:documentation>
+        AS-IS: Hiring Manager bewertet Kandidat subjektiv in Excel.
+        TO-BE: Camunda Form — einheitliche Bewertungskriterien:
+               overallRating (1-5), hiringDecision, salaryOffer, evaluationNotes.
+               Ergebnis fliesst in DMN Final Decision.
+      </bpmn:documentation>
+      <bpmn:incoming>Flow_ConductFirst_Evaluate</bpmn:incoming>
+      <bpmn:outgoing>Flow_Evaluate_Gateway</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Gateway_InviteSecondInterview" name="Invite to Assessment?">
+      <bpmn:incoming>Flow_Evaluate_Gateway</bpmn:incoming>
+      <bpmn:outgoing>Flow_SecondInterviewYes</bpmn:outgoing>
+      <bpmn:outgoing>Flow_SecondInterviewNo_Reject</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="Task_ConductSecondInterview" name="Conduct Assessment" camunda:formKey="embedded:app:forms/interview-form.html" camunda:assignee="${hiringManager}">
+      <bpmn:documentation>
+        AS-IS: Hiring Manager führt 2. Interview durch.
+        TO-BE: Gleiches strukturiertes Camunda Form wie 1. Interview.
+               Interview Score fliesst erneut in finale Entscheidung.
+      </bpmn:documentation>
+      <bpmn:incoming>Flow_InviteSecond_Conduct</bpmn:incoming>
+      <bpmn:outgoing>Flow_0l4nvcf</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Gateway_HireCandidate" name="Hire Candidate?">
+      <bpmn:incoming>Flow_AfterSecondEvaluate</bpmn:incoming>
+      <bpmn:incoming>Flow_0qvw9z1</bpmn:incoming>
+      <bpmn:outgoing>Flow_HireYes_Contract</bpmn:outgoing>
+      <bpmn:outgoing>Flow_HireNo_Reject</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="Activity_13ubzbu" name="Assess Candidate">
+      <bpmn:incoming>Flow_0l4nvcf</bpmn:incoming>
+      <bpmn:outgoing>Flow_0qvw9z1</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_ConductFirst_Evaluate" sourceRef="Task_ConductFirstInterview" targetRef="Task_EvaluateCandidate" />
+    <bpmn:sequenceFlow id="Flow_Evaluate_Gateway" sourceRef="Task_EvaluateCandidate" targetRef="Gateway_InviteSecondInterview" />
+    <bpmn:sequenceFlow id="Flow_SecondInterviewYes" name="Yes" sourceRef="Gateway_InviteSecondInterview" targetRef="Task_ScheduleSecondInterview" />
+    <bpmn:sequenceFlow id="Flow_InviteSecond_Conduct" sourceRef="Task_ScheduleSecondInterview" targetRef="Task_ConductSecondInterview" />
+    <bpmn:sequenceFlow id="Flow_0l4nvcf" sourceRef="Task_ConductSecondInterview" targetRef="Activity_13ubzbu" />
+    <bpmn:sequenceFlow id="Flow_0qvw9z1" sourceRef="Activity_13ubzbu" targetRef="Gateway_HireCandidate" />
+    <bpmn:serviceTask id="Task_ScheduleFirstInterview" name="Invite to first Interview">
+      <bpmn:documentation>
+        AS-IS: Hiring Manager lädt manuell zum 1. Interview ein (Message Flow → Applier).
+        TO-BE: Make sendet automatisch Einladungs-E-Mail mit Calendly-Terminlink.
+               Message Flow zum Applier Pool bleibt erhalten.
+        Input:  candidateName, candidateEmail, jobTitle, hiringManager
+        Output: interviewInvitationSent, interviewSchedulingLink
+      </bpmn:documentation>
+      <bpmn:incoming>Flow_1nnc321</bpmn:incoming>
+      <bpmn:outgoing>Flow_InviteFirst_Conduct</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_0byl64l" sourceRef="Task_SendContract" targetRef="Event_0h88k8b" />
+    <bpmn:intermediateCatchEvent id="Event_0h88k8b" name="Contract received">
+      <bpmn:incoming>Flow_0byl64l</bpmn:incoming>
+      <bpmn:outgoing>Flow_0x3qlno</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_12ko775" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:sequenceFlow id="Flow_0x3qlno" sourceRef="Event_0h88k8b" targetRef="Task_TriggerOnboarding" />
+    <bpmn:serviceTask id="Task_TriggerOnboarding" name="Trigger Onboarding" camunda:type="external" camunda:topic="trigger-onboarding">
+      <bpmn:documentation>
+        AS-IS: HR Manager koordiniert Onboarding manuell (IT-Zugänge, Büro, Team).
+        TO-BE: Make triggert automatisch:
+               Google Workspace Account erstellen, Willkommens-E-Mail,
+               Slack-Benachrichtigung, Asana-Tasks, Google Calendar-Meetings.
+        Output: onboardingTriggered, workEmail, onboardingTriggeredAt
+      </bpmn:documentation>
+      <bpmn:incoming>Flow_0x3qlno</bpmn:incoming>
+      <bpmn:outgoing>Flow_Onboarding_End</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="EndEvent_Onboarded" name="Employee onboarded">
+      <bpmn:incoming>Flow_Onboarding_End</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="Task_ScheduleSecondInterview" name="Invite to Assessment">
+      <bpmn:documentation>
+        AS-IS: Hiring Manager lädt manuell zum 2. Interview ein (Message Flow → Applier).
+        TO-BE: Make sendet automatisch 2. Einladungs-E-Mail mit neuem Calendly-Link.
+               Message Flow zum Applier Pool bleibt erhalten.
+        Input:  candidateName, candidateEmail, jobTitle, hiringManager
+        Output: secondInterviewInvitationSent, secondInterviewSchedulingLink
+      </bpmn:documentation>
+      <bpmn:incoming>Flow_SecondInterviewYes</bpmn:incoming>
+      <bpmn:outgoing>Flow_InviteSecond_Conduct</bpmn:outgoing>
+    </bpmn:serviceTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_TOBE_v2">
+      <bpmndi:BPMNShape id="Participant_Company_di" bpmnElement="Participant_Company" isHorizontal="true">
+        <dc:Bounds x="132" y="232" width="3218" height="618" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_HiringManager_di" bpmnElement="Lane_HiringManager" isHorizontal="true">
+        <dc:Bounds x="162" y="630" width="3188" height="220" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_HRRecruiter_di" bpmnElement="Lane_HRRecruiter" isHorizontal="true">
+        <dc:Bounds x="162" y="372" width="3188" height="258" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_HRManager_di" bpmnElement="Lane_HRManager" isHorizontal="true">
+        <dc:Bounds x="162" y="232" width="3188" height="140" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="StartEvent_1_di" bpmnElement="StartEvent_1">
+        <dc:Bounds x="222" y="295" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="205" y="338" width="71" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_DefinePosition_di" bpmnElement="Task_DefinePosition">
+        <dc:Bounds x="310" y="273" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_AdvertisePosition_di" bpmnElement="Task_AdvertisePosition">
+        <dc:Bounds x="470" y="273" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_ApplicationReceived_di" bpmnElement="Event_ApplicationReceived">
+        <dc:Bounds x="632" y="295" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="615" y="338" width="71" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_GatherApplications_di" bpmnElement="Task_GatherApplications">
+        <dc:Bounds x="720" y="273" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_CVScoring_di" bpmnElement="Task_CVScoring">
+        <dc:Bounds x="900" y="402" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_DMNShortlist_di" bpmnElement="Task_DMNShortlist">
+        <dc:Bounds x="1080" y="402" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_ApplicationSuitable_di" bpmnElement="Gateway_ApplicationSuitable" isMarkerVisible="true">
+        <dc:Bounds x="1265" y="417" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1263" y="386" width="54" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1gbxr8u_di" bpmnElement="Task_SendCancellation">
+        <dc:Bounds x="1380" y="402" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_Denied_di" bpmnElement="EndEvent_Denied">
+        <dc:Bounds x="1582" y="424" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1555" y="467" width="90" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_CreateContract_di" bpmnElement="Task_CreateContract">
+        <dc:Bounds x="2680" y="273" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_SendContract_di" bpmnElement="Task_SendContract">
+        <dc:Bounds x="2840" y="273" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_ConductFirstInterview_di" bpmnElement="Task_ConductFirstInterview">
+        <dc:Bounds x="1760" y="670" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_EvaluateCandidate_di" bpmnElement="Task_EvaluateCandidate">
+        <dc:Bounds x="1910" y="670" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_InviteSecondInterview_di" bpmnElement="Gateway_InviteSecondInterview" isMarkerVisible="true">
+        <dc:Bounds x="2065" y="685" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2056" y="647.5" width="67" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_ConductSecondInterview_di" bpmnElement="Task_ConductSecondInterview">
+        <dc:Bounds x="2350" y="670" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_HireCandidate_di" bpmnElement="Gateway_HireCandidate" isMarkerVisible="true">
+        <dc:Bounds x="2705" y="685" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2765" y="703" width="80" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0mz59a3_di" bpmnElement="Activity_13ubzbu">
+        <dc:Bounds x="2530" y="670" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1wde8tk_di" bpmnElement="Task_ScheduleFirstInterview">
+        <dc:Bounds x="1620" y="520" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1n5tygu_di" bpmnElement="Event_0h88k8b">
+        <dc:Bounds x="3002" y="295" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2977" y="338" width="87" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_TriggerOnboarding_di" bpmnElement="Task_TriggerOnboarding">
+        <dc:Bounds x="3100" y="273" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_Onboarded_di" bpmnElement="EndEvent_Onboarded">
+        <dc:Bounds x="3262" y="295" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="3254" y="338" width="53" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_026sy8v_di" bpmnElement="Task_ScheduleSecondInterview">
+        <dc:Bounds x="2190" y="670" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_Start_Define_di" bpmnElement="Flow_Start_Define">
+        <di:waypoint x="258" y="313" />
+        <di:waypoint x="310" y="313" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Define_Advertise_di" bpmnElement="Flow_Define_Advertise">
+        <di:waypoint x="410" y="313" />
+        <di:waypoint x="470" y="313" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Advertise_WaitApplication_di" bpmnElement="Flow_Advertise_WaitApplication">
+        <di:waypoint x="570" y="313" />
+        <di:waypoint x="632" y="313" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Application_Gather_di" bpmnElement="Flow_Application_Gather">
+        <di:waypoint x="668" y="313" />
+        <di:waypoint x="720" y="313" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Gather_CVScoring_di" bpmnElement="Flow_Gather_CVScoring">
+        <di:waypoint x="820" y="313" />
+        <di:waypoint x="850" y="313" />
+        <di:waypoint x="850" y="442" />
+        <di:waypoint x="900" y="442" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_CVScoring_DMN_di" bpmnElement="Flow_CVScoring_DMN">
+        <di:waypoint x="1000" y="442" />
+        <di:waypoint x="1080" y="442" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Rejection_End_di" bpmnElement="Flow_Rejection_End">
+        <di:waypoint x="1480" y="442" />
+        <di:waypoint x="1582" y="442" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Suitable_No_di" bpmnElement="Flow_Suitable_No">
+        <di:waypoint x="1315" y="442" />
+        <di:waypoint x="1380" y="442" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1338" y="423" width="15" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_SecondInterviewNo_Reject_di" bpmnElement="Flow_SecondInterviewNo_Reject">
+        <di:waypoint x="2090" y="735" />
+        <di:waypoint x="2090" y="820" />
+        <di:waypoint x="1410" y="820" />
+        <di:waypoint x="1410" y="482" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2102" y="753" width="15" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_HireYes_Contract_di" bpmnElement="Flow_HireYes_Contract">
+        <di:waypoint x="2730" y="685" />
+        <di:waypoint x="2730" y="353" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2701" y="654" width="18" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_HireNo_Reject_di" bpmnElement="Flow_HireNo_Reject">
+        <di:waypoint x="2730" y="735" />
+        <di:waypoint x="2730" y="780" />
+        <di:waypoint x="1440" y="780" />
+        <di:waypoint x="1440" y="482" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2742" y="743" width="15" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1nnc321_di" bpmnElement="Flow_1nnc321">
+        <di:waypoint x="1290" y="467" />
+        <di:waypoint x="1290" y="560" />
+        <di:waypoint x="1620" y="560" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1301" y="503" width="18" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0omxnex_di" bpmnElement="Flow_0omxnex">
+        <di:waypoint x="1180" y="442" />
+        <di:waypoint x="1265" y="442" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Contract_SendContract_di" bpmnElement="Flow_Contract_SendContract">
+        <di:waypoint x="2780" y="313" />
+        <di:waypoint x="2840" y="313" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Onboarding_End_di" bpmnElement="Flow_Onboarding_End">
+        <di:waypoint x="3200" y="313" />
+        <di:waypoint x="3262" y="313" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_InviteFirst_Conduct_di" bpmnElement="Flow_InviteFirst_Conduct">
+        <di:waypoint x="1670" y="600" />
+        <di:waypoint x="1670" y="710" />
+        <di:waypoint x="1760" y="710" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_ConductFirst_Evaluate_di" bpmnElement="Flow_ConductFirst_Evaluate">
+        <di:waypoint x="1860" y="710" />
+        <di:waypoint x="1910" y="710" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Evaluate_Gateway_di" bpmnElement="Flow_Evaluate_Gateway">
+        <di:waypoint x="2010" y="710" />
+        <di:waypoint x="2065" y="710" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_SecondInterviewYes_di" bpmnElement="Flow_SecondInterviewYes">
+        <di:waypoint x="2115" y="710" />
+        <di:waypoint x="2190" y="710" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2134" y="692" width="18" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_InviteSecond_Conduct_di" bpmnElement="Flow_InviteSecond_Conduct">
+        <di:waypoint x="2290" y="710" />
+        <di:waypoint x="2350" y="710" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0l4nvcf_di" bpmnElement="Flow_0l4nvcf">
+        <di:waypoint x="2450" y="710" />
+        <di:waypoint x="2530" y="710" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0qvw9z1_di" bpmnElement="Flow_0qvw9z1">
+        <di:waypoint x="2630" y="710" />
+        <di:waypoint x="2705" y="710" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0byl64l_di" bpmnElement="Flow_0byl64l">
+        <di:waypoint x="2940" y="313" />
+        <di:waypoint x="3002" y="313" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0x3qlno_di" bpmnElement="Flow_0x3qlno">
+        <di:waypoint x="3038" y="313" />
+        <di:waypoint x="3100" y="313" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Participant_Applier_di" bpmnElement="Participant_Applier" isHorizontal="true">
+        <dc:Bounds x="132" y="80" width="3218" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="MsgFlow_ApplierToProcess_di" bpmnElement="MsgFlow_ApplierToProcess">
+        <di:waypoint x="650" y="140" />
+        <di:waypoint x="650" y="295" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="622" y="186" width="56" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="MsgFlow_InterviewInvitation_di" bpmnElement="MsgFlow_InterviewInvitation">
+        <di:waypoint x="1670" y="520" />
+        <di:waypoint x="1670" y="140" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1647" y="279" width="45" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="MsgFlow_Cancellation_di" bpmnElement="MsgFlow_Cancellation">
+        <di:waypoint x="1430" y="402" />
+        <di:waypoint x="1430" y="140" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1399" y="250" width="61" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="MsgFlow_SecondInterview_di" bpmnElement="MsgFlow_SecondInterview">
+        <di:waypoint x="2240" y="670" />
+        <di:waypoint x="2240" y="140" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2210" y="279" width="60" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0og80vw_di" bpmnElement="Flow_0og80vw">
+        <di:waypoint x="2890" y="273" />
+        <di:waypoint x="2890" y="140" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2869" y="204" width="42" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0rsrf49_di" bpmnElement="Flow_0rsrf49">
+        <di:waypoint x="3020" y="140" />
+        <di:waypoint x="3020" y="295" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2999" y="204" width="42" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
