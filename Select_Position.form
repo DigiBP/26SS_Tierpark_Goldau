@@ -1,0 +1,38 @@
+{
+  "components": [
+    {
+      "label": "Select Position",
+      "values": [
+        {
+          "label": "Software Engineer",
+          "value": "Software Engineer"
+        },
+        {
+          "label": "Business Analyst",
+          "value": "Business Analyst"
+        },
+        {
+          "label": "ERP Consultant",
+          "value": "ERP Consultant"
+        }
+      ],
+      "type": "select",
+      "layout": {
+        "row": "Row_0l96d6v",
+        "columns": null
+      },
+      "id": "Field_0hj1mpp",
+      "key": "select_position",
+      "disabled": false
+    }
+  ],
+  "type": "default",
+  "id": "Form_Select_Position",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.40.0"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.24.0",
+  "schemaVersion": 19
+}
