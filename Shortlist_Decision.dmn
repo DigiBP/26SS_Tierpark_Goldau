@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_10motta" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="5.46.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.24.0">
+  <decision id="Decision_0190rpe" name="Decision 1">
+    <decisionTable id="DecisionTable_1op7rz5">
+      <input id="Input_1" label="Score">
+        <inputExpression id="InputExpression_1" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="Output_1" label="Output" typeRef="string" />
+      <rule id="DecisionRule_1jsebjd">
+        <inputEntry id="UnaryTests_0nmmd9l">
+          <text>[0..49]</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0fa8g5z">
+          <text>"No"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1t2ok4y">
+        <inputEntry id="UnaryTests_19uu3mo">
+          <text>&gt;= 50</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0v3e8re">
+          <text>"Yes"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape id="Decision_0190rpe_di" dmnElementRef="Decision_0190rpe">
+        <dc:Bounds height="80" width="180" x="160" y="100" />
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>
