@@ -4,20 +4,54 @@
     <bpmn:startEvent id="Event_0qepplw" name="New position requested" camunda:formRef="Form_Position" camunda:formRefBinding="deployment">
       <bpmn:outgoing>Flow_04cux73</bpmn:outgoing>
     </bpmn:startEvent>
-    <bpmn:businessRuleTask id="Activity_0fit2jv" name="Decide on position" camunda:resultVariable="0e5fau1_Definitions" camunda:decisionRef="Decision_Position" camunda:mapDecisionResult="singleResult">
-      <bpmn:incoming>Flow_04cux73</bpmn:incoming>
-      <bpmn:outgoing>Flow_1xj6hbm</bpmn:outgoing>
+    <bpmn:businessRuleTask id="Activity_0fit2jv" name="Decide on position" camunda:resultVariable="Decision_Results" camunda:decisionRef="Decision_Position" camunda:mapDecisionResult="singleResult">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="resultVariable"></camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1sc68zv</bpmn:incoming>
+      <bpmn:outgoing>Flow_0rk2loa</bpmn:outgoing>
     </bpmn:businessRuleTask>
     <bpmn:userTask id="Activity_09rx83z" name="Select job title" camunda:formRef="Form_Position" camunda:formRefBinding="deployment">
-      <bpmn:incoming>Flow_1xj6hbm</bpmn:incoming>
-      <bpmn:outgoing>Flow_0w2zclx</bpmn:outgoing>
+      <bpmn:incoming>Flow_04cux73</bpmn:incoming>
+      <bpmn:outgoing>Flow_1sc68zv</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:sequenceFlow id="Flow_04cux73" sourceRef="Event_0qepplw" targetRef="Activity_0fit2jv" />
-    <bpmn:sequenceFlow id="Flow_1xj6hbm" sourceRef="Activity_0fit2jv" targetRef="Activity_09rx83z" />
+    <bpmn:sequenceFlow id="Flow_04cux73" sourceRef="Event_0qepplw" targetRef="Activity_09rx83z" />
     <bpmn:endEvent id="Event_187ds18">
-      <bpmn:incoming>Flow_0w2zclx</bpmn:incoming>
+      <bpmn:incoming>Flow_1xtneqp</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:sequenceFlow id="Flow_0w2zclx" sourceRef="Activity_09rx83z" targetRef="Event_187ds18" />
+    <bpmn:sequenceFlow id="Flow_1sc68zv" sourceRef="Activity_09rx83z" targetRef="Activity_0fit2jv" />
+    <bpmn:sequenceFlow id="Flow_0rk2loa" sourceRef="Activity_0fit2jv" targetRef="Activity_116b4kh" />
+    <bpmn:sequenceFlow id="Flow_1xtneqp" sourceRef="Activity_116b4kh" targetRef="Event_187ds18" />
+    <bpmn:serviceTask id="Activity_116b4kh" name="Send decision to Make" camunda:modelerTemplate="onl.mrtn.camunda.http.api_connect" camunda:modelerTemplateVersion="2" camunda:delegateExpression="${api_connect}" camunda:type="external" camunda:topic="send-to-make">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="api_connect_api_variables" />
+          <camunda:inputParameter name="api_connect_result_variables" />
+        </camunda:inputOutput>
+        <camunda:field name="api_connect_url">
+          <camunda:string>https://hook.eu1.make.com/e8gxjovs24xcne899dcqk3aju874trn1</camunda:string>
+        </camunda:field>
+        <camunda:field name="api_connect_authorization">
+          <camunda:string>None</camunda:string>
+        </camunda:field>
+        <camunda:field name="api_connect_api_variables">
+          <camunda:string>true</camunda:string>
+        </camunda:field>
+        <camunda:field name="api_connect_result_variables">
+          <camunda:string>true</camunda:string>
+        </camunda:field>
+        <camunda:field name="api_connect_result_variable">
+          <camunda:string>None</camunda:string>
+        </camunda:field>
+        <camunda:field name="api_connect_verbosity_outgoing">
+          <camunda:string>plain</camunda:string>
+        </camunda:field>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0rk2loa</bpmn:incoming>
+      <bpmn:outgoing>Flow_1xtneqp</bpmn:outgoing>
+    </bpmn:serviceTask>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_diagram_4">
@@ -27,28 +61,35 @@
           <dc:Bounds x="159" y="145" width="63" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0rj4wip_di" bpmnElement="Activity_0fit2jv">
+      <bpmndi:BPMNShape id="Activity_140u7rh_di" bpmnElement="Activity_09rx83z">
         <dc:Bounds x="270" y="80" width="100" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_140u7rh_di" bpmnElement="Activity_09rx83z">
-        <dc:Bounds x="440" y="80" width="100" height="80" />
+      <bpmndi:BPMNShape id="Event_187ds18_di" bpmnElement="Event_187ds18">
+        <dc:Bounds x="722" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0rj4wip_di" bpmnElement="Activity_0fit2jv">
+        <dc:Bounds x="420" y="80" width="100" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_187ds18_di" bpmnElement="Event_187ds18">
-        <dc:Bounds x="612" y="102" width="36" height="36" />
+      <bpmndi:BPMNShape id="Activity_11lrkhq_di" bpmnElement="Activity_116b4kh">
+        <dc:Bounds x="570" y="80" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_04cux73_di" bpmnElement="Flow_04cux73">
         <di:waypoint x="208" y="120" />
         <di:waypoint x="270" y="120" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1xj6hbm_di" bpmnElement="Flow_1xj6hbm">
+      <bpmndi:BPMNEdge id="Flow_1sc68zv_di" bpmnElement="Flow_1sc68zv">
         <di:waypoint x="370" y="120" />
-        <di:waypoint x="440" y="120" />
+        <di:waypoint x="420" y="120" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0w2zclx_di" bpmnElement="Flow_0w2zclx">
-        <di:waypoint x="540" y="120" />
-        <di:waypoint x="612" y="120" />
+      <bpmndi:BPMNEdge id="Flow_0rk2loa_di" bpmnElement="Flow_0rk2loa">
+        <di:waypoint x="520" y="120" />
+        <di:waypoint x="570" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1xtneqp_di" bpmnElement="Flow_1xtneqp">
+        <di:waypoint x="670" y="120" />
+        <di:waypoint x="722" y="120" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
