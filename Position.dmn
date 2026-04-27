@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/2.0" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" id="Results_Decision" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="5.40.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.24.0">
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/2.0" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" id="Results_Decision" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="5.46.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.24.0">
   <inputData id="InputData_Select_Position" name="Position" />
   <decision id="Decision_Position" name="Position">
     <informationRequirement id="InformationRequirement_1a3dj7y">
@@ -101,7 +101,11 @@
           <text>"Hans-Muster-Strasse 30"</text>
         </outputEntry>
         <outputEntry id="LiteralExpression_19u23zu">
-          <text>"-Implement and optimize ERP systems for business clients -Analyze client requirements and configure suitable ERP solutions -Train users and support system adoption across departments -Provide troubleshooting and continuous improvement recommendations -Collaborate with project teams to ensure successful deployments"</text>
+          <text>"-Analyze business processes and identify improvement opportunities
+-Gather and document business requirements from stakeholders
+-Translate business needs into clear functional specifications
+-Support project implementation and change management activities
+-Act as a bridge between business teams and technical departments"</text>
         </outputEntry>
         <outputEntry id="LiteralExpression_1ii2x4v">
           <text>"-Evaluate and improve business processes and workflows
