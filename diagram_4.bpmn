@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1j5emyo" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.46.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.24.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1j5emyo" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.35.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.24.0">
   <bpmn:process id="Process_diagram_4" isExecutable="true">
     <bpmn:startEvent id="Event_0qepplw" name="New position requested" camunda:formRef="Form_Position" camunda:formRefBinding="deployment">
       <bpmn:outgoing>Flow_04cux73</bpmn:outgoing>
@@ -18,13 +18,13 @@
       <bpmn:outgoing>Flow_1sc68zv</bpmn:outgoing>
     </bpmn:userTask>
     <bpmn:sequenceFlow id="Flow_04cux73" sourceRef="Event_0qepplw" targetRef="Activity_09rx83z" />
-    <bpmn:endEvent id="Event_187ds18">
-      <bpmn:incoming>Flow_1xtneqp</bpmn:incoming>
+    <bpmn:endEvent id="Event_187ds18" name="Job posting closed">
+      <bpmn:incoming>Flow_16pgcsa</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="Flow_1sc68zv" sourceRef="Activity_09rx83z" targetRef="Activity_0fit2jv" />
     <bpmn:sequenceFlow id="Flow_0rk2loa" sourceRef="Activity_0fit2jv" targetRef="Activity_116b4kh" />
-    <bpmn:sequenceFlow id="Flow_1xtneqp" sourceRef="Activity_116b4kh" targetRef="Event_187ds18" />
-    <bpmn:serviceTask id="Activity_116b4kh" name="Send decision to Make" camunda:modelerTemplate="onl.mrtn.camunda.http.api_connect" camunda:modelerTemplateVersion="2" camunda:delegateExpression="${api_connect}">
+    <bpmn:sequenceFlow id="Flow_1xtneqp" sourceRef="Activity_116b4kh" targetRef="Activity_1v92dd9" />
+    <bpmn:serviceTask id="Activity_116b4kh" name="Send decision to Make (Google Sheets)" camunda:modelerTemplate="onl.mrtn.camunda.http.api_connect" camunda:modelerTemplateVersion="2" camunda:delegateExpression="${api_connect}">
       <bpmn:extensionElements>
         <camunda:inputOutput>
           <camunda:inputParameter name="api_connect_api_variables" />
@@ -52,6 +52,22 @@
       <bpmn:incoming>Flow_0rk2loa</bpmn:incoming>
       <bpmn:outgoing>Flow_1xtneqp</bpmn:outgoing>
     </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_15symj5" sourceRef="Activity_1v92dd9" targetRef="Event_0lpb62i" />
+    <bpmn:serviceTask id="Activity_1v92dd9" name="Posit Job to Portals">
+      <bpmn:incoming>Flow_1xtneqp</bpmn:incoming>
+      <bpmn:outgoing>Flow_15symj5</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_13gze4e" sourceRef="Event_0lpb62i" targetRef="Activity_1qqmx8r" />
+    <bpmn:intermediateCatchEvent id="Event_0lpb62i" name="30 days">
+      <bpmn:incoming>Flow_15symj5</bpmn:incoming>
+      <bpmn:outgoing>Flow_13gze4e</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="TimerEventDefinition_0powqrl" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:sequenceFlow id="Flow_16pgcsa" sourceRef="Activity_1qqmx8r" targetRef="Event_187ds18" />
+    <bpmn:serviceTask id="Activity_1qqmx8r" name="Close Job postings">
+      <bpmn:incoming>Flow_13gze4e</bpmn:incoming>
+      <bpmn:outgoing>Flow_16pgcsa</bpmn:outgoing>
+    </bpmn:serviceTask>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_diagram_4">
@@ -69,11 +85,27 @@
         <dc:Bounds x="270" y="80" width="100" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_187ds18_di" bpmnElement="Event_187ds18">
-        <dc:Bounds x="722" y="102" width="36" height="36" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_15mwul6_di" bpmnElement="Activity_116b4kh">
         <dc:Bounds x="570" y="80" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1lzp25y_di" bpmnElement="Activity_1v92dd9">
+        <dc:Bounds x="710" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0fypb9e_di" bpmnElement="Event_0lpb62i">
+        <dc:Bounds x="842" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="841" y="145" width="39" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_146mqxh_di" bpmnElement="Activity_1qqmx8r">
+        <dc:Bounds x="920" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_187ds18_di" bpmnElement="Event_187ds18">
+        <dc:Bounds x="1072" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1062" y="145" width="57" height="27" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_04cux73_di" bpmnElement="Flow_04cux73">
         <di:waypoint x="208" y="120" />
@@ -89,7 +121,19 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1xtneqp_di" bpmnElement="Flow_1xtneqp">
         <di:waypoint x="670" y="120" />
-        <di:waypoint x="722" y="120" />
+        <di:waypoint x="710" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_15symj5_di" bpmnElement="Flow_15symj5">
+        <di:waypoint x="810" y="120" />
+        <di:waypoint x="842" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_13gze4e_di" bpmnElement="Flow_13gze4e">
+        <di:waypoint x="878" y="120" />
+        <di:waypoint x="920" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_16pgcsa_di" bpmnElement="Flow_16pgcsa">
+        <di:waypoint x="1020" y="120" />
+        <di:waypoint x="1072" y="120" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
