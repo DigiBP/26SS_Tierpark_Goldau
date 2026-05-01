@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_01reoyj" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.46.1" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.9.0">
+  <bpmn:process id="Process_0z27kui" isExecutable="true">
+    <bpmn:userTask id="Activity_0bgqla7" name="Conduct first Interview">
+      <bpmn:extensionElements>
+        <zeebe:userTask />
+      </bpmn:extensionElements>
+      <bpmn:outgoing>Flow_1u0yboq</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_1u0yboq" sourceRef="Activity_0bgqla7" targetRef="Activity_0242plp" />
+    <bpmn:userTask id="Activity_0242plp" name="Evaluate Candidate">
+      <bpmn:extensionElements>
+        <zeebe:userTask />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1u0yboq</bpmn:incoming>
+      <bpmn:outgoing>Flow_1yhdz13</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Gateway_04qqajx">
+      <bpmn:incoming>Flow_1yhdz13</bpmn:incoming>
+      <bpmn:outgoing>Flow_0l5sz9y</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_1yhdz13" sourceRef="Activity_0242plp" targetRef="Gateway_04qqajx" />
+    <bpmn:sequenceFlow id="Flow_0l5sz9y" sourceRef="Gateway_04qqajx" targetRef="Activity_0yabrz7" />
+    <bpmn:sequenceFlow id="Flow_0h68u2b" sourceRef="Activity_0yabrz7" targetRef="Activity_0qotixi" />
+    <bpmn:sequenceFlow id="Flow_0mcgxoz" sourceRef="Activity_0qotixi" targetRef="Activity_1ewbptd" />
+    <bpmn:serviceTask id="Activity_0yabrz7" name="Invite to Assessment">
+      <bpmn:incoming>Flow_0l5sz9y</bpmn:incoming>
+      <bpmn:outgoing>Flow_0h68u2b</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:userTask id="Activity_0qotixi" name="Conduct Assessment">
+      <bpmn:extensionElements>
+        <zeebe:userTask />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0h68u2b</bpmn:incoming>
+      <bpmn:outgoing>Flow_0mcgxoz</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Activity_1ewbptd" name="Assess Candidate">
+      <bpmn:extensionElements>
+        <zeebe:userTask />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0mcgxoz</bpmn:incoming>
+    </bpmn:userTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_0z27kui">
+      <bpmndi:BPMNShape id="Activity_103zyv9_di" bpmnElement="Activity_0bgqla7">
+        <dc:Bounds x="160" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1f0xsh6_di" bpmnElement="Activity_0242plp">
+        <dc:Bounds x="310" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_04qqajx_di" bpmnElement="Gateway_04qqajx" isMarkerVisible="true">
+        <dc:Bounds x="465" y="95" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1ag3h28_di" bpmnElement="Activity_0yabrz7">
+        <dc:Bounds x="570" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0e13r7w_di" bpmnElement="Activity_0qotixi">
+        <dc:Bounds x="730" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0owx8zc_di" bpmnElement="Activity_1ewbptd">
+        <dc:Bounds x="890" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1u0yboq_di" bpmnElement="Flow_1u0yboq">
+        <di:waypoint x="260" y="120" />
+        <di:waypoint x="310" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1yhdz13_di" bpmnElement="Flow_1yhdz13">
+        <di:waypoint x="410" y="120" />
+        <di:waypoint x="465" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0l5sz9y_di" bpmnElement="Flow_0l5sz9y">
+        <di:waypoint x="515" y="120" />
+        <di:waypoint x="570" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0h68u2b_di" bpmnElement="Flow_0h68u2b">
+        <di:waypoint x="670" y="120" />
+        <di:waypoint x="730" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0mcgxoz_di" bpmnElement="Flow_0mcgxoz">
+        <di:waypoint x="830" y="120" />
+        <di:waypoint x="890" y="120" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
