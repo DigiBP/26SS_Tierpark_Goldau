@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Offene Stellen – Alpenblick Consulting AG</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f8f9fc; color: #1a1a2e; }
+    header { background: linear-gradient(135deg, #1a1a2e, #0f3460);
+      color: white; padding: 48px 32px; text-align: center; }
+    header h1 { font-size: 2rem; margin-bottom: 10px; }
+    header p { opacity: 0.75; font-size: 15px; }
+    .container { max-width: 900px; margin: 40px auto; padding: 0 24px; }
+    h2 { font-size: 1.1rem; color: #0f3460; margin-bottom: 24px;
+      text-transform: uppercase; letter-spacing: 1px; }
+    .jobs-grid { display: grid; gap: 20px; }
+    .job-card { background: white; border-radius: 12px; padding: 28px 32px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.07); display: flex;
+      justify-content: space-between; align-items: center; gap: 20px;
+      transition: box-shadow .2s; text-decoration: none; color: inherit; }
+    .job-card:hover { box-shadow: 0 6px 24px rgba(0,0,0,0.13); }
+    .job-card .info h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 6px; }
+    .job-card .info .meta { font-size: 13px; color: #888; }
+    .job-card .meta-right { text-align: right; flex-shrink: 0; }
+    .badge { display: inline-block; background: #e8f0fe; color: #0f3460;
+      border-radius: 20px; padding: 4px 14px; font-size: 12px;
+      font-weight: 600; margin-bottom: 8px; }
+    .badge.open { background: #d1fae5; color: #065f46; }
+    .apply-arrow { font-size: 22px; color: #e94560; }
+    footer { text-align: center; padding: 32px; font-size: 13px; color: #bbb; margin-top: 40px; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Karriere bei Alpenblick Consulting AG</h1>
+  <p>Wir suchen talentierte Menschen, die mit uns wachsen möchten.</p>
+</header>
+
+<div class="container">
+  <h2>Offene Stellen</h2>
+
+  <!--
+    HINWEIS FÜR MAKE:
+    Make generiert pro Stelle eine eigene Seite (z.B. jobs/software-engineer.html)
+    und verlinkt hier. Diese index.html kann statisch bleiben oder auch
+    dynamisch von Make generiert/aktualisiert werden.
+    Die Job-Cards unten sind Beispiele – Make ersetzt/ergänzt sie automatisch.
+  -->
+
+  <div class="jobs-grid" id="jobs-container">
+
+    <!-- Beispiel-Card (wird von Make dynamisch befüllt) -->
+    <a class="job-card" href="jobs/software-engineer.html">
+      <div class="info">
+        <h3>Software Engineer</h3>
+        <div class="meta">📍 Hans-Muster-Strasse 30 &nbsp;·&nbsp; ⏱ 80–100%</div>
+      </div>
+      <div class="meta-right">
+        <div class="badge open">● Offen</div>
+        <div class="apply-arrow">→</div>
+      </div>
+    </a>
+
+    <a class="job-card" href="jobs/business-analyst.html">
+      <div class="info">
+        <h3>Business Analyst</h3>
+        <div class="meta">📍 Hans-Muster-Strasse 30 &nbsp;·&nbsp; ⏱ 60–100%</div>
+      </div>
+      <div class="meta-right">
+        <div class="badge open">● Offen</div>
+        <div class="apply-arrow">→</div>
+      </div>
+    </a>
+
+    <a class="job-card" href="jobs/erp-consultant.html">
+      <div class="info">
+        <h3>ERP Consultant</h3>
+        <div class="meta">📍 Hans-Muster-Strasse 30 &nbsp;·&nbsp; ⏱ 40–60%</div>
+      </div>
+      <div class="meta-right">
+        <div class="badge open">● Offen</div>
+        <div class="apply-arrow">→</div>
+      </div>
+    </a>
+
+  </div>
+</div>
+
+<footer>© Alpenblick Consulting AG</footer>
+</body>
+</html>
