@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Offene Stellen – Alpenblick Consulting AG</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy:   #0d1b2a;
+      --mid:    #1b3a5c;
+      --accent: #c8973a;
+      --light:  #f4f1eb;
+      --card:   #ffffff;
+      --text:   #1a1a1a;
+      --muted:  #6b7280;
+      --border: #e5e0d5;
+      --open:   #166534;
+      --open-bg:#dcfce7;
+      --radius: 14px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--light);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ─── HEADER ─────────────────────────────────────────── */
+    header {
+      background: var(--navy);
+      padding: 64px 32px 56px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 60% 0%, rgba(200,151,58,.18) 0%, transparent 65%),
+                  radial-gradient(ellipse at 10% 100%, rgba(27,58,92,.6) 0%, transparent 60%);
+    }
+    header > * { position: relative; }
+    header .eyebrow {
+      display: inline-block;
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+    header h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2rem, 5vw, 3rem);
+      color: #fff;
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+    header p {
+      color: rgba(255,255,255,.6);
+      font-size: 15px;
+      font-weight: 300;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    /* ─── CONTAINER ──────────────────────────────────────── */
+    .container {
+      max-width: 820px;
+      margin: 52px auto 80px;
+      padding: 0 24px;
+    }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 28px;
+    }
+
+    /* ─── LOADING / ERROR ────────────────────────────────── */
+    .status {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--muted);
+      font-size: 15px;
+    }
+    .status .spinner {
+      width: 36px; height: 36px;
+      border: 3px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      margin: 0 auto 20px;
+      animation: spin .8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ─── JOB ACCORDION ──────────────────────────────────── */
+    .jobs-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .job-item {
+      background: var(--card);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      box-shadow: 0 2px 8px rgba(0,0,0,.05);
+      overflow: hidden;
+      transition: box-shadow .25s;
+    }
+    .job-item:hover { box-shadow: 0 6px 24px rgba(0,0,0,.1); }
+    .job-item.open  { border-color: var(--accent); }
+
+    /* Header row (always visible) */
+    .job-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 22px 28px;
+      cursor: pointer;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .job-id {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      min-width: 60px;
+    }
+
+    .job-main { flex: 1; }
+    .job-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.15rem;
+      color: var(--navy);
+      margin-bottom: 4px;
+    }
+    .job-pensum {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 400;
+    }
+
+    .job-right {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-shrink: 0;
+    }
+
+    .badge-open {
+      display: inline-block;
+      background: var(--open-bg);
+      color: var(--open);
+      border-radius: 20px;
+      padding: 3px 12px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .toggle-arrow {
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      border: 1.5px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      transition: transform .3s, background .2s, border-color .2s;
+      color: var(--muted);
+      flex-shrink: 0;
+    }
+    .job-item.open .toggle-arrow {
+      transform: rotate(180deg);
+      background: var(--navy);
+      border-color: var(--navy);
+      color: #fff;
+    }
+
+    /* Collapsible details */
+    .job-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .45s cubic-bezier(.4,0,.2,1);
+    }
+    .job-item.open .job-body { max-height: 1200px; }
+
+    .job-body-inner {
+      padding: 0 28px 28px;
+      border-top: 1px solid var(--border);
+    }
+
+    .detail-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px 32px;
+      margin-top: 24px;
+    }
+    @media (max-width: 580px) {
+      .detail-grid { grid-template-columns: 1fr; }
+      .job-header { padding: 18px 20px; }
+      .job-body-inner { padding: 0 20px 22px; }
+      .badge-open { display: none; }
+    }
+
+    .detail-section { grid-column: span 1; }
+    .detail-section.full { grid-column: span 2; }
+    @media (max-width: 580px) { .detail-section.full { grid-column: span 1; } }
+
+    .detail-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+    .detail-text {
+      font-size: 14px;
+      line-height: 1.7;
+      color: #374151;
+      white-space: pre-line;
+    }
+
+    /* Apply button */
+    .apply-row {
+      margin-top: 28px;
+      padding-top: 22px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .apply-note {
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .btn-apply {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--navy);
+      color: #fff;
+      text-decoration: none;
+      padding: 12px 26px;
+      border-radius: 50px;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: .3px;
+      transition: background .2s, transform .15s, box-shadow .2s;
+      box-shadow: 0 4px 16px rgba(13,27,42,.25);
+    }
+    .btn-apply:hover {
+      background: var(--accent);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(200,151,58,.4);
+    }
+    .btn-apply svg { transition: transform .2s; }
+    .btn-apply:hover svg { transform: translateX(3px); }
+
+    footer {
+      text-align: center;
+      padding: 32px;
+      font-size: 13px;
+      color: #bbb;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <span class="eyebrow">Alpenblick Consulting AG</span>
+  <h1>Karriere &amp; offene Stellen</h1>
+  <p>Wir suchen talentierte Menschen, die mit uns wachsen möchten.</p>
+</header>
+
+<div class="container">
+  <div class="section-label">Offene Positionen</div>
+
+  <div id="jobs-container">
+    <div class="status">
+      <div class="spinner"></div>
+      Stellen werden geladen…
+    </div>
+  </div>
+</div>
+
+<footer>© Alpenblick Consulting AG</footer>
+
+<script>
+  // ── CONFIG ──────────────────────────────────────────────────────────
+  const SHEET_ID   = '1v4i3efvBVOYCbF6pm9EFaYXV7s-x3sbzi0Lc8YVKY9M';
+  const SHEET_GID  = '0';   // change if your data is on a different tab
+  const FORM_URL   = 'https://docs.google.com/forms/d/e/1FAIpQLSffU9ETTewJAJVZzQJvKDlGmANB2xtxi6vMET09dZ88upvXJw/viewform';
+  // ────────────────────────────────────────────────────────────────────
+
+  const CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${SHEET_GID}`;
+
+  // ── CSV parser (handles quoted commas & newlines) ───────────────────
+  function parseCSV(text) {
+    const rows = [];
+    let row = [], cur = '', inQ = false;
+    for (let i = 0; i < text.length; i++) {
+      const c = text[i], n = text[i+1];
+      if (inQ) {
+        if (c === '"' && n === '"') { cur += '"'; i++; }
+        else if (c === '"') inQ = false;
+        else cur += c;
+      } else {
+        if (c === '"') { inQ = true; }
+        else if (c === ',') { row.push(cur.trim()); cur = ''; }
+        else if (c === '\n' || (c === '\r' && n === '\n')) {
+          if (c === '\r') i++;
+          row.push(cur.trim()); rows.push(row); row = []; cur = '';
+        } else cur += c;
+      }
+    }
+    if (cur || row.length) { row.push(cur.trim()); rows.push(row); }
+    return rows;
+  }
+
+  function csvToObjects(rows) {
+    if (!rows.length) return [];
+    const headers = rows[0].map(h => h.toLowerCase().trim());
+    return rows.slice(1)
+      .filter(r => r.some(c => c))
+      .map(r => {
+        const obj = {};
+        headers.forEach((h, i) => obj[h] = r[i] || '');
+        return obj;
+      });
+  }
+
+  // ── Detect column names flexibly ────────────────────────────────────
+  function col(job, ...variants) {
+    for (const v of variants) {
+      const k = Object.keys(job).find(k => k.includes(v.toLowerCase()));
+      if (k && job[k]) return job[k];
+    }
+    return '';
+  }
+
+  // ── Render ──────────────────────────────────────────────────────────
+  function renderJobs(jobs) {
+    const container = document.getElementById('jobs-container');
+
+    if (!jobs.length) {
+      container.innerHTML = '<div class="status">Momentan sind keine offenen Stellen ausgeschrieben.</div>';
+      return;
+    }
+
+    const list = document.createElement('div');
+    list.className = 'jobs-list';
+
+    jobs.forEach((job, idx) => {
+      const jobId    = col(job, 'jobid', 'job_id', 'id', 'job id', 'stelle');
+      const title    = col(job, 'title', 'titel', 'position', 'job title', 'jobtitle');
+      const pensum   = col(job, 'pensum', 'workload', 'stellenprozent', '%', 'percent');
+      const about    = col(job, 'about', 'beschreibung', 'description', 'über', 'uber');
+      const mission  = col(job, 'mission', 'aufgaben', 'tasks', 'your mission', 'verantwortung');
+      const profile  = col(job, 'profile', 'profil', 'anforderungen', 'your profile', 'requirements');
+      const benefits = col(job, 'benefit', 'vorteile', 'wir bieten', 'your benefit');
+      const address  = col(job, 'address', 'adresse', 'standort', 'location', 'ort');
+      const contact  = col(job, 'contact', 'kontakt', 'ansprechpartner');
+
+      // Build detail sections
+      const sections = [
+        about    && { label: 'Über die Stelle',  text: about,    full: true  },
+        mission  && { label: 'Ihre Aufgaben',    text: mission,  full: false },
+        profile  && { label: 'Ihr Profil',       text: profile,  full: false },
+        benefits && { label: 'Ihre Benefits',    text: benefits, full: false },
+        address  && { label: 'Standort',         text: address,  full: false },
+        contact  && { label: 'Kontaktperson',    text: contact,  full: false },
+      ].filter(Boolean);
+
+      const detailHTML = sections.length ? `
+        <div class="detail-grid">
+          ${sections.map(s => `
+            <div class="detail-section${s.full ? ' full' : ''}">
+              <div class="detail-label">${s.label}</div>
+              <div class="detail-text">${s.text.replace(/</g,'&lt;')}</div>
+            </div>`).join('')}
+        </div>` : '<p class="detail-text" style="margin-top:20px;color:var(--muted)">Keine weiteren Details hinterlegt.</p>';
+
+      const applyLink = FORM_URL + (title ? `?usp=pp_url&entry.jobTitle=${encodeURIComponent(title)}` : '');
+
+      const item = document.createElement('div');
+      item.className = 'job-item';
+      item.innerHTML = `
+        <div class="job-header" role="button" aria-expanded="false" tabindex="0">
+          ${jobId ? `<div class="job-id">${jobId}</div>` : ''}
+          <div class="job-main">
+            <div class="job-title">${title || 'Offene Stelle'}</div>
+            ${pensum ? `<div class="job-pensum">⏱ ${pensum}</div>` : ''}
+          </div>
+          <div class="job-right">
+            <span class="badge-open">● Offen</span>
+            <div class="toggle-arrow" aria-label="Details anzeigen">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="2,5 7,10 12,5"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div class="job-body" role="region">
+          <div class="job-body-inner">
+            ${detailHTML}
+            <div class="apply-row">
+              <span class="apply-note">Jetzt in wenigen Schritten bewerben →</span>
+              <a class="btn-apply" href="${applyLink}" target="_blank" rel="noopener">
+                Jetzt bewerben
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="2" y1="8" x2="13" y2="8"/>
+                  <polyline points="9,4 13,8 9,12"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>`;
+
+      // Accordion toggle
+      const header = item.querySelector('.job-header');
+      const toggle = () => {
+        const isOpen = item.classList.toggle('open');
+        header.setAttribute('aria-expanded', isOpen);
+      };
+      header.addEventListener('click', toggle);
+      header.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }});
+
+      list.appendChild(item);
+    });
+
+    container.innerHTML = '';
+    container.appendChild(list);
+  }
+
+  // ── Fetch & init ────────────────────────────────────────────────────
+  async function loadJobs() {
+    try {
+      const res = await fetch(CSV_URL);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const text = await res.text();
+      const rows  = parseCSV(text);
+      const jobs  = csvToObjects(rows);
+      renderJobs(jobs);
+    } catch (err) {
+      console.error(err);
+      document.getElementById('jobs-container').innerHTML = `
+        <div class="status">
+          ⚠️ Stellen konnten nicht geladen werden.<br>
+          <small style="margin-top:8px;display:block">Bitte stellen Sie sicher, dass das Google Sheet öffentlich freigegeben ist
+          (<em>Datei → Freigeben → Im Web veröffentlichen → CSV</em>).</small>
+        </div>`;
+    }
+  }
+
+  loadJobs();
+</script>
+</body>
+</html>
