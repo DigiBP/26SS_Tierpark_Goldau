@@ -343,13 +343,26 @@
       });
   }
 
-  // ── Detect column names flexibly ────────────────────────────────────
+  // ── Column mapping matches Make Blueprint 1 exactly:
+  // A=jobid, B=title, C=pensum, D=address, E=about the job,
+  // F=your mission, G=your profile, H=your benefits, I=contact person,
+  // J=posted_at, K=expires_at, L=status (OPEN/CLOSED)
   function col(job, ...variants) {
     for (const v of variants) {
       const k = Object.keys(job).find(k => k.includes(v.toLowerCase()));
       if (k && job[k]) return job[k];
     }
     return '';
+  }
+
+  function isOpen(job) {
+    // Status is in column L (index 11) – must be "OPEN" (set by Make)
+    // Also filter out rows where expires_at has passed
+    const status = col(job, 'status');
+    if (status && status.toUpperCase() === 'CLOSED') return false;
+    if (status && status.toUpperCase() === 'OPEN') return true;
+    // Fallback: if no status column, show the job
+    return true;
   }
 
   // ── Render ──────────────────────────────────────────────────────────
@@ -365,24 +378,28 @@
     list.className = 'jobs-list';
 
     jobs.forEach((job, idx) => {
-      const jobId    = col(job, 'jobid', 'job_id', 'id', 'job id', 'stelle');
-      const title    = col(job, 'title', 'titel', 'position', 'job title', 'jobtitle');
-      const pensum   = col(job, 'pensum', 'workload', 'stellenprozent', '%', 'percent');
-      const about    = col(job, 'about', 'beschreibung', 'description', 'über', 'uber');
-      const mission  = col(job, 'mission', 'aufgaben', 'tasks', 'your mission', 'verantwortung');
-      const profile  = col(job, 'profile', 'profil', 'anforderungen', 'your profile', 'requirements');
-      const benefits = col(job, 'benefit', 'vorteile', 'wir bieten', 'your benefit');
-      const address  = col(job, 'address', 'adresse', 'standort', 'location', 'ort');
-      const contact  = col(job, 'contact', 'kontakt', 'ansprechpartner');
+      const jobId    = col(job, 'jobid', 'job_id', 'job id');
+      const title    = col(job, 'title', 'titel');
+      const pensum   = col(job, 'pensum', 'workload');
+      const about    = col(job, 'about the job', 'about', 'beschreibung', 'description');
+      const mission  = col(job, 'your mission', 'mission', 'aufgaben');
+      const profile  = col(job, 'your profile', 'profile', 'profil');
+      const benefits = col(job, 'your benefits', 'benefit', 'vorteile');
+      const address  = col(job, 'address', 'adresse', 'standort');
+      const contact  = col(job, 'contact person', 'contact', 'kontakt');
+      const postedAt = col(job, 'posted_at', 'posted at');
+      const expiresAt= col(job, 'expires_at', 'expires at');
 
       // Build detail sections
       const sections = [
-        about    && { label: 'Über die Stelle',  text: about,    full: true  },
-        mission  && { label: 'Ihre Aufgaben',    text: mission,  full: false },
-        profile  && { label: 'Ihr Profil',       text: profile,  full: false },
-        benefits && { label: 'Ihre Benefits',    text: benefits, full: false },
-        address  && { label: 'Standort',         text: address,  full: false },
-        contact  && { label: 'Kontaktperson',    text: contact,  full: false },
+        about    && { label: 'Über die Stelle',    text: about,    full: true  },
+        mission  && { label: 'Ihre Aufgaben',      text: mission,  full: false },
+        profile  && { label: 'Ihr Profil',         text: profile,  full: false },
+        benefits && { label: 'Ihre Benefits',      text: benefits, full: false },
+        address  && { label: 'Standort',           text: address,  full: false },
+        contact  && { label: 'Kontaktperson',      text: contact,  full: false },
+        postedAt && { label: 'Ausgeschrieben seit',text: postedAt.replace('posted_at: ',''),  full: false },
+        expiresAt&& { label: 'Bewerbungsschluss',  text: expiresAt.replace('expires_at: ',''), full: false },
       ].filter(Boolean);
 
       const detailHTML = sections.length ? `
@@ -453,7 +470,8 @@
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const text = await res.text();
       const rows  = parseCSV(text);
-      const jobs  = csvToObjects(rows);
+      const allJobs  = csvToObjects(rows);
+      const jobs = allJobs.filter(isOpen);
       renderJobs(jobs);
     } catch (err) {
       console.error(err);
