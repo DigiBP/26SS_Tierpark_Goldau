@@ -1,0 +1,1158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/2.0" id="CV_Scoring_Definitions" name="CV Scoring" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="5.46.1">
+  <inputData id="InputData_EducationLevel" name="educationLevel" />
+  <inputData id="InputData_EducationRelevance" name="educationRelevance" />
+  <inputData id="InputData_YearsExperience" name="yearsExperience" />
+  <inputData id="InputData_ExperienceRelevance" name="experienceRelevance" />
+  <inputData id="InputData_GermanLevel" name="germanLevel" />
+  <inputData id="InputData_EnglishLevel" name="englishLevel" />
+  <decision id="Decision_CVScore" name="Score CV Automatically">
+    <informationRequirement>
+      <requiredInput href="#InputData_EducationLevel" />
+    </informationRequirement>
+    <informationRequirement>
+      <requiredInput href="#InputData_EducationRelevance" />
+    </informationRequirement>
+    <informationRequirement>
+      <requiredInput href="#InputData_YearsExperience" />
+    </informationRequirement>
+    <informationRequirement>
+      <requiredInput href="#InputData_ExperienceRelevance" />
+    </informationRequirement>
+    <informationRequirement>
+      <requiredInput href="#InputData_GermanLevel" />
+    </informationRequirement>
+    <informationRequirement>
+      <requiredInput href="#InputData_EnglishLevel" />
+    </informationRequirement>
+    <decisionTable id="DT_CVScore" hitPolicy="COLLECT" aggregation="SUM">
+      <input id="In_EduLevel" label="Education Level" biodi:width="180">
+        <inputExpression typeRef="string">
+          <text>educationLevel</text>
+        </inputExpression>
+        <inputValues>
+          <text>"none","apprenticeship","federalDiploma","higherTechnical","bachelor","master"</text>
+        </inputValues>
+      </input>
+      <input id="In_EduRel" label="Edu. Relevance" biodi:width="120">
+        <inputExpression typeRef="string">
+          <text>educationRelevance</text>
+        </inputExpression>
+        <inputValues>
+          <text>"low","medium","high"</text>
+        </inputValues>
+      </input>
+      <input id="In_Years" label="Years Exp." biodi:width="100">
+        <inputExpression typeRef="integer">
+          <text>yearsExperience</text>
+        </inputExpression>
+      </input>
+      <input id="In_ExpRel" label="Experience Relevance" biodi:width="120">
+        <inputExpression typeRef="string">
+          <text>experienceRelevance</text>
+        </inputExpression>
+        <inputValues>
+          <text>"low","medium","high"</text>
+        </inputValues>
+      </input>
+      <input id="In_DE" label="German Level" biodi:width="120">
+        <inputExpression typeRef="string">
+          <text>germanLevel</text>
+        </inputExpression>
+        <inputValues>
+          <text>"none","A1","A2","B1","B2","C1","C2","native"</text>
+        </inputValues>
+      </input>
+      <input id="In_EN" label="English Level" biodi:width="150">
+        <inputExpression typeRef="string">
+          <text>englishLevel</text>
+        </inputExpression>
+        <inputValues>
+          <text>"none","A1","A2","B1","B2","C1","C2","native"</text>
+        </inputValues>
+      </input>
+      <output id="Out_Points" label="CV Score Points" name="cvScore" typeRef="integer" biodi:width="80" />
+      <rule id="R_Edu_Master_High">
+        <description>Master · high</description>
+        <inputEntry>
+          <text>"master"</text>
+        </inputEntry>
+        <inputEntry>
+          <text>"high"</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <outputEntry>
+          <text>40</text>
+        </outputEntry>
+      </rule>
+      <rule id="R_Edu_Master_Med">
+        <description>Master · medium</description>
+        <inputEntry>
+          <text>"master"</text>
+        </inputEntry>
+        <inputEntry>
+          <text>"medium"</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <outputEntry>
+          <text>24</text>
+        </outputEntry>
+      </rule>
+      <rule id="R_Edu_Master_Low">
+        <description>Master · low (z.B. Jus → SE)</description>
+        <inputEntry>
+          <text>"master"</text>
+        </inputEntry>
+        <inputEntry>
+          <text>"low"</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <outputEntry>
+          <text>6</text>
+        </outputEntry>
+      </rule>
+      <rule id="R_Edu_Bachelor_High">
+        <description>Bachelor · high</description>
+        <inputEntry>
+          <text>"bachelor"</text>
+        </inputEntry>
+        <inputEntry>
+          <text>"high"</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <outputEntry>
+          <text>32</text>
+        </outputEntry>
+      </rule>
+      <rule id="R_Edu_Bachelor_Med">
+        <description>Bachelor · medium</description>
+        <inputEntry>
+          <text>"bachelor"</text>
+        </inputEntry>
+        <inputEntry>
+          <text>"medium"</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <outputEntry>
+          <text>18</text>
+        </outputEntry>
+      </rule>
+      <rule id="R_Edu_Bachelor_Low">
+        <description>Bachelor · low (z.B. Sozialwiss. → SE)</description>
+        <inputEntry>
+          <text>"bachelor"</text>
+        </inputEntry>
+        <inputEntry>
+          <text>"low"</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <outputEntry>
+          <text>5</text>
+        </outputEntry>
+      </rule>
+      <rule id="R_Edu_FedDip_High">
+        <description>Eidg. Fachausweis · high</description>
+        <inputEntry>
+          <text>"federalDiploma"</text>
+        </inputEntry>
+        <inputEntry>
+          <text>"high"</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <outputEntry>
+          <text>22</text>
+        </outputEntry>
+      </rule>
+      <rule id="R_Edu_FedDip_Med">
+        <description>Eidg. Fachausweis · medium</description>
+        <inputEntry>
+          <text>"federalDiploma"</text>
+        </inputEntry>
+        <inputEntry>
+          <text>"medium"</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <outputEntry>
+          <text>13</text>
+        </outputEntry>
+      </rule>
+      <rule id="R_Edu_FedDip_Low">
+        <description>Eidg. Fachausweis · low</description>
+        <inputEntry>
+          <text>"federalDiploma"</text>
+        </inputEntry>
+        <inputEntry>
+          <text>"low"</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <outputEntry>
+          <text>4</text>
+        </outputEntry>
+      </rule>
+      <rule id="R_Edu_HF_High">
+        <description>Höhere Fachschule HF · high</description>
+        <inputEntry>
+          <text>"higherTechnical"</text>
+        </inputEntry>
+        <inputEntry>
+          <text>"high"</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <outputEntry>
+          <text>18</text>
+        </outputEntry>
+      </rule>
+      <rule id="R_Edu_HF_Med">
+        <description>Höhere Fachschule HF · medium</description>
+        <inputEntry>
+          <text>"higherTechnical"</text>
+        </inputEntry>
+        <inputEntry>
+          <text>"medium"</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <outputEntry>
+          <text>11</text>
+        </outputEntry>
+      </rule>
+      <rule id="R_Edu_HF_Low">
+        <description>Höhere Fachschule HF · low</description>
+        <inputEntry>
+          <text>"higherTechnical"</text>
+        </inputEntry>
+        <inputEntry>
+          <text>"low"</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <outputEntry>
+          <text>3</text>
+        </outputEntry>
+      </rule>
+      <rule id="R_Edu_App_High">
+        <description>Lehre EFZ · high</description>
+        <inputEntry>
+          <text>"apprenticeship"</text>
+        </inputEntry>
+        <inputEntry>
+          <text>"high"</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <outputEntry>
+          <text>12</text>
+        </outputEntry>
+      </rule>
+      <rule id="R_Edu_App_Med">
+        <description>Lehre EFZ · medium</description>
+        <inputEntry>
+          <text>"apprenticeship"</text>
+        </inputEntry>
+        <inputEntry>
+          <text>"medium"</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <outputEntry>
+          <text>7</text>
+        </outputEntry>
+      </rule>
+      <rule id="R_Edu_App_Low">
+        <description>Lehre EFZ · low</description>
+        <inputEntry>
+          <text>"apprenticeship"</text>
+        </inputEntry>
+        <inputEntry>
+          <text>"low"</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <outputEntry>
+          <text>2</text>
+        </outputEntry>
+      </rule>
+      <rule id="R_Edu_None_High">
+        <description>Keine/Andere · high (Quereinsteiger mit Bezug)</description>
+        <inputEntry>
+          <text>"none"</text>
+        </inputEntry>
+        <inputEntry>
+          <text>"high"</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <outputEntry>
+          <text>6</text>
+        </outputEntry>
+      </rule>
+      <rule id="R_Edu_None_Med">
+        <description>Keine/Andere · medium</description>
+        <inputEntry>
+          <text>"none"</text>
+        </inputEntry>
+        <inputEntry>
+          <text>"medium"</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <outputEntry>
+          <text>3</text>
+        </outputEntry>
+      </rule>
+      <rule id="R_Edu_None_Low">
+        <description>Keine/Andere · low</description>
+        <inputEntry>
+          <text>"none"</text>
+        </inputEntry>
+        <inputEntry>
+          <text>"low"</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <outputEntry>
+          <text>1</text>
+        </outputEntry>
+      </rule>
+      <rule id="R_Exp_7p_High">
+        <description>≥7 Jahre · high</description>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>&gt;= 7</text>
+        </inputEntry>
+        <inputEntry>
+          <text>"high"</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <outputEntry>
+          <text>40</text>
+        </outputEntry>
+      </rule>
+      <rule id="R_Exp_7p_Med">
+        <description>≥7 Jahre · medium</description>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>&gt;= 7</text>
+        </inputEntry>
+        <inputEntry>
+          <text>"medium"</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <outputEntry>
+          <text>22</text>
+        </outputEntry>
+      </rule>
+      <rule id="R_Exp_7p_Low">
+        <description>≥7 Jahre · low (z.B. Anwalt → SE)</description>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>&gt;= 7</text>
+        </inputEntry>
+        <inputEntry>
+          <text>"low"</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <outputEntry>
+          <text>8</text>
+        </outputEntry>
+      </rule>
+      <rule id="R_Exp_46_High">
+        <description>4-6 Jahre · high</description>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>[4..6]</text>
+        </inputEntry>
+        <inputEntry>
+          <text>"high"</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <outputEntry>
+          <text>32</text>
+        </outputEntry>
+      </rule>
+      <rule id="R_Exp_46_Med">
+        <description>4-6 Jahre · medium</description>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>[4..6]</text>
+        </inputEntry>
+        <inputEntry>
+          <text>"medium"</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <outputEntry>
+          <text>18</text>
+        </outputEntry>
+      </rule>
+      <rule id="R_Exp_46_Low">
+        <description>4-6 Jahre · low</description>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>[4..6]</text>
+        </inputEntry>
+        <inputEntry>
+          <text>"low"</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <outputEntry>
+          <text>6</text>
+        </outputEntry>
+      </rule>
+      <rule id="R_Exp_23_High">
+        <description>2-3 Jahre · high</description>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>[2..3]</text>
+        </inputEntry>
+        <inputEntry>
+          <text>"high"</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <outputEntry>
+          <text>22</text>
+        </outputEntry>
+      </rule>
+      <rule id="R_Exp_23_Med">
+        <description>2-3 Jahre · medium</description>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>[2..3]</text>
+        </inputEntry>
+        <inputEntry>
+          <text>"medium"</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <outputEntry>
+          <text>13</text>
+        </outputEntry>
+      </rule>
+      <rule id="R_Exp_23_Low">
+        <description>2-3 Jahre · low</description>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>[2..3]</text>
+        </inputEntry>
+        <inputEntry>
+          <text>"low"</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <outputEntry>
+          <text>4</text>
+        </outputEntry>
+      </rule>
+      <rule id="R_Exp_01_High">
+        <description>0-1 Jahre · high</description>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>[0..1]</text>
+        </inputEntry>
+        <inputEntry>
+          <text>"high"</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <outputEntry>
+          <text>10</text>
+        </outputEntry>
+      </rule>
+      <rule id="R_Exp_01_Med">
+        <description>0-1 Jahre · medium</description>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>[0..1]</text>
+        </inputEntry>
+        <inputEntry>
+          <text>"medium"</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <outputEntry>
+          <text>5</text>
+        </outputEntry>
+      </rule>
+      <rule id="R_Exp_01_Low">
+        <description>0-1 Jahre · low</description>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>[0..1]</text>
+        </inputEntry>
+        <inputEntry>
+          <text>"low"</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <outputEntry>
+          <text>0</text>
+        </outputEntry>
+      </rule>
+      <rule id="R_DE_Native">
+        <description>Deutsch native</description>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>"native"</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <outputEntry>
+          <text>10</text>
+        </outputEntry>
+      </rule>
+      <rule id="R_DE_C2">
+        <description>Deutsch C2</description>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>"C2"</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <outputEntry>
+          <text>9</text>
+        </outputEntry>
+      </rule>
+      <rule id="R_DE_C1">
+        <description>Deutsch C1</description>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>"C1"</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <outputEntry>
+          <text>8</text>
+        </outputEntry>
+      </rule>
+      <rule id="R_DE_B2">
+        <description>Deutsch B2</description>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>"B2"</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <outputEntry>
+          <text>6</text>
+        </outputEntry>
+      </rule>
+      <rule id="R_DE_B1">
+        <description>Deutsch B1</description>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>"B1"</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <outputEntry>
+          <text>4</text>
+        </outputEntry>
+      </rule>
+      <rule id="R_DE_A2">
+        <description>Deutsch A2</description>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>"A2"</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <outputEntry>
+          <text>2</text>
+        </outputEntry>
+      </rule>
+      <rule id="R_DE_A1">
+        <description>Deutsch A1</description>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>"A1"</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <outputEntry>
+          <text>1</text>
+        </outputEntry>
+      </rule>
+      <rule id="R_EN_Native">
+        <description>Englisch native</description>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>"native"</text>
+        </inputEntry>
+        <outputEntry>
+          <text>10</text>
+        </outputEntry>
+      </rule>
+      <rule id="R_EN_C2">
+        <description>Englisch C2</description>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>"C2"</text>
+        </inputEntry>
+        <outputEntry>
+          <text>9</text>
+        </outputEntry>
+      </rule>
+      <rule id="R_EN_C1">
+        <description>Englisch C1</description>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>"C1"</text>
+        </inputEntry>
+        <outputEntry>
+          <text>8</text>
+        </outputEntry>
+      </rule>
+      <rule id="R_EN_B2">
+        <description>Englisch B2</description>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>"B2"</text>
+        </inputEntry>
+        <outputEntry>
+          <text>6</text>
+        </outputEntry>
+      </rule>
+      <rule id="R_EN_B1">
+        <description>Englisch B1</description>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>"B1"</text>
+        </inputEntry>
+        <outputEntry>
+          <text>4</text>
+        </outputEntry>
+      </rule>
+      <rule id="R_EN_A2">
+        <description>Englisch A2</description>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>"A2"</text>
+        </inputEntry>
+        <outputEntry>
+          <text>2</text>
+        </outputEntry>
+      </rule>
+      <rule id="R_EN_A1">
+        <description>Englisch A1</description>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <inputEntry>
+          <text>"A1"</text>
+        </inputEntry>
+        <outputEntry>
+          <text>1</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape dmnElementRef="Decision_CVScore">
+        <dc:Bounds height="80" width="180" x="440" y="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape dmnElementRef="InputData_EducationLevel">
+        <dc:Bounds height="45" width="125" x="160" y="220" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape dmnElementRef="InputData_EducationRelevance">
+        <dc:Bounds height="45" width="125" x="300" y="220" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape dmnElementRef="InputData_YearsExperience">
+        <dc:Bounds height="45" width="125" x="440" y="220" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape dmnElementRef="InputData_ExperienceRelevance">
+        <dc:Bounds height="45" width="125" x="580" y="220" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape dmnElementRef="InputData_GermanLevel">
+        <dc:Bounds height="45" width="125" x="720" y="220" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape dmnElementRef="InputData_EnglishLevel">
+        <dc:Bounds height="45" width="125" x="860" y="220" />
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>
