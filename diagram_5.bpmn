@@ -56,7 +56,9 @@
           <camunda:inputParameter name="api_connect_api_variables" />
           <camunda:inputParameter name="api_connect_result_variables" />
         </camunda:inputOutput>
-        <camunda:field name="api_connect_url" />
+        <camunda:field name="api_connect_url">
+          <camunda:string>https://hook.eu1.make.com/roixcm0h1br8x586jtybwn00fj389xw9</camunda:string>
+        </camunda:field>
         <camunda:field name="api_connect_authorization">
           <camunda:string>None</camunda:string>
         </camunda:field>
@@ -82,7 +84,9 @@
           <camunda:inputParameter name="api_connect_api_variables" />
           <camunda:inputParameter name="api_connect_result_variables" />
         </camunda:inputOutput>
-        <camunda:field name="api_connect_url" />
+        <camunda:field name="api_connect_url">
+          <camunda:string>https://hook.eu1.make.com/ouxcqlcswmnahxdjky52nyekp02s35dl</camunda:string>
+        </camunda:field>
         <camunda:field name="api_connect_authorization">
           <camunda:string>None</camunda:string>
         </camunda:field>
@@ -104,7 +108,13 @@
     </bpmn:serviceTask>
     <bpmn:serviceTask id="Activity_InviteInterview" name="Invite to first Interview" camunda:modelerTemplate="onl.mrtn.camunda.http.api_connect" camunda:modelerTemplateVersion="2" camunda:delegateExpression="${api_connect}">
       <bpmn:extensionElements>
-        <camunda:field name="api_connect_url" />
+        <camunda:inputOutput>
+          <camunda:inputParameter name="api_connect_api_variables" />
+          <camunda:inputParameter name="api_connect_result_variables" />
+        </camunda:inputOutput>
+        <camunda:field name="api_connect_url">
+          <camunda:string>https://hook.eu1.make.com/7vjfxh8qfzgt3v6c0m2anon2dpp74fuo</camunda:string>
+        </camunda:field>
         <camunda:field name="api_connect_authorization">
           <camunda:string>None</camunda:string>
         </camunda:field>
@@ -120,10 +130,6 @@
         <camunda:field name="api_connect_verbosity_outgoing">
           <camunda:string>plain</camunda:string>
         </camunda:field>
-        <camunda:inputOutput>
-          <camunda:inputParameter name="api_connect_api_variables" />
-          <camunda:inputParameter name="api_connect_result_variables" />
-        </camunda:inputOutput>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_gateway_invite</bpmn:incoming>
       <bpmn:outgoing>Flow_076teqq</bpmn:outgoing>
@@ -136,6 +142,10 @@
   <bpmn:message id="Message_3kaealr" name="ApplicationReceived" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_Application_Process">
+      <bpmndi:BPMNShape id="Participant_00evk6p_di" bpmnElement="Participant_0efe23m" isHorizontal="true">
+        <dc:Bounds x="170" y="100" width="1100" height="60" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Participant_105asap_di" bpmnElement="Participant_105asap" isHorizontal="true">
         <dc:Bounds x="160" y="250" width="1100" height="600" />
         <bpmndi:BPMNLabel />
@@ -226,10 +236,6 @@
         <di:waypoint x="1110" y="630" />
         <di:waypoint x="1162" y="630" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="Participant_00evk6p_di" bpmnElement="Participant_0efe23m" isHorizontal="true">
-        <dc:Bounds x="170" y="100" width="1100" height="60" />
-        <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_1jb6fbh_di" bpmnElement="Flow_1jb6fbh">
         <di:waypoint x="260" y="160" />
         <di:waypoint x="260" y="332" />
