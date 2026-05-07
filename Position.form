@@ -24,23 +24,13 @@
       "id": "Field_0hj1mpp",
       "key": "position",
       "disabled": false
-    },
-    {
-      "label": "Text field",
-      "type": "textfield",
-      "layout": {
-        "row": "Row_1hlz2ps",
-        "columns": null
-      },
-      "id": "Field_1898tgc",
-      "key": "textfield_hhcud"
     }
   ],
   "type": "default",
   "id": "Form_Position",
   "exporter": {
     "name": "Camunda Modeler",
-    "version": "5.40.0"
+    "version": "5.46.1"
   },
   "executionPlatform": "Camunda Platform",
   "executionPlatformVersion": "7.24.0",
