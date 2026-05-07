@@ -1,0 +1,43 @@
+{
+  "components": [
+    {
+      "label": "Text area",
+      "type": "textarea",
+      "layout": {
+        "row": "Row_1kkh2es",
+        "columns": null
+      },
+      "id": "Field_1c40fbu",
+      "key": "textarea_lyrehm"
+    },
+    {
+      "label": "Decision",
+      "values": [
+        {
+          "label": "Yes",
+          "value": "Yes"
+        },
+        {
+          "label": "No",
+          "value": "No"
+        }
+      ],
+      "type": "radio",
+      "layout": {
+        "row": "Row_0lmr6rf",
+        "columns": null
+      },
+      "id": "Field_0gabszz",
+      "key": "radio_decision"
+    }
+  ],
+  "type": "default",
+  "id": "Form_Evaluate",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.46.1"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.24.0",
+  "schemaVersion": 19
+}
