@@ -1,0 +1,465 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0o8f2gx" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.46.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.23.0">
+  <bpmn:collaboration id="Collaboration_Application_Process">
+    <bpmn:extensionElements />
+    <bpmn:participant id="Participant_0efe23m" name="Applier" />
+    <bpmn:participant id="Participant_105asap" name="Employee Recruitment (TO-BE)" processRef="Process_diagram_5" />
+    <bpmn:messageFlow id="Flow_1jb6fbh" name="Application submission" sourceRef="Participant_0efe23m" targetRef="Event_AppReceived" />
+    <bpmn:messageFlow id="Flow_0l16vzw" name="Cancellation" sourceRef="Activity_SendCancellation" targetRef="Participant_0efe23m" />
+    <bpmn:messageFlow id="Flow_18o45yf" name="Interview invitation" sourceRef="Activity_InviteInterview" targetRef="Participant_0efe23m" />
+    <bpmn:messageFlow id="Flow_0bid47w" name="Assessment invitation" sourceRef="Activity_14oafsh" targetRef="Participant_0efe23m" />
+    <bpmn:messageFlow id="Flow_1j2lh13" name="Contract" sourceRef="Task_SendContract" targetRef="Participant_0efe23m" />
+    <bpmn:messageFlow id="Flow_10vwbxu" name="Contract" sourceRef="Participant_0efe23m" targetRef="Event_Contract_received" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_diagram_5" isExecutable="true">
+    <bpmn:laneSet id="LaneSet_1r963d3">
+      <bpmn:lane id="Lane_0w8q9mt" name="HR Manager">
+        <bpmn:flowNodeRef>Activity_CollectApp</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Event_AppReceived</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_SendContract</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Event_Contract_received</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_CreateContract</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Event_Hiring_done</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_13ip1q7" name="System">
+        <bpmn:flowNodeRef>Activity_InviteInterview</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_SendCancellation</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Event_AppDenied</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_Score</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_ScoreCV</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_0n5nf8f" name="Hiring Manager">
+        <bpmn:flowNodeRef>Activity_Evaluate</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_Assessment</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_14oafsh</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_Assess</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_Hire</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:sequenceFlow id="Flow_0qj575m" sourceRef="Event_AppReceived" targetRef="Activity_CollectApp" />
+    <bpmn:sequenceFlow id="Flow_1grh3u8" sourceRef="Activity_SendCancellation" targetRef="Event_AppDenied" />
+    <bpmn:sequenceFlow id="Flow_gateway_invite" name="Yes" sourceRef="Gateway_Score" targetRef="Activity_InviteInterview">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${cvScore &gt;= 45}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_gateway_cancel" name="No" sourceRef="Gateway_Score" targetRef="Activity_SendCancellation">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${cvScore &lt; 45}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_01o068q" sourceRef="Activity_ScoreCV" targetRef="Gateway_Score" />
+    <bpmn:sequenceFlow id="Flow_0ll9fvo" sourceRef="Activity_CollectApp" targetRef="Activity_ScoreCV" />
+    <bpmn:serviceTask id="Activity_InviteInterview" name="Invite to first Interview" camunda:modelerTemplate="onl.mrtn.camunda.http.api_connect" camunda:modelerTemplateVersion="2" camunda:delegateExpression="${api_connect}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="api_connect_api_variables" />
+          <camunda:inputParameter name="api_connect_result_variables" />
+        </camunda:inputOutput>
+        <camunda:field name="api_connect_url">
+          <camunda:string>https://hook.eu1.make.com/7vjfxh8qfzgt3v6c0m2anon2dpp74fuo</camunda:string>
+        </camunda:field>
+        <camunda:field name="api_connect_authorization">
+          <camunda:string>None</camunda:string>
+        </camunda:field>
+        <camunda:field name="api_connect_api_variables">
+          <camunda:string>true</camunda:string>
+        </camunda:field>
+        <camunda:field name="api_connect_result_variables">
+          <camunda:string>true</camunda:string>
+        </camunda:field>
+        <camunda:field name="api_connect_result_variable">
+          <camunda:string>None</camunda:string>
+        </camunda:field>
+        <camunda:field name="api_connect_verbosity_outgoing">
+          <camunda:string>plain</camunda:string>
+        </camunda:field>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_gateway_invite</bpmn:incoming>
+      <bpmn:outgoing>Flow_1lmomrc</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Activity_SendCancellation" name="Send Cancellation" camunda:modelerTemplate="onl.mrtn.camunda.http.api_connect" camunda:modelerTemplateVersion="2" camunda:delegateExpression="${api_connect}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="api_connect_api_variables" />
+          <camunda:inputParameter name="api_connect_result_variables" />
+        </camunda:inputOutput>
+        <camunda:field name="api_connect_url">
+          <camunda:string>https://hook.eu1.make.com/ouxcqlcswmnahxdjky52nyekp02s35dl</camunda:string>
+        </camunda:field>
+        <camunda:field name="api_connect_authorization">
+          <camunda:string>None</camunda:string>
+        </camunda:field>
+        <camunda:field name="api_connect_api_variables">
+          <camunda:string>true</camunda:string>
+        </camunda:field>
+        <camunda:field name="api_connect_result_variables">
+          <camunda:string>true</camunda:string>
+        </camunda:field>
+        <camunda:field name="api_connect_result_variable">
+          <camunda:string>None</camunda:string>
+        </camunda:field>
+        <camunda:field name="api_connect_verbosity_outgoing">
+          <camunda:string>plain</camunda:string>
+        </camunda:field>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_gateway_cancel</bpmn:incoming>
+      <bpmn:incoming>Flow_No1</bpmn:incoming>
+      <bpmn:incoming>Flow_No2</bpmn:incoming>
+      <bpmn:outgoing>Flow_1grh3u8</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Activity_CollectApp" name="Collect &#38; Structure Application" camunda:modelerTemplate="onl.mrtn.camunda.http.api_connect" camunda:modelerTemplateVersion="2" camunda:delegateExpression="${api_connect}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="api_connect_api_variables" />
+          <camunda:inputParameter name="api_connect_result_variables" />
+        </camunda:inputOutput>
+        <camunda:field name="api_connect_url">
+          <camunda:string>https://hook.eu1.make.com/roixcm0h1br8x586jtybwn00fj389xw9</camunda:string>
+        </camunda:field>
+        <camunda:field name="api_connect_authorization">
+          <camunda:string>None</camunda:string>
+        </camunda:field>
+        <camunda:field name="api_connect_api_variables">
+          <camunda:string>true</camunda:string>
+        </camunda:field>
+        <camunda:field name="api_connect_result_variables">
+          <camunda:string>true</camunda:string>
+        </camunda:field>
+        <camunda:field name="api_connect_result_variable">
+          <camunda:string>None</camunda:string>
+        </camunda:field>
+        <camunda:field name="api_connect_verbosity_outgoing">
+          <camunda:string>plain</camunda:string>
+        </camunda:field>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0qj575m</bpmn:incoming>
+      <bpmn:outgoing>Flow_0ll9fvo</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:startEvent id="Event_AppReceived" name="Application received">
+      <bpmn:outgoing>Flow_0qj575m</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1bsyump" messageRef="Message_3kaealr" />
+    </bpmn:startEvent>
+    <bpmn:endEvent id="Event_AppDenied" name="Application denied">
+      <bpmn:incoming>Flow_1grh3u8</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:exclusiveGateway id="Gateway_Score" name="Score &#62;= 50?">
+      <bpmn:incoming>Flow_01o068q</bpmn:incoming>
+      <bpmn:outgoing>Flow_gateway_cancel</bpmn:outgoing>
+      <bpmn:outgoing>Flow_gateway_invite</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:businessRuleTask id="Activity_ScoreCV" name="Score CV Automatically" camunda:resultVariable="cvScore" camunda:decisionRef="Decision_CVScore" camunda:mapDecisionResult="singleEntry">
+      <bpmn:incoming>Flow_0ll9fvo</bpmn:incoming>
+      <bpmn:outgoing>Flow_01o068q</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:sequenceFlow id="Flow_1lmomrc" sourceRef="Activity_InviteInterview" targetRef="Activity_Evaluate" />
+    <bpmn:sequenceFlow id="Flow_07cmeid" sourceRef="Activity_Evaluate" targetRef="Gateway_Assessment" />
+    <bpmn:sequenceFlow id="Flow_No1" name="No" sourceRef="Gateway_Assessment" targetRef="Activity_SendCancellation">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${radio_decision == "No"}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:userTask id="Activity_Evaluate" name="Evaluate Candidate" camunda:formRef="Form_Evaluate" camunda:formRefBinding="latest">
+      <bpmn:extensionElements />
+      <bpmn:incoming>Flow_1lmomrc</bpmn:incoming>
+      <bpmn:outgoing>Flow_07cmeid</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Gateway_Assessment" name="Invite to Assessment?">
+      <bpmn:incoming>Flow_07cmeid</bpmn:incoming>
+      <bpmn:outgoing>Flow_No1</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Yes1</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_Yes1" name="Yes" sourceRef="Gateway_Assessment" targetRef="Activity_14oafsh">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${radio_decision == "Yes"}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:serviceTask id="Activity_14oafsh" name="Invite to Assesment" camunda:modelerTemplate="onl.mrtn.camunda.http.api_connect" camunda:modelerTemplateVersion="2" camunda:delegateExpression="${api_connect}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="api_connect_api_variables" />
+          <camunda:inputParameter name="api_connect_result_variables" />
+        </camunda:inputOutput>
+        <camunda:field name="api_connect_url">
+          <camunda:string>https://hook.eu1.make.com/bjlbqo6cqun256j1at1ed1s6w1o2s23p</camunda:string>
+        </camunda:field>
+        <camunda:field name="api_connect_authorization">
+          <camunda:string>None</camunda:string>
+        </camunda:field>
+        <camunda:field name="api_connect_api_variables">
+          <camunda:string>true</camunda:string>
+        </camunda:field>
+        <camunda:field name="api_connect_result_variables">
+          <camunda:string>true</camunda:string>
+        </camunda:field>
+        <camunda:field name="api_connect_result_variable">
+          <camunda:string>None</camunda:string>
+        </camunda:field>
+        <camunda:field name="api_connect_verbosity_outgoing">
+          <camunda:string>plain</camunda:string>
+        </camunda:field>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_Yes1</bpmn:incoming>
+      <bpmn:outgoing>Flow_0oisxbz</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_0oisxbz" sourceRef="Activity_14oafsh" targetRef="Activity_Assess" />
+    <bpmn:userTask id="Activity_Assess" name="Assess Candidate" camunda:formRef="Form_Evaluate" camunda:formRefBinding="latest">
+      <bpmn:incoming>Flow_0oisxbz</bpmn:incoming>
+      <bpmn:outgoing>Flow_0wf2vsn</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Gateway_Hire" name="Hire Candidate?">
+      <bpmn:incoming>Flow_0wf2vsn</bpmn:incoming>
+      <bpmn:outgoing>Flow_No2</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Yes2</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_0wf2vsn" sourceRef="Activity_Assess" targetRef="Gateway_Hire" />
+    <bpmn:sequenceFlow id="Flow_No2" name="No" sourceRef="Gateway_Hire" targetRef="Activity_SendCancellation">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${radio_decision == "No"}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_Yes2" name="Yes" sourceRef="Gateway_Hire" targetRef="Task_CreateContract">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${radio_decision == "Yes"}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_Contract_SendContract" sourceRef="Task_CreateContract" targetRef="Task_SendContract" />
+    <bpmn:sequenceFlow id="Flow_0byl64l" sourceRef="Task_SendContract" targetRef="Event_Contract_received" />
+    <bpmn:serviceTask id="Task_SendContract" name="Send Contract">
+      <bpmn:incoming>Flow_Contract_SendContract</bpmn:incoming>
+      <bpmn:outgoing>Flow_0byl64l</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Task_CreateContract" name="Create Contract">
+      <bpmn:incoming>Flow_Yes2</bpmn:incoming>
+      <bpmn:outgoing>Flow_Contract_SendContract</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:intermediateCatchEvent id="Event_Contract_received" name="Contract received">
+      <bpmn:incoming>Flow_0byl64l</bpmn:incoming>
+      <bpmn:outgoing>Flow_1yria8z</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_12ko775" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:endEvent id="Event_Hiring_done" name="Hiring done">
+      <bpmn:incoming>Flow_1yria8z</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1yria8z" sourceRef="Event_Contract_received" targetRef="Event_Hiring_done" />
+  </bpmn:process>
+  <bpmn:message id="Message_3kaealr" name="ApplicationReceived" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_Application_Process">
+      <bpmndi:BPMNShape id="Participant_00evk6p_di" bpmnElement="Participant_0efe23m" isHorizontal="true">
+        <dc:Bounds x="160" y="100" width="2210" height="60" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Participant_105asap_di" bpmnElement="Participant_105asap" isHorizontal="true">
+        <dc:Bounds x="160" y="250" width="2210" height="730" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_0n5nf8f_di" bpmnElement="Lane_0n5nf8f" isHorizontal="true">
+        <dc:Bounds x="190" y="720" width="2180" height="260" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_13ip1q7_di" bpmnElement="Lane_13ip1q7" isHorizontal="true">
+        <dc:Bounds x="190" y="450" width="2180" height="270" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_0w8q9mt_di" bpmnElement="Lane_0w8q9mt" isHorizontal="true">
+        <dc:Bounds x="190" y="250" width="2180" height="200" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1u5l64k_di" bpmnElement="Activity_InviteInterview">
+        <dc:Bounds x="1010" y="590" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0yq7z5v_di" bpmnElement="Activity_SendCancellation">
+        <dc:Bounds x="770" y="470" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1ao321i_di" bpmnElement="Activity_CollectApp">
+        <dc:Bounds x="330" y="310" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_03mgid5_di" bpmnElement="Event_AppReceived">
+        <dc:Bounds x="242" y="332" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="233" y="375" width="54" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1lv5jvb_di" bpmnElement="Event_AppDenied">
+        <dc:Bounds x="942" y="492" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="915" y="535" width="90" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0d2910b_di" bpmnElement="Gateway_Score" isMarkerVisible="true">
+        <dc:Bounds x="655" y="485" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="647" y="455" width="67" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0dpaebr_di" bpmnElement="Activity_ScoreCV">
+        <dc:Bounds x="490" y="470" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0ea08o4_di" bpmnElement="Activity_Evaluate">
+        <dc:Bounds x="1180" y="750" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0fswz8q_di" bpmnElement="Gateway_Assessment" isMarkerVisible="true">
+        <dc:Bounds x="1355" y="765" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1346" y="727.5" width="67" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0xxxirc_di" bpmnElement="Activity_14oafsh">
+        <dc:Bounds x="1480" y="750" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_11b31zy_di" bpmnElement="Activity_Assess">
+        <dc:Bounds x="1660" y="750" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1mqkztl_di" bpmnElement="Gateway_Hire" isMarkerVisible="true">
+        <dc:Bounds x="1845" y="765" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1905" y="783" width="80" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_SendContract_di" bpmnElement="Task_SendContract">
+        <dc:Bounds x="2010" y="290" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1n5tygu_di" bpmnElement="Event_Contract_received">
+        <dc:Bounds x="2182" y="312" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2157" y="355" width="87" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0oui2ud_di" bpmnElement="Task_CreateContract">
+        <dc:Bounds x="1820" y="290" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1wzq52b_di" bpmnElement="Event_Hiring_done">
+        <dc:Bounds x="2292" y="312" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2282" y="355" width="57" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0qj575m_di" bpmnElement="Flow_0qj575m">
+        <di:waypoint x="278" y="350" />
+        <di:waypoint x="330" y="350" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1grh3u8_di" bpmnElement="Flow_1grh3u8">
+        <di:waypoint x="870" y="510" />
+        <di:waypoint x="942" y="510" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1b2zkqz_di" bpmnElement="Flow_gateway_invite">
+        <di:waypoint x="680" y="535" />
+        <di:waypoint x="680" y="630" />
+        <di:waypoint x="1010" y="630" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="686" y="580" width="18" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_192o2ui_di" bpmnElement="Flow_gateway_cancel">
+        <di:waypoint x="705" y="510" />
+        <di:waypoint x="770" y="510" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="730" y="492" width="15" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_01o068q_di" bpmnElement="Flow_01o068q">
+        <di:waypoint x="590" y="510" />
+        <di:waypoint x="655" y="510" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0ll9fvo_di" bpmnElement="Flow_0ll9fvo">
+        <di:waypoint x="430" y="350" />
+        <di:waypoint x="460" y="350" />
+        <di:waypoint x="460" y="510" />
+        <di:waypoint x="490" y="510" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1lmomrc_di" bpmnElement="Flow_1lmomrc">
+        <di:waypoint x="1060" y="670" />
+        <di:waypoint x="1060" y="790" />
+        <di:waypoint x="1180" y="790" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_07cmeid_di" bpmnElement="Flow_07cmeid">
+        <di:waypoint x="1280" y="790" />
+        <di:waypoint x="1355" y="790" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0l0v7am_di" bpmnElement="Flow_No1">
+        <di:waypoint x="1380" y="820" />
+        <di:waypoint x="1380" y="880" />
+        <di:waypoint x="840" y="880" />
+        <di:waypoint x="840" y="550" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1103" y="862" width="15" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_19bl7oz_di" bpmnElement="Flow_Yes1">
+        <di:waypoint x="1405" y="790" />
+        <di:waypoint x="1480" y="790" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1434" y="772" width="18" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0oisxbz_di" bpmnElement="Flow_0oisxbz">
+        <di:waypoint x="1580" y="790" />
+        <di:waypoint x="1660" y="790" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0wf2vsn_di" bpmnElement="Flow_0wf2vsn">
+        <di:waypoint x="1760" y="790" />
+        <di:waypoint x="1845" y="790" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_19io3ul_di" bpmnElement="Flow_Yes2">
+        <di:waypoint x="1870" y="765" />
+        <di:waypoint x="1870" y="370" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1876" y="579" width="18" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0kdz3fr_di" bpmnElement="Flow_No2">
+        <di:waypoint x="1870" y="815" />
+        <di:waypoint x="1870" y="940" />
+        <di:waypoint x="810" y="940" />
+        <di:waypoint x="810" y="550" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1333" y="922" width="15" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Contract_SendContract_di" bpmnElement="Flow_Contract_SendContract">
+        <di:waypoint x="1920" y="330" />
+        <di:waypoint x="2010" y="330" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0byl64l_di" bpmnElement="Flow_0byl64l">
+        <di:waypoint x="2110" y="330" />
+        <di:waypoint x="2182" y="330" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1yria8z_di" bpmnElement="Flow_1yria8z">
+        <di:waypoint x="2218" y="330" />
+        <di:waypoint x="2292" y="330" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1jb6fbh_di" bpmnElement="Flow_1jb6fbh">
+        <di:waypoint x="260" y="160" />
+        <di:waypoint x="260" y="332" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="272" y="206" width="56" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0l16vzw_di" bpmnElement="Flow_0l16vzw">
+        <di:waypoint x="820" y="470" />
+        <di:waypoint x="820" y="160" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="839" y="312" width="61" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_18o45yf_di" bpmnElement="Flow_18o45yf">
+        <di:waypoint x="1060" y="590" />
+        <di:waypoint x="1060" y="160" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1077" y="372" width="45" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0bid47w_di" bpmnElement="Flow_0bid47w">
+        <di:waypoint x="1530" y="750" />
+        <di:waypoint x="1530" y="160" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1515" y="452" width="60" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1j2lh13_di" bpmnElement="Flow_1j2lh13">
+        <di:waypoint x="2060" y="290" />
+        <di:waypoint x="2060" y="160" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2055" y="222" width="42" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_10vwbxu_di" bpmnElement="Flow_10vwbxu">
+        <di:waypoint x="2200" y="160" />
+        <di:waypoint x="2200" y="312" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2194" y="233" width="42" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
