@@ -35,16 +35,18 @@ Once the signed contract is received back from the applicant, the HR Manager pro
 
 ## 2.2 Identified Challenges of the AS-IS Process
 The current recruitment process relies heavily on manual work and individual judgment, creating several significant challenges.
-### Manual & Time-Consuming Tasks
-Many steps in the AS-IS process are performed entirely by hand. The HR Manager manually monitors incoming applications, gathers and organises CVs, drafts interview invitations, and sends cancellation e-mails individually. Contract creation and distribution are also done manually in Word and via e-mail. This results in slow process throughput and places a high administrative burden on HR staff, leaving less time for strategic tasks.
-### Subjective Decision-Making
-The screening of CVs and the evaluation of candidates after interviews are based on personal judgment rather than standardised criteria. Different recruiters or hiring managers may assess candidates inconsistently, leading to biased or incomparable evaluations. This increases the risk of overlooking qualified candidates or making poor hiring decisions.
-### Lack of Standardisation & Traceability
-Interview feedback and candidate assessments are recorded informally — for example, on paper or in personal Excel sheets. There is no unified format or central system to store and compare results. This makes it difficult to track the status of candidates, ensure consistent quality across hiring decisions, or audit the process afterwards.
-### Error-Prone Communication
-All communication with applicants — invitations, cancellations, and contract delivery — is handled manually via e-mail. This introduces the risk of delayed or missed communications, incorrect information being sent, or candidates receiving no response at all, which damages the organisation's employer brand.
-### Impact Summary
-Together, these challenges lead to a longer time-to-hire, increased operational costs, inconsistent candidate experiences, and a higher likelihood of human error — ultimately reducing the overall quality and efficiency of the recruitment process.
+### Fully Manual Application Handling
+In the AS-IS process, the HR Manager manually monitors the web portal for incoming applications and individually gathers each submission. There is no automated notification or data extraction in place. This means that application data must be collected, organised, and transferred by hand, which is both time-consuming and prone to oversight — particularly when application volumes are high.
+### Subjective CV Screening
+The HR Recruiter manually reviews each CV and decides purely based on personal judgment whether an application is suitable. Without defined scoring criteria or a standardised evaluation framework, this step introduces significant subjectivity. Two recruiters may assess the same CV differently, leading to inconsistent and potentially unfair screening outcomes.
+### Manual Interview Scheduling and Communication
+The Hiring Manager manually sends interview invitations and assessment invitations to candidates via e-mail. Similarly, cancellation notices are written and sent individually by the HR Recruiter. This manual communication approach creates a risk of delays, oversights, and inconsistent messaging, which negatively affects the candidate experience and the organisation's professional image.
+### Unstructured Interview and Evaluation Process
+Both the first interview and the subsequent candidate evaluation are conducted without a standardised format. Feedback and assessments are not captured in a unified system, making it difficult to compare candidates objectively or to revisit evaluation results at a later stage. This lack of structure increases the risk of biased hiring decisions.
+### Manual Contract Creation and Distribution
+Once a hiring decision is made, the HR Manager manually creates the employment contract, typically in a word processor, and sends it to the candidate via e-mail. This process is not only slow but also susceptible to errors in contract content, version inconsistencies, and delays in delivery or follow-up.
+### Manual Onboarding Coordination
+The final step, onboarding the new employee, is coordinated entirely by hand. The HR Manager must individually arrange IT access, workspace setup, team introductions, and other onboarding activities. Without automation or a structured workflow, onboarding steps can be forgotten, delayed, or inconsistently executed depending on the individual responsible.
 
 
 # 3. TO BE Process
@@ -62,7 +64,7 @@ If the score is too low, the system automatically sends a personalised cancellat
 If the application is suitable, the system automatically invites the candidate to a first interview, sending a scheduling link (via Calendly). The Hiring Manager conducts the first interview using a structured digital form, capturing scores for technical skills, cultural fit, and an overall recommendation. Immediately after, the Hiring Manager evaluates the candidate using a standardised rating form.
 Based on this evaluation, the Hiring Manager decides whether to invite the candidate to an assessment. If not, a cancellation is sent automatically and the process ends. If yes, the system automatically sends an assessment invitation, after which the Hiring Manager conducts the assessment and subsequently assesses the candidate in detail.
 ### Hiring Decision & Onboarding
-Following the assessment, a decision is made on whether to hire the candidate. If the decision is negative, a cancellation is sent automatically. If positive, the HR Manager creates the employment contract via a Camunda form, entering details such as salary, start date, and working hours. The system then automatically generates and sends the contract to the candidate — using a Google Docs template and a DocuSign link.
+Following the assessment, a decision is made on whether to hire the candidate. If the decision is negative, a cancellation is sent automatically. If positive, the HR Manager creates the employment contract via a Camunda form, entering details such as salary, start date, and working hours. The system then automatically generates and sends the contract to the candidate, using a Google Docs template and a DocuSign link.
 Once the signed contract is received back from the applicant, the system automatically triggers the full onboarding workflow, including creating a Google Workspace account, sending a welcome e-mail, notifying the team via Slack, creating onboarding tasks in Asana, and scheduling calendar meetings. The process concludes with the employee being successfully onboarded.
 
 
