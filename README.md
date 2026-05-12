@@ -14,7 +14,10 @@ A process management system for employee recruitment – from job posting to onb
 # Company
 Alpenblick Consulting AG is a Swiss consulting company with 10 employees. The company provides professional advisory services to small and medium-sized businesses in areas such as strategy, process improvement, and digital transformation. Due to its continuous growth, the company aims to optimize its recruitment process in order to attract qualified talent more efficiently, reduce administrative effort, and support future expansion.
 
-## About
+## AS IS Situation
+
+<img width="1826" height="347" alt="grafik" src="https://github.com/user-attachments/assets/0e76de74-e07f-4740-9437-8773be933462" />
+
 The recruitment process begins when a new position is requested within the organization. The HR Manager first defines the position, specifying requirements and responsibilities, and then advertises the position in a web portal to attract potential candidates.
 
 Once an applicant submits their application, the HR Manager receives the application and gathers it in the web portal. The HR Recruiter then reviews the submitted CV and evaluates whether the application is suitable.
