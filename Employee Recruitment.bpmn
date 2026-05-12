@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0810xt7" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.40.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.24.0">
+  <bpmn:message id="Message_1neu3g7" name="ContractReceived" />
+  <bpmn:process id="hiring_process" name="" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_1a3q3ma</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:intermediateCatchEvent id="Event_Contract_received" name="Contract received">
+      <bpmn:extensionElements>
+        <camunda:properties>
+          <camunda:property name="Message_ContractReceived" value="ContractReceived" />
+        </camunda:properties>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1t20qi2</bpmn:incoming>
+      <bpmn:outgoing>Flow_1yria8z</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0dvt1hm" messageRef="Message_1neu3g7" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:endEvent id="Event_Hiring_done" name="Hiring done">
+      <bpmn:incoming>Flow_1yria8z</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1t20qi2" sourceRef="Activity_sendContract" targetRef="Event_Contract_received" />
+    <bpmn:sequenceFlow id="Flow_1yria8z" sourceRef="Event_Contract_received" targetRef="Event_Hiring_done" />
+    <bpmn:sequenceFlow id="Flow_1a3q3ma" sourceRef="StartEvent_1" targetRef="Activity_1lxxlah" />
+    <bpmn:sequenceFlow id="Flow_1jxpeyw" sourceRef="Activity_1lxxlah" targetRef="Activity_sendContract" />
+    <bpmn:serviceTask id="Activity_sendContract" name="Send Contract" camunda:modelerTemplate="onl.mrtn.camunda.http.api_connect" camunda:modelerTemplateVersion="2" camunda:delegateExpression="${api_connect}">
+      <bpmn:extensionElements>
+        <camunda:properties>
+          <camunda:property name="api_connect_url" value="https://hook.eu1.make.com/pu51pcr7kaefo9g7shn019kcinwi4fwp" />
+          <camunda:property name="api_connect_authorization" value="None" />
+          <camunda:property name="api_connect_api_variables" value="true" />
+          <camunda:property name="api_connect_result_variables" value="true" />
+          <camunda:property name="api_connect_verbosity_outgoing" value="plain" />
+        </camunda:properties>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="api_connect_api_variables" />
+          <camunda:inputParameter name="api_connect_result_variables" />
+        </camunda:inputOutput>
+        <camunda:field name="api_connect_url">
+          <camunda:string>https://hook.eu1.make.com/lxp2lyxo8mczy2swqlgalyql8cfl507d</camunda:string>
+        </camunda:field>
+        <camunda:field name="api_connect_authorization">
+          <camunda:string>None</camunda:string>
+        </camunda:field>
+        <camunda:field name="api_connect_api_variables">
+          <camunda:string>true</camunda:string>
+        </camunda:field>
+        <camunda:field name="api_connect_result_variables">
+          <camunda:string>true</camunda:string>
+        </camunda:field>
+        <camunda:field name="api_connect_result_variable">
+          <camunda:string>None</camunda:string>
+        </camunda:field>
+        <camunda:field name="api_connect_verbosity_outgoing">
+          <camunda:string>plain</camunda:string>
+        </camunda:field>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1jxpeyw</bpmn:incoming>
+      <bpmn:outgoing>Flow_1t20qi2</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:userTask id="Activity_1lxxlah" name="Create Contract" camunda:formKey="embedded:app:forms/contract-form.html">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="api_connect_api_variables" />
+          <camunda:inputParameter name="api_connect_result_variables" />
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1a3q3ma</bpmn:incoming>
+      <bpmn:outgoing>Flow_1jxpeyw</bpmn:outgoing>
+    </bpmn:userTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="hiring_process">
+      <bpmndi:BPMNShape id="StartEvent_1_di" bpmnElement="StartEvent_1">
+        <dc:Bounds x="152" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_11kji8x" bpmnElement="Event_Contract_received">
+        <dc:Bounds x="552" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="527" y="145" width="87" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1wzq52b_di" bpmnElement="Event_Hiring_done">
+        <dc:Bounds x="642" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="632" y="145" width="57" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1n4yynh_di" bpmnElement="Activity_sendContract">
+        <dc:Bounds x="400" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1y8pxpw_di" bpmnElement="Activity_1lxxlah">
+        <dc:Bounds x="240" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_004npx5" bpmnElement="Flow_1t20qi2">
+        <di:waypoint x="500" y="120" />
+        <di:waypoint x="552" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1yria8z_di" bpmnElement="Flow_1yria8z">
+        <di:waypoint x="588" y="120" />
+        <di:waypoint x="642" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1a3q3ma_di" bpmnElement="Flow_1a3q3ma">
+        <di:waypoint x="188" y="120" />
+        <di:waypoint x="240" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1jxpeyw_di" bpmnElement="Flow_1jxpeyw">
+        <di:waypoint x="340" y="120" />
+        <di:waypoint x="400" y="120" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
