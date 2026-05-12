@@ -14,7 +14,7 @@ A process management system for employee recruitment – from job posting to onb
 # Company
 Alpenblick Consulting AG is a Swiss consulting company with 10 employees. The company provides professional advisory services to small and medium-sized businesses in areas such as strategy, process improvement, and digital transformation. Due to its continuous growth, the company aims to optimize its recruitment process in order to attract qualified talent more efficiently, reduce administrative effort, and support future expansion.
 
-## AS IS Situation
+## AS IS Process
 
 <img width="1826" height="347" alt="grafik" src="https://github.com/user-attachments/assets/0e76de74-e07f-4740-9437-8773be933462" />
 
@@ -31,6 +31,8 @@ If the candidate is not invited to the assessment, a cancellation is sent and th
 Following the assessment, the Hiring Manager decides whether to hire the candidate. If the decision is negative, a cancellation notice is sent to the applicant. If the decision is positive, the HR Manager creates an employment contract and sends it to the applicant.
 
 Once the signed contract is received back from the applicant, the HR Manager proceeds to onboard the new employee, concluding the process with the employee being successfully onboarded into the organization.
+
+## TO BE Process
 
 ## Key Features
 - Supports **structured** and **unstructured** recruitment activities
