@@ -34,7 +34,17 @@ Following the assessment, the Hiring Manager decides whether to hire the candida
 Once the signed contract is received back from the applicant, the HR Manager proceeds to onboard the new employee, concluding the process with the employee being successfully onboarded into the organization.
 
 ## 2.2 Identified Challenges of the AS-IS Process
-
+The current recruitment process relies heavily on manual work and individual judgment, creating several significant challenges.
+### Manual & Time-Consuming Tasks
+Many steps in the AS-IS process are performed entirely by hand. The HR Manager manually monitors incoming applications, gathers and organises CVs, drafts interview invitations, and sends cancellation e-mails individually. Contract creation and distribution are also done manually in Word and via e-mail. This results in slow process throughput and places a high administrative burden on HR staff, leaving less time for strategic tasks.
+### Subjective Decision-Making
+The screening of CVs and the evaluation of candidates after interviews are based on personal judgment rather than standardised criteria. Different recruiters or hiring managers may assess candidates inconsistently, leading to biased or incomparable evaluations. This increases the risk of overlooking qualified candidates or making poor hiring decisions.
+### Lack of Standardisation & Traceability
+Interview feedback and candidate assessments are recorded informally — for example, on paper or in personal Excel sheets. There is no unified format or central system to store and compare results. This makes it difficult to track the status of candidates, ensure consistent quality across hiring decisions, or audit the process afterwards.
+### Error-Prone Communication
+All communication with applicants — invitations, cancellations, and contract delivery — is handled manually via e-mail. This introduces the risk of delayed or missed communications, incorrect information being sent, or candidates receiving no response at all, which damages the organisation's employer brand.
+### Impact Summary
+Together, these challenges lead to a longer time-to-hire, increased operational costs, inconsistent candidate experiences, and a higher likelihood of human error — ultimately reducing the overall quality and efficiency of the recruitment process.
 
 
 # 3. TO BE Process
