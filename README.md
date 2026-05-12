@@ -37,8 +37,19 @@ Once the signed contract is received back from the applicant, the HR Manager pro
 
 
 # 3. TO BE Process
+The TO-BE recruitment process introduces significant automation across all stages, reducing manual effort and standardizing decision-making through system integrations.
+Job Posting Sub-Process
+The process begins when the HR Manager requests a new position. The manager first selects the position from a predefined form, after which a DMN-based business rule task automatically retrieves the relevant position details. The HR Manager then reviews and completes the position details before the system automatically posts the job to the relevant portals. After a 30-day timer, the job postings are automatically closed, ending this sub-process.
+Application & Screening
+When an applicant submits their application, the system automatically receives and collects the application, extracting all relevant data — such as years of experience, education level, and language skills — and storing them in a structured format (e.g., Google Sheets). Rather than a manual CV review, a Python script automatically scores the CV on a scale of 0–100 based on defined criteria. The system then evaluates whether the application is suitable.
+If the score is too low, the system automatically sends a personalised cancellation e-mail to the applicant via Gmail, and the process ends with a denied application.
+Interview & Assessment
+If the application is suitable, the system automatically invites the candidate to a first interview, sending a scheduling link (e.g., via Calendly). The Hiring Manager conducts the first interview using a structured digital form, capturing scores for technical skills, cultural fit, and an overall recommendation. Immediately after, the Hiring Manager evaluates the candidate using a standardised rating form.
+Based on this evaluation, the Hiring Manager decides whether to invite the candidate to an assessment. If not, a cancellation is sent automatically and the process ends. If yes, the system automatically sends an assessment invitation, after which the Hiring Manager conducts the assessment and subsequently assesses the candidate in detail.
+Hiring Decision & Onboarding
+Following the assessment, a decision is made on whether to hire the candidate. If the decision is negative, a cancellation is sent automatically. If positive, the HR Manager creates the employment contract via a Camunda form, entering details such as salary, start date, and working hours. The system then automatically generates and sends the contract to the candidate — using a Google Docs template and a DocuSign link.
+Once the signed contract is received back from the applicant, the system automatically triggers the full onboarding workflow, including creating a Google Workspace account, sending a welcome e-mail, notifying the team via Slack, creating onboarding tasks in Asana, and scheduling calendar meetings. The process concludes with the employee being successfully onboarded.
 
-dfdfdf
 
 
 
