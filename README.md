@@ -11,10 +11,10 @@
 # KEFD
 A process management system for employee recruitment – from job posting to onboarding.
 
-# Company
+# 1. Introduction
 Alpenblick Consulting AG is a Swiss consulting company with 10 employees. The company provides professional advisory services to small and medium-sized businesses in areas such as strategy, process improvement, and digital transformation. Due to its continuous growth, the company aims to optimize its recruitment process in order to attract qualified talent more efficiently, reduce administrative effort, and support future expansion.
 
-## AS IS Process
+# 2. AS IS Process
 
 <img width="1826" height="347" alt="grafik" src="https://github.com/user-attachments/assets/0e76de74-e07f-4740-9437-8773be933462" />
 
@@ -32,7 +32,15 @@ Following the assessment, the Hiring Manager decides whether to hire the candida
 
 Once the signed contract is received back from the applicant, the HR Manager proceeds to onboard the new employee, concluding the process with the employee being successfully onboarded into the organization.
 
-## TO BE Process
+## 2.1 Identified Challenges of the AS-IS Process
+
+
+
+# 3. TO BE Process
+
+dfdfdf
+
+
 
 ## Key Features
 - Supports **structured** and **unstructured** recruitment activities
