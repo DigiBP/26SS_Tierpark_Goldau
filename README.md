@@ -17,6 +17,7 @@ Alpenblick Consulting AG is a Swiss consulting company with 10 employees. The co
 # 2. AS IS Process
 
 <img width="1826" height="347" alt="grafik" src="https://github.com/user-attachments/assets/0e76de74-e07f-4740-9437-8773be933462" />
+
 ## 2.1 Process Description
 The recruitment process begins when a new position is requested within the organization. The HR Manager first defines the position, specifying requirements and responsibilities, and then advertises the position in a web portal to attract potential candidates.
 
