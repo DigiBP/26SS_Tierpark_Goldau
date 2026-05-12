@@ -1,0 +1,124 @@
+{
+  "components": [
+    {
+      "text": "## Vertragsdaten erfassen\n\nBitte prüfen Sie die Bewerberdaten und ergänzen Sie die Vertragskonditionen.",
+      "type": "text",
+      "layout": {
+        "row": "Row_intro",
+        "columns": null
+      },
+      "id": "Field_intro"
+    },
+    {
+      "label": "Name",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_candidate1",
+        "columns": null
+      },
+      "id": "Field_candidateName",
+      "key": "candidateName",
+      "disabled": true
+    },
+    {
+      "label": "E-Mail",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_candidate2",
+        "columns": null
+      },
+      "id": "Field_candidateEmail",
+      "key": "candidateEmail",
+      "disabled": true
+    },
+    {
+      "label": "Telefon",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_candidate3",
+        "columns": null
+      },
+      "id": "Field_candidatePhone",
+      "key": "candidatePhone",
+      "disabled": true
+    },
+    {
+      "label": "Position",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_candidate4",
+        "columns": null
+      },
+      "id": "Field_jobTitle",
+      "key": "jobTitle",
+      "disabled": true
+    },
+    {
+      "text": "### Vertragskonditionen\n\nManuell ausfüllen:",
+      "type": "text",
+      "layout": {
+        "row": "Row_section2",
+        "columns": null
+      },
+      "id": "Field_section2"
+    },
+    {
+      "label": "Jahreslohn (brutto, CHF)",
+      "type": "number",
+      "layout": {
+        "row": "Row_salary",
+        "columns": null
+      },
+      "id": "Field_salary",
+      "key": "salary",
+      "validate": {
+        "required": true,
+        "min": 0
+      }
+    },
+    {
+      "label": "Startdatum",
+      "type": "datetime",
+      "subtype": "date",
+      "dateLabel": "Datum",
+      "layout": {
+        "row": "Row_startDate",
+        "columns": null
+      },
+      "id": "Field_startDate",
+      "key": "startDate",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "label": "Pensum",
+      "values": [
+        { "label": "100%", "value": "100%" },
+        { "label": "80%",  "value": "80%"  },
+        { "label": "60%",  "value": "60%"  },
+        { "label": "50%",  "value": "50%"  },
+        { "label": "40%",  "value": "40%"  }
+      ],
+      "type": "select",
+      "layout": {
+        "row": "Row_pensum",
+        "columns": null
+      },
+      "id": "Field_pensum",
+      "key": "pensum",
+      "validate": {
+        "required": true
+      }
+    }
+  ],
+  "type": "default",
+  "id": "Form_Contract",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.46.1"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.24.0",
+  "schemaVersion": 19
+}
