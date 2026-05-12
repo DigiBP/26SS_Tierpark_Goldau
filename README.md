@@ -39,6 +39,7 @@ Once the signed contract is received back from the applicant, the HR Manager pro
 
 # 3. TO BE Process
 The TO-BE recruitment process introduces significant automation across all stages, reducing manual effort and standardizing decision-making through system integrations.
+
 <img width="1703" height="724" alt="grafik" src="https://github.com/user-attachments/assets/7023e318-3a2d-40fe-a628-3b9ddd9bedf1" />
 
 ## 3.1 Process Description
