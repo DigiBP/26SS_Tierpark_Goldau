@@ -278,10 +278,11 @@
       const resp = await fetch(WEBHOOK_URL, {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify(payload)
+        body:    JSON.stringify(payload),
+        mode:    'no-cors'
       });
 
-      if (!resp.ok) throw new Error('HTTP ' + resp.status);
+      //if (!resp.ok) throw new Error('HTTP ' + resp.status);
 
       alertOK.classList.add('show');
       form.reset();
