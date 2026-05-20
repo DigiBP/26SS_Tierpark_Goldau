@@ -1,7 +1,7 @@
 {
   "components": [
     {
-      "text": "## Vertragsdaten erfassen\n\nBitte prüfen Sie die Bewerberdaten und ergänzen Sie die Vertragskonditionen.",
+      "text": "## Enter contract information\n\nPlease review the applicant data and complete the contract conditions.",
       "type": "text",
       "layout": {
         "row": "Row_intro",
@@ -21,7 +21,7 @@
       "disabled": true
     },
     {
-      "label": "E-Mail",
+      "label": "Email",
       "type": "textfield",
       "layout": {
         "row": "Row_candidate2",
@@ -32,7 +32,7 @@
       "disabled": true
     },
     {
-      "label": "Telefon",
+      "label": "Phone",
       "type": "textfield",
       "layout": {
         "row": "Row_candidate3",
@@ -54,7 +54,7 @@
       "disabled": true
     },
     {
-      "text": "### Vertragskonditionen\n\nManuell ausfüllen:",
+      "text": "### Contract conditions\n\nFill in manually:",
       "type": "text",
       "layout": {
         "row": "Row_section2",
@@ -63,7 +63,7 @@
       "id": "Field_section2"
     },
     {
-      "label": "Jahreslohn (brutto, CHF)",
+      "label": "Annual salary (gross, CHF)",
       "type": "number",
       "layout": {
         "row": "Row_salary",
@@ -77,10 +77,10 @@
       }
     },
     {
+      "subtype": "date",
       "label": "Startdatum",
       "type": "datetime",
-      "subtype": "date",
-      "dateLabel": "Datum",
+      "dateLabel": "Date",
       "layout": {
         "row": "Row_startDate",
         "columns": null
@@ -92,13 +92,28 @@
       }
     },
     {
-      "label": "Pensum",
+      "label": "Workload (%)",
       "values": [
-        { "label": "100%", "value": "100%" },
-        { "label": "80%",  "value": "80%"  },
-        { "label": "60%",  "value": "60%"  },
-        { "label": "50%",  "value": "50%"  },
-        { "label": "40%",  "value": "40%"  }
+        {
+          "label": "100%",
+          "value": "100%"
+        },
+        {
+          "label": "80%",
+          "value": "80%"
+        },
+        {
+          "label": "60%",
+          "value": "60%"
+        },
+        {
+          "label": "50%",
+          "value": "50%"
+        },
+        {
+          "label": "40%",
+          "value": "40%"
+        }
       ],
       "type": "select",
       "layout": {
@@ -116,7 +131,7 @@
   "id": "Form_Contract",
   "exporter": {
     "name": "Camunda Modeler",
-    "version": "5.46.1"
+    "version": "5.40.0"
   },
   "executionPlatform": "Camunda Platform",
   "executionPlatformVersion": "7.24.0",
