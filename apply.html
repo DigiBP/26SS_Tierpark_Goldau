@@ -191,7 +191,7 @@
 
 <script>
   // Your Make Webhook URL here:
-  const WEBHOOK_URL = 'https://hook.eu1.make.com/cajcxcw4ct1vvguul7qc3fa9es84uofc';
+  const WEBHOOK_URL = 'https://hook.eu1.make.com/EUER_WEBHOOK_KEY_HIER';
 
   const params   = new URLSearchParams(window.location.search);
   const jobTitle = params.get('job') || params.get('title') || '';
@@ -250,39 +250,26 @@
       alertErr.classList.add('show'); return;
     }
 
-    const toBase64 = file => new Promise((res, rej) => {
-      const r = new FileReader();
-      r.onload  = () => res(r.result.split(',')[1]);
-      r.onerror = rej;
-      r.readAsDataURL(file);
-    });
-
     btn.disabled = true;
     btn.classList.add('loading');
     alertErr.classList.remove('show');
     alertOK.classList.remove('show');
 
     try {
-      const cvBase64 = await toBase64(cv);
-      const phone    = document.getElementById('field-phone').value.trim();
+      const phone = document.getElementById('field-phone').value.trim();
 
-      const payload = {
-        candidateName:  firstName + ' ' + lastName,
-        candidateEmail: email,
-        candidatePhone: phone,
-        jobTitle:       jobTitle,
-        cvFileName:     cv.name,
-        cvBase64:       cvBase64
-      };
+      const formData = new FormData();
+      formData.append('candidateName',  firstName + ' ' + lastName);
+      formData.append('candidateEmail', email);
+      formData.append('candidatePhone', phone);
+      formData.append('jobTitle',       jobTitle);
+      formData.append('cv',             cv, cv.name);
 
-      const resp = await fetch(WEBHOOK_URL, {
-        method:  'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify(payload),
-        mode:    'no-cors'
+      await fetch(WEBHOOK_URL, {
+        method: 'POST',
+        body:   formData,
+        mode:   'no-cors'
       });
-
-      //if (!resp.ok) throw new Error('HTTP ' + resp.status);
 
       alertOK.classList.add('show');
       form.reset();
