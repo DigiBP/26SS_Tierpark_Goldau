@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Offene Stellen – Alpenblick Consulting AG</title>
+  <title>Open Positions – Alpenblick Consulting AG</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
@@ -282,17 +282,17 @@
 
 <header>
   <span class="eyebrow">Alpenblick Consulting AG</span>
-  <h1>Karriere &amp; offene Stellen</h1>
-  <p>Wir suchen talentierte Menschen, die mit uns wachsen möchten.</p>
+  <h1>Careers &amp; Open Positions</h1>
+  <p>We are looking for talented people who want to grow with us.</p>
 </header>
 
 <div class="container">
-  <div class="section-label">Offene Positionen</div>
+  <div class="section-label">Open Positions</div>
 
   <div id="jobs-container">
     <div class="status">
       <div class="spinner"></div>
-      Stellen werden geladen…
+      Loading positions…
     </div>
   </div>
 </div>
@@ -370,7 +370,7 @@
     const container = document.getElementById('jobs-container');
 
     if (!jobs.length) {
-      container.innerHTML = '<div class="status">Momentan sind keine offenen Stellen ausgeschrieben.</div>';
+      container.innerHTML = '<div class="status">There are currently no open positions available.</div>';
       return;
     }
 
@@ -392,14 +392,14 @@
 
       // Build detail sections
       const sections = [
-        about    && { label: 'Über die Stelle',    text: about,    full: true  },
-        mission  && { label: 'Ihre Aufgaben',      text: mission,  full: false },
-        profile  && { label: 'Ihr Profil',         text: profile,  full: false },
-        benefits && { label: 'Ihre Benefits',      text: benefits, full: false },
-        address  && { label: 'Standort',           text: address,  full: false },
-        contact  && { label: 'Kontaktperson',      text: contact,  full: false },
-        postedAt && { label: 'Ausgeschrieben seit',text: postedAt.replace('posted_at: ',''),  full: false },
-        expiresAt&& { label: 'Bewerbungsschluss',  text: expiresAt.replace('expires_at: ',''), full: false },
+        about    && { label: 'About the Role',      text: about,    full: true  },
+        mission  && { label: 'Your Mission',        text: mission,  full: false },
+        profile  && { label: 'Your Profile',        text: profile,  full: false },
+        benefits && { label: 'Your Benefits',       text: benefits, full: false },
+        address  && { label: 'Location',            text: address,  full: false },
+        contact  && { label: 'Contact Person',      text: contact,  full: false },
+        postedAt && { label: 'Posted Since',        text: postedAt.replace('posted_at: ',''),  full: false },
+        expiresAt&& { label: 'Application Deadline',text: expiresAt.replace('expires_at: ',''), full: false },
       ].filter(Boolean);
 
       const detailHTML = sections.length ? `
@@ -409,7 +409,7 @@
               <div class="detail-label">${s.label}</div>
               <div class="detail-text">${s.text.replace(/</g,'&lt;')}</div>
             </div>`).join('')}
-        </div>` : '<p class="detail-text" style="margin-top:20px;color:var(--muted)">Keine weiteren Details hinterlegt.</p>';
+        </div>` : '<p class="detail-text" style="margin-top:20px;color:var(--muted)">No further details available.</p>';
 
       const applyLink = FORM_URL + (title ? `?usp=pp_url&entry.jobTitle=${encodeURIComponent(title)}` : '');
 
@@ -419,12 +419,12 @@
         <div class="job-header" role="button" aria-expanded="false" tabindex="0">
           ${jobId ? `<div class="job-id">${jobId}</div>` : ''}
           <div class="job-main">
-            <div class="job-title">${title || 'Offene Stelle'}</div>
+            <div class="job-title">${title || 'Open Position'}</div>
             ${pensum ? `<div class="job-pensum">⏱ ${pensum}</div>` : ''}
           </div>
           <div class="job-right">
-            <span class="badge-open">● Offen</span>
-            <div class="toggle-arrow" aria-label="Details anzeigen">
+            <span class="badge-open">● Open</span>
+            <div class="toggle-arrow" aria-label="Show details">
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="2,5 7,10 12,5"/>
               </svg>
@@ -435,9 +435,9 @@
           <div class="job-body-inner">
             ${detailHTML}
             <div class="apply-row">
-              <span class="apply-note">Jetzt in wenigen Schritten bewerben →</span>
+              <span class="apply-note">Apply now in just a few steps →</span>
               <a class="btn-apply" href="${applyLink}" target="_blank" rel="noopener">
-                Jetzt bewerben
+                Apply Now
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <line x1="2" y1="8" x2="13" y2="8"/>
                   <polyline points="9,4 13,8 9,12"/>
@@ -477,9 +477,9 @@
       console.error(err);
       document.getElementById('jobs-container').innerHTML = `
         <div class="status">
-          ⚠️ Stellen konnten nicht geladen werden.<br>
-          <small style="margin-top:8px;display:block">Bitte stellen Sie sicher, dass das Google Sheet öffentlich freigegeben ist
-          (<em>Datei → Freigeben → Im Web veröffentlichen → CSV</em>).</small>
+          ⚠️ Positions could not be loaded.<br>
+          <small style="margin-top:8px;display:block">Please make sure the Google Sheet is publicly shared
+          (<em>File → Share → Publish to the web → CSV</em>).</small>
         </div>`;
     }
   }
