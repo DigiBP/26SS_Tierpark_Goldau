@@ -303,6 +303,7 @@
   // ── CONFIG ──────────────────────────────────────────────────────────
   const SHEET_ID   = '1v4i3efvBVOYCbF6pm9EFaYXV7s-x3sbzi0Lc8YVKY9M';
   const SHEET_GID  = '0';   // change if your data is on a different tab
+  const FORM_URL   = 'https://docs.google.com/forms/d/e/1FAIpQLSffU9ETTewJAJVZzQJvKDlGmANB2xtxi6vMET09dZ88upvXJw/viewform';
   // ────────────────────────────────────────────────────────────────────
 
   const CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${SHEET_GID}`;
@@ -410,7 +411,7 @@
             </div>`).join('')}
         </div>` : '<p class="detail-text" style="margin-top:20px;color:var(--muted)">No further details available.</p>';
 
-      const applyLink = title ? `apply.html?job=${encodeURIComponent(title)}` : 'apply.html';
+      const applyLink = FORM_URL + (title ? `?usp=pp_url&entry.2043794083=${encodeURIComponent(title)}` : '');
 
       const item = document.createElement('div');
       item.className = 'job-item';
