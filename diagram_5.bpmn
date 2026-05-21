@@ -237,7 +237,7 @@
           <camunda:inputParameter name="api_connect_result_variables" />
         </camunda:inputOutput>
         <camunda:field name="api_connect_url">
-          <camunda:string>https://hook.eu1.make.com/yf662dpqw0kkgawq0glfbdjpqgpvoooo</camunda:string>
+          <camunda:string>https://hook.eu1.make.com/ouxcqlcswmnahxdjky52nyekp02s35dl</camunda:string>
         </camunda:field>
         <camunda:field name="api_connect_authorization">
           <camunda:string>None</camunda:string>
