@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0o8f2gx" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.40.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.23.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0o8f2gx" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.46.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.23.0">
   <bpmn:collaboration id="Collaboration_Application_Process">
     <bpmn:extensionElements />
     <bpmn:participant id="Participant_0efe23m" name="Applier" />
@@ -14,12 +14,12 @@
   <bpmn:process id="Process_diagram_5" isExecutable="true">
     <bpmn:laneSet id="LaneSet_1r963d3">
       <bpmn:lane id="Lane_0w8q9mt" name="HR Manager">
-        <bpmn:flowNodeRef>Activity_CollectApp</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Event_AppReceived</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Event_Hiring_done</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Event_Contract_received</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Task_SendContract</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Task_CreateContract</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_CollectApp</bpmn:flowNodeRef>
       </bpmn:lane>
       <bpmn:lane id="Lane_13ip1q7" name="System">
         <bpmn:flowNodeRef>Activity_InviteInterview</bpmn:flowNodeRef>
@@ -45,7 +45,6 @@
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${cvScore &lt; 45}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_01o068q" sourceRef="Activity_ScoreCV" targetRef="Gateway_Score" />
-    <bpmn:sequenceFlow id="Flow_0ll9fvo" sourceRef="Activity_CollectApp" targetRef="Activity_ScoreCV" />
     <bpmn:serviceTask id="Activity_InviteInterview" name="Invite to first Interview" camunda:modelerTemplate="onl.mrtn.camunda.http.api_connect" camunda:modelerTemplateVersion="2" camunda:delegateExpression="${api_connect}">
       <bpmn:extensionElements>
         <camunda:inputOutput>
@@ -103,34 +102,6 @@
       <bpmn:incoming>Flow_No1</bpmn:incoming>
       <bpmn:incoming>Flow_No2</bpmn:incoming>
       <bpmn:outgoing>Flow_1grh3u8</bpmn:outgoing>
-    </bpmn:serviceTask>
-    <bpmn:serviceTask id="Activity_CollectApp" name="Collect &#38; Structure Application" camunda:modelerTemplate="onl.mrtn.camunda.http.api_connect" camunda:modelerTemplateVersion="2" camunda:delegateExpression="${api_connect}">
-      <bpmn:extensionElements>
-        <camunda:inputOutput>
-          <camunda:inputParameter name="api_connect_api_variables" />
-          <camunda:inputParameter name="api_connect_result_variables" />
-        </camunda:inputOutput>
-        <camunda:field name="api_connect_url">
-          <camunda:string>https://hook.eu1.make.com/roixcm0h1br8x586jtybwn00fj389xw9</camunda:string>
-        </camunda:field>
-        <camunda:field name="api_connect_authorization">
-          <camunda:string>None</camunda:string>
-        </camunda:field>
-        <camunda:field name="api_connect_api_variables">
-          <camunda:string>true</camunda:string>
-        </camunda:field>
-        <camunda:field name="api_connect_result_variables">
-          <camunda:string>true</camunda:string>
-        </camunda:field>
-        <camunda:field name="api_connect_result_variable">
-          <camunda:string>None</camunda:string>
-        </camunda:field>
-        <camunda:field name="api_connect_verbosity_outgoing">
-          <camunda:string>plain</camunda:string>
-        </camunda:field>
-      </bpmn:extensionElements>
-      <bpmn:incoming>Flow_0qj575m</bpmn:incoming>
-      <bpmn:outgoing>Flow_0ll9fvo</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:startEvent id="Event_AppReceived" name="Application received">
       <bpmn:outgoing>Flow_0qj575m</bpmn:outgoing>
@@ -259,6 +230,35 @@
       <bpmn:incoming>Flow_Yes2</bpmn:incoming>
       <bpmn:outgoing>Flow_Contract_SendContract</bpmn:outgoing>
     </bpmn:userTask>
+    <bpmn:serviceTask id="Activity_CollectApp" name="Collect &#38; Structure Application" camunda:modelerTemplate="onl.mrtn.camunda.http.api_connect" camunda:modelerTemplateVersion="2" camunda:delegateExpression="${api_connect}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="api_connect_api_variables" />
+          <camunda:inputParameter name="api_connect_result_variables" />
+        </camunda:inputOutput>
+        <camunda:field name="api_connect_url">
+          <camunda:string>https://hook.eu1.make.com/yf662dpqw0kkgawq0glfbdjpqgpvoooo</camunda:string>
+        </camunda:field>
+        <camunda:field name="api_connect_authorization">
+          <camunda:string>None</camunda:string>
+        </camunda:field>
+        <camunda:field name="api_connect_api_variables">
+          <camunda:string>true</camunda:string>
+        </camunda:field>
+        <camunda:field name="api_connect_result_variables">
+          <camunda:string>true</camunda:string>
+        </camunda:field>
+        <camunda:field name="api_connect_result_variable">
+          <camunda:string>None</camunda:string>
+        </camunda:field>
+        <camunda:field name="api_connect_verbosity_outgoing">
+          <camunda:string>plain</camunda:string>
+        </camunda:field>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0qj575m</bpmn:incoming>
+      <bpmn:outgoing>Flow_0ll9fvo</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_0ll9fvo" sourceRef="Activity_CollectApp" targetRef="Activity_ScoreCV" />
   </bpmn:process>
   <bpmn:message id="Message_3kaealr" name="ApplicationReceived" />
   <bpmn:message id="Message_3nr4g75" name="ContractReceived" />
@@ -289,9 +289,6 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0yq7z5v_di" bpmnElement="Activity_SendCancellation">
         <dc:Bounds x="770" y="470" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1ao321i_di" bpmnElement="Activity_CollectApp">
-        <dc:Bounds x="330" y="310" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_03mgid5_di" bpmnElement="Event_AppReceived">
         <dc:Bounds x="242" y="332" width="36" height="36" />
@@ -354,6 +351,9 @@
       <bpmndi:BPMNShape id="Activity_05tqw2h_di" bpmnElement="Task_CreateContract">
         <dc:Bounds x="1940" y="290" width="100" height="80" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1ao321i_di" bpmnElement="Activity_CollectApp">
+        <dc:Bounds x="330" y="310" width="100" height="80" />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_0qj575m_di" bpmnElement="Flow_0qj575m">
         <di:waypoint x="278" y="350" />
         <di:waypoint x="330" y="350" />
@@ -380,12 +380,6 @@
       <bpmndi:BPMNEdge id="Flow_01o068q_di" bpmnElement="Flow_01o068q">
         <di:waypoint x="590" y="510" />
         <di:waypoint x="655" y="510" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0ll9fvo_di" bpmnElement="Flow_0ll9fvo">
-        <di:waypoint x="430" y="350" />
-        <di:waypoint x="460" y="350" />
-        <di:waypoint x="460" y="510" />
-        <di:waypoint x="490" y="510" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1lmomrc_di" bpmnElement="Flow_1lmomrc">
         <di:waypoint x="1060" y="670" />
@@ -448,6 +442,12 @@
       <bpmndi:BPMNEdge id="Flow_1yria8z_di" bpmnElement="Flow_1yria8z">
         <di:waypoint x="2308" y="330" />
         <di:waypoint x="2382" y="330" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0ll9fvo_di" bpmnElement="Flow_0ll9fvo">
+        <di:waypoint x="430" y="350" />
+        <di:waypoint x="460" y="350" />
+        <di:waypoint x="460" y="510" />
+        <di:waypoint x="490" y="510" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1jb6fbh_di" bpmnElement="Flow_1jb6fbh">
         <di:waypoint x="260" y="160" />
