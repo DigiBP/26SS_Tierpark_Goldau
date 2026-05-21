@@ -16,10 +16,10 @@
       <bpmn:lane id="Lane_0w8q9mt" name="HR Manager">
         <bpmn:flowNodeRef>Activity_CollectApp</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Event_AppReceived</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Event_Contract_received</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Task_CreateContract</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Task_SendContract</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Event_Hiring_done</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Event_Contract_received</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_SendContract</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_CreateContract</bpmn:flowNodeRef>
       </bpmn:lane>
       <bpmn:lane id="Lane_13ip1q7" name="System">
         <bpmn:flowNodeRef>Activity_InviteInterview</bpmn:flowNodeRef>
@@ -213,15 +213,15 @@
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_Contract_SendContract" sourceRef="Task_CreateContract" targetRef="Task_SendContract" />
     <bpmn:sequenceFlow id="Flow_0byl64l" sourceRef="Task_SendContract" targetRef="Event_Contract_received" />
-    <bpmn:userTask id="Task_CreateContract" name="Create Contract" camunda:formRef="Form_Contract" camunda:formRefBinding="latest" camunda:assignee="" camunda:candidateGroups="">
-      <bpmn:extensionElements>
-        <camunda:inputOutput>
-          <camunda:outputParameter name="processInstanceId">${execution.processInstanceId}</camunda:outputParameter>
-        </camunda:inputOutput>
-      </bpmn:extensionElements>
-      <bpmn:incoming>Flow_Yes2</bpmn:incoming>
-      <bpmn:outgoing>Flow_Contract_SendContract</bpmn:outgoing>
-    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_1yria8z" sourceRef="Event_Contract_received" targetRef="Event_Hiring_done" />
+    <bpmn:endEvent id="Event_Hiring_done" name="Hiring done">
+      <bpmn:incoming>Flow_1yria8z</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:intermediateCatchEvent id="Event_Contract_received" name="Contract received">
+      <bpmn:incoming>Flow_0byl64l</bpmn:incoming>
+      <bpmn:outgoing>Flow_1yria8z</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_12ko775" messageRef="Message_3nr4g75" />
+    </bpmn:intermediateCatchEvent>
     <bpmn:serviceTask id="Task_SendContract" name="Send Contract" camunda:modelerTemplate="onl.mrtn.camunda.http.api_connect" camunda:modelerTemplateVersion="2" camunda:delegateExpression="${api_connect}">
       <bpmn:extensionElements>
         <camunda:inputOutput>
@@ -250,22 +250,22 @@
       <bpmn:incoming>Flow_Contract_SendContract</bpmn:incoming>
       <bpmn:outgoing>Flow_0byl64l</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:intermediateCatchEvent id="Event_Contract_received" name="Contract received">
-      <bpmn:incoming>Flow_0byl64l</bpmn:incoming>
-      <bpmn:outgoing>Flow_1yria8z</bpmn:outgoing>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_12ko775" messageRef="Message_3nr4g75" />
-    </bpmn:intermediateCatchEvent>
-    <bpmn:sequenceFlow id="Flow_1yria8z" sourceRef="Event_Contract_received" targetRef="Event_Hiring_done" />
-    <bpmn:endEvent id="Event_Hiring_done" name="Hiring done">
-      <bpmn:incoming>Flow_1yria8z</bpmn:incoming>
-    </bpmn:endEvent>
+    <bpmn:userTask id="Task_CreateContract" name="Create Contract" camunda:formRef="Form_Contract" camunda:formRefBinding="latest">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="processInstanceId">${execution.processInstanceId}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_Yes2</bpmn:incoming>
+      <bpmn:outgoing>Flow_Contract_SendContract</bpmn:outgoing>
+    </bpmn:userTask>
   </bpmn:process>
   <bpmn:message id="Message_3kaealr" name="ApplicationReceived" />
   <bpmn:message id="Message_3nr4g75" name="ContractReceived" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_Application_Process">
       <bpmndi:BPMNShape id="Participant_00evk6p_di" bpmnElement="Participant_0efe23m" isHorizontal="true">
-        <dc:Bounds x="160" y="100" width="2210" height="60" />
+        <dc:Bounds x="160" y="100" width="2300" height="60" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Participant_105asap_di" bpmnElement="Participant_105asap" isHorizontal="true">
@@ -336,23 +336,23 @@
           <dc:Bounds x="1905" y="783" width="80" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_1n5tygu_di" bpmnElement="Event_Contract_received">
-        <dc:Bounds x="2182" y="312" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="2157" y="355" width="87" height="14" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_05tqw2h_di" bpmnElement="Task_CreateContract">
-        <dc:Bounds x="1820" y="290" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_16cb2wn_di" bpmnElement="Task_SendContract">
-        <dc:Bounds x="2010" y="290" width="100" height="80" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_1wzq52b_di" bpmnElement="Event_Hiring_done">
         <dc:Bounds x="2382" y="312" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="2372" y="355" width="57" height="14" />
         </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1n5tygu_di" bpmnElement="Event_Contract_received">
+        <dc:Bounds x="2272" y="312" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2247" y="355" width="87" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_16cb2wn_di" bpmnElement="Task_SendContract">
+        <dc:Bounds x="2110" y="290" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_05tqw2h_di" bpmnElement="Task_CreateContract">
+        <dc:Bounds x="1940" y="290" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_0qj575m_di" bpmnElement="Flow_0qj575m">
         <di:waypoint x="278" y="350" />
@@ -431,21 +431,22 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_19io3ul_di" bpmnElement="Flow_Yes2">
         <di:waypoint x="1870" y="765" />
-        <di:waypoint x="1870" y="370" />
+        <di:waypoint x="1870" y="330" />
+        <di:waypoint x="1940" y="330" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1876" y="579" width="18" height="14" />
+          <dc:Bounds x="1881" y="743" width="18" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_Contract_SendContract_di" bpmnElement="Flow_Contract_SendContract">
-        <di:waypoint x="1920" y="330" />
-        <di:waypoint x="2010" y="330" />
+        <di:waypoint x="2040" y="330" />
+        <di:waypoint x="2110" y="330" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0byl64l_di" bpmnElement="Flow_0byl64l">
-        <di:waypoint x="2110" y="330" />
-        <di:waypoint x="2182" y="330" />
+        <di:waypoint x="2210" y="330" />
+        <di:waypoint x="2272" y="330" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1yria8z_di" bpmnElement="Flow_1yria8z">
-        <di:waypoint x="2218" y="330" />
+        <di:waypoint x="2308" y="330" />
         <di:waypoint x="2382" y="330" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1jb6fbh_di" bpmnElement="Flow_1jb6fbh">
@@ -477,17 +478,17 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1j2lh13_di" bpmnElement="Flow_1j2lh13">
-        <di:waypoint x="2060" y="290" />
-        <di:waypoint x="2060" y="160" />
+        <di:waypoint x="2160" y="290" />
+        <di:waypoint x="2160" y="160" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="2055" y="222" width="42" height="14" />
+          <dc:Bounds x="2155" y="222" width="42" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_10vwbxu_di" bpmnElement="Flow_10vwbxu">
-        <di:waypoint x="2200" y="160" />
-        <di:waypoint x="2200" y="312" />
+        <di:waypoint x="2290" y="160" />
+        <di:waypoint x="2290" y="312" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="2194" y="233" width="42" height="14" />
+          <dc:Bounds x="2284" y="233" width="42" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
