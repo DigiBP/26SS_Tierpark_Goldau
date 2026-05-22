@@ -110,7 +110,7 @@
     <bpmn:endEvent id="Event_AppDenied" name="Application denied">
       <bpmn:incoming>Flow_1grh3u8</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:exclusiveGateway id="Gateway_Score" name="Score &#62;= 50?">
+    <bpmn:exclusiveGateway id="Gateway_Score" name="Score &#62;= 45?">
       <bpmn:incoming>Flow_01o068q</bpmn:incoming>
       <bpmn:outgoing>Flow_gateway_cancel</bpmn:outgoing>
       <bpmn:outgoing>Flow_gateway_invite</bpmn:outgoing>
