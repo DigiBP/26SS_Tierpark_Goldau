@@ -231,7 +231,7 @@
       <bpmn:outgoing>Flow_Contract_SendContract</bpmn:outgoing>
     </bpmn:userTask>
     <bpmn:sequenceFlow id="Flow_0ll9fvo" sourceRef="Activity_CollectApp" targetRef="Activity_ScoreCV" />
-    <bpmn:scriptTask id="Activity_CollectApp" name="Collect &#38; Structure Application" scriptFormat="javascript">
+    <bpmn:task id="Activity_CollectApp" name="Collect &#38; Structure Application">
       <bpmn:extensionElements>
         <camunda:inputOutput>
           <camunda:inputParameter name="api_connect_api_variables" />
@@ -240,8 +240,7 @@
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_0qj575m</bpmn:incoming>
       <bpmn:outgoing>Flow_0ll9fvo</bpmn:outgoing>
-      <bpmn:script>true</bpmn:script>
-    </bpmn:scriptTask>
+    </bpmn:task>
   </bpmn:process>
   <bpmn:message id="Message_3kaealr" name="ApplicationReceived" />
   <bpmn:message id="Message_3nr4g75" name="ContractReceived" />
@@ -334,7 +333,7 @@
       <bpmndi:BPMNShape id="Activity_05tqw2h_di" bpmnElement="Task_CreateContract">
         <dc:Bounds x="1940" y="290" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0p37xnp_di" bpmnElement="Activity_CollectApp">
+      <bpmndi:BPMNShape id="Activity_1ei36uc_di" bpmnElement="Activity_CollectApp">
         <dc:Bounds x="330" y="310" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_0qj575m_di" bpmnElement="Flow_0qj575m">
