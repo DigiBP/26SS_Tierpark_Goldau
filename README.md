@@ -79,7 +79,7 @@ Once the signed contract is received back from the applicant, the HR Manager pro
 The current recruitment process relies heavily on manual work and individual judgment, creating several significant challenges.
 
 **Fully Manual Application Handling**  
-In the AS-IS process, the HR Manager manually monitors the web portal for incoming applications and individually gathers each submission. There is no automated notification or data extraction in place. This means that application data must be collected, organised, and transferred by hand, which is both time-consuming and prone to oversight — particularly when application volumes are high.
+In the AS-IS process, the HR Manager manually monitors the web portal for incoming applications and individually gathers each submission. There is no automated notification or data extraction in place. This means that application data must be collected, organised, and transferred by hand, which is both time-consuming and prone to oversight, particularly when application volumes are high.
 
 **Subjective CV Screening**  
 The HR Recruiter manually reviews each CV and decides purely based on personal judgment whether an application is suitable. Without defined scoring criteria or a standardised evaluation framework, this step introduces significant subjectivity. Two recruiters may assess the same CV differently, leading to inconsistent and potentially unfair screening outcomes.
