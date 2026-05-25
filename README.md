@@ -308,12 +308,19 @@ These variables are passed to Camunda as process variables and consumed directly
 
 | # | Scenario | BPMN Task | Webhook | Actions |
 |---|---|---|---|---|
-| 4 | **Collect & Structure Application** | Application received / Collect & Structure Application | `application-webhook` | Reads job details from Google Sheets, sends CV PDF to Claude API for structured extraction, writes parsed application data to Google Sheets, triggers Camunda process via `/engine-rest/message`|
-| 5 | **Send Cancellation** | Send Cancellation | `camunda-send-cancellation` | Sends personalised rejection email to candidate via Gmail (*"Your application for {{jobTitle}} – Update"*) |
-| 6 | **Invite to first Interview** | Invite to first Interview | `camunda-invite-interview` | Sends interview invitation email with Calendly booking link via Gmail (*"Invitation to first Interview – {{jobTitle}}"*) |
-| 7 | **Invite to Assessment** | Invite to Assessment | `invite-to-assessment` | Sends assessment invitation email with Calendly booking link via Gmail (*"Invitation to Assessment – {{jobTitle}}"*) |
-| 8 | **Send Contract** | Send Contract | `send-contract-webhook` | Creates a personalised contract from a Google Docs template, exports it as PDF, and sends it to the candidate via Gmail (*"Your contract – {{jobTitle}} – Alpenblick Consulting AG"*) |
-| 9 | **Contract Confirmation** | Contract received | `contract-confirmation-webhook2` | Calls Camunda REST API (`/engine-rest/message`) to correlate the `Message_ContractReceived` event, resuming the process for onboarding; responds HTTP 200 to the candidate's browser |
+| 4 | **Collect & Structure Application** | Application received / Collect & Structure Application | `application-webhook` | Reads job details from Google Sheets, sends CV PDF to Claude API for structured extraction, writes parsed application data to Google Sheets, triggers Camunda process via `/engine-rest/message`<br><br> <img width="1496" height="301" alt="4 Collect   Structure Application" src="https://github.com/user-attachments/assets/b7d526e7-8920-4a0a-b1ec-f115b209c034" />
+|
+
+| 5 | **Send Cancellation** | Send Cancellation | `camunda-send-cancellation` | Sends personalised rejection email to candidate via Gmail (*"Your application for {{jobTitle}} – Update"*) <br><br> <img width="708" height="391" alt="5 Send Cancellation" src="https://github.com/user-attachments/assets/306f441d-5caa-4380-8eef-a12a315aae5b" />
+|
+| 6 | **Invite to first Interview** | Invite to first Interview | `camunda-invite-interview` | Sends interview invitation email with Calendly booking link via Gmail (*"Invitation to first Interview – {{jobTitle}}"*) <br><br> <img width="729" height="399" alt="6 Invite to first Interview" src="https://github.com/user-attachments/assets/f4476d0c-5bcb-4d8d-b1c6-004786dcc9c9" />
+|
+| 7 | **Invite to Assessment** | Invite to Assessment | `invite-to-assessment` | Sends assessment invitation email with Calendly booking link via Gmail (*"Invitation to Assessment – {{jobTitle}}"*) <br><br> <img width="706" height="383" alt="7 Invite to Assessment" src="https://github.com/user-attachments/assets/ebf24c6e-ded4-4980-8a5f-9dbd51c93c9b" />
+|
+| 8 | **Send Contract** | Send Contract | `send-contract-webhook` | Creates a personalised contract from a Google Docs template, exports it as PDF, and sends it to the candidate via Gmail (*"Your contract – {{jobTitle}} – Alpenblick Consulting AG"*) <br><br> <img width="1481" height="529" alt="8 Send Contract" src="https://github.com/user-attachments/assets/0b56f99a-ed08-4117-b256-058c7df33ebd" />
+|
+| 9 | **Contract Confirmation** | Contract received | `contract-confirmation-webhook2` | Calls Camunda REST API (`/engine-rest/message`) to correlate the `Message_ContractReceived` event, resuming the process for onboarding; responds HTTP 200 to the candidate's browser <br><br> <img width="1147" height="505" alt="9 Contract Confirmation" src="https://github.com/user-attachments/assets/b847438e-a6cb-48a6-9b21-54e29f0daf81" />
+|
 
 > **Note:** Make scenarios must be activated via the **Scheduling toggle** on the Make overview page (not just saved in the editor) to run automatically.
 
