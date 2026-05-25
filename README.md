@@ -275,7 +275,7 @@ Same scale as German: Native=10, C2=9, C1=8, B2=6, B1=4, A2=2, A1=1, None=0.
 
 ## 7. CV Scoring Architecture
 
-CV parsing is performed by the **Claude API (claude-sonnet)**, called from within Make scenario 4 when a new application is submitted via `apply.html`. The LLM extracts structured data from the attached CV PDF according to a defined schema:
+CV parsing is performed by the **Claude API (claude-haiku)**, called from within Make scenario 4 when a new application is submitted via `apply.html`. The LLM extracts structured data from the attached CV PDF according to a defined schema:
 
 ```json
 {
