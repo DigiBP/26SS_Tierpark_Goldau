@@ -102,7 +102,8 @@ The final step, onboarding the new employee, is coordinated entirely by hand. Th
 
 The TO-BE recruitment process introduces significant automation across all stages, reducing manual effort and standardizing decision-making through system integrations. It consists of two BPMN processes deployed on **Camunda Platform 7.24**, with all service tasks implemented as **Make (Integromat) scenarios**.
 
-<img width="1703" height="724" alt="grafik" src="https://github.com/user-attachments/assets/7023e318-3a2d-40fe-a628-3b9ddd9bedf1" />
+<img width="6930" height="3780" alt="TO_BE_Application_Model" src="https://github.com/user-attachments/assets/10efa578-8f13-4b8f-897b-755538a664fc" />
+
 
 ### 3.1 Job Posting Sub-Process
 
