@@ -308,8 +308,7 @@ These variables are passed to Camunda as process variables and consumed directly
 
 | # | Scenario | BPMN Task | Webhook | Actions |
 |---|---|---|---|---|
-| 4 | **Collect & Structure Application** | Application received / Collect & Structure Application | `application-webhook` | Reads job details from Google Sheets, sends CV PDF to Claude API for structured extraction, writes parsed application data to Google Sheets, triggers Camunda process via `/engine-rest/message` <img width="1500" height="314" alt="grafik" src="https://github.com/user-attachments/assets/b3a2b821-14ea-4306-8c33-5d5f657e7218" />
- |
+| 4 | **Collect & Structure Application** | Application received / Collect & Structure Application | `application-webhook` | Reads job details from Google Sheets, sends CV PDF to Claude API for structured extraction, writes parsed application data to Google Sheets, triggers Camunda process via `/engine-rest/message`|
 | 5 | **Send Cancellation** | Send Cancellation | `camunda-send-cancellation` | Sends personalised rejection email to candidate via Gmail (*"Your application for {{jobTitle}} – Update"*) |
 | 6 | **Invite to first Interview** | Invite to first Interview | `camunda-invite-interview` | Sends interview invitation email with Calendly booking link via Gmail (*"Invitation to first Interview – {{jobTitle}}"*) |
 | 7 | **Invite to Assessment** | Invite to Assessment | `invite-to-assessment` | Sends assessment invitation email with Calendly booking link via Gmail (*"Invitation to Assessment – {{jobTitle}}"*) |
