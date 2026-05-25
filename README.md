@@ -201,7 +201,7 @@ The TO-BE process introduces standardised digital forms (`Evaluate.form`) for co
 Rather than manually drafting contracts, the HR Manager completes `Contract.form` in Camunda. Make scenario 8 then automatically generates the contract from a Google Docs template, converts it to PDF, and delivers it via Gmail. The candidate confirms via a public link, which automatically resumes the Camunda process.
 
 **Automated Onboarding Workflow**  
-Upon contract confirmation, the system automatically triggers the full onboarding workflow, including creating a Google Workspace account, sending a welcome email, notifying the team via Slack, creating onboarding tasks in Asana, and scheduling calendar meetings — without any manual intervention.
+Upon contract confirmation, the system automatically triggers the full onboarding workflow, including creating a Google Workspace account, sending a welcome email, notifying the team via Slack, creating onboarding tasks in Asana, and scheduling calendar meetings, without any manual intervention.
 
 **Automated Job Posting Management**  
 Once the HR Manager confirms the position details, the system automatically publishes the job advertisement to the careers website. After 30 days, the posting is closed automatically, eliminating the need for manual advertising and follow-up.
