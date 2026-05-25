@@ -460,7 +460,7 @@ execution.setVariable("jobId", jobId);</bpmn:script>
           <dc:Bounds x="2372" y="705" width="57" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_1n5tygu_di" bpmnElement="Event_Contract_received" bioc:stroke="#0d4372" bioc:fill="#bbdefb" color:background-color="#bbdefb" color:border-color="#0d4372">
+      <bpmndi:BPMNShape id="Event_1n5tygu_di" bpmnElement="Event_Contract_received" bioc:stroke="#205022" bioc:fill="#c8e6c9" color:background-color="#c8e6c9" color:border-color="#205022">
         <dc:Bounds x="2272" y="662" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="2247" y="705" width="87" height="14" />
@@ -475,14 +475,6 @@ execution.setVariable("jobId", jobId);</bpmn:script>
       <bpmndi:BPMNShape id="Activity_0ge8ex9_di" bpmnElement="Activity_CollectApp">
         <dc:Bounds x="330" y="660" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="Flow_0qj575m_di" bpmnElement="Flow_0qj575m">
-        <di:waypoint x="278" y="700" />
-        <di:waypoint x="330" y="700" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1grh3u8_di" bpmnElement="Flow_1grh3u8">
-        <di:waypoint x="870" y="860" />
-        <di:waypoint x="942" y="860" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1b2zkqz_di" bpmnElement="Flow_gateway_invite">
         <di:waypoint x="680" y="885" />
         <di:waypoint x="680" y="980" />
@@ -491,25 +483,17 @@ execution.setVariable("jobId", jobId);</bpmn:script>
           <dc:Bounds x="686" y="930" width="18" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1lmomrc_di" bpmnElement="Flow_1lmomrc">
+        <di:waypoint x="1060" y="1020" />
+        <di:waypoint x="1060" y="1140" />
+        <di:waypoint x="1180" y="1140" />
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_192o2ui_di" bpmnElement="Flow_gateway_cancel">
         <di:waypoint x="705" y="860" />
         <di:waypoint x="770" y="860" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="730" y="842" width="15" height="14" />
         </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_01o068q_di" bpmnElement="Flow_01o068q">
-        <di:waypoint x="590" y="860" />
-        <di:waypoint x="655" y="860" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1lmomrc_di" bpmnElement="Flow_1lmomrc">
-        <di:waypoint x="1060" y="1020" />
-        <di:waypoint x="1060" y="1140" />
-        <di:waypoint x="1180" y="1140" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_07cmeid_di" bpmnElement="Flow_07cmeid">
-        <di:waypoint x="1280" y="1140" />
-        <di:waypoint x="1355" y="1140" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0l0v7am_di" bpmnElement="Flow_No1">
         <di:waypoint x="1380" y="1170" />
@@ -519,6 +503,37 @@ execution.setVariable("jobId", jobId);</bpmn:script>
         <bpmndi:BPMNLabel>
           <dc:Bounds x="1103" y="1212" width="15" height="14" />
         </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0kdz3fr_di" bpmnElement="Flow_No2">
+        <di:waypoint x="1870" y="1165" />
+        <di:waypoint x="1870" y="1290" />
+        <di:waypoint x="810" y="1290" />
+        <di:waypoint x="810" y="900" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1333" y="1272" width="15" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1grh3u8_di" bpmnElement="Flow_1grh3u8">
+        <di:waypoint x="870" y="860" />
+        <di:waypoint x="942" y="860" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0qj575m_di" bpmnElement="Flow_0qj575m">
+        <di:waypoint x="278" y="700" />
+        <di:waypoint x="330" y="700" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_01o068q_di" bpmnElement="Flow_01o068q">
+        <di:waypoint x="590" y="860" />
+        <di:waypoint x="655" y="860" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0ll9fvo_di" bpmnElement="Flow_0ll9fvo">
+        <di:waypoint x="430" y="700" />
+        <di:waypoint x="460" y="700" />
+        <di:waypoint x="460" y="860" />
+        <di:waypoint x="490" y="860" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_07cmeid_di" bpmnElement="Flow_07cmeid">
+        <di:waypoint x="1280" y="1140" />
+        <di:waypoint x="1355" y="1140" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_19bl7oz_di" bpmnElement="Flow_Yes1">
         <di:waypoint x="1405" y="1140" />
@@ -535,15 +550,6 @@ execution.setVariable("jobId", jobId);</bpmn:script>
         <di:waypoint x="1760" y="1140" />
         <di:waypoint x="1845" y="1140" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0kdz3fr_di" bpmnElement="Flow_No2">
-        <di:waypoint x="1870" y="1165" />
-        <di:waypoint x="1870" y="1290" />
-        <di:waypoint x="810" y="1290" />
-        <di:waypoint x="810" y="900" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1333" y="1272" width="15" height="14" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_19io3ul_di" bpmnElement="Flow_Yes2">
         <di:waypoint x="1870" y="1115" />
         <di:waypoint x="1870" y="680" />
@@ -552,23 +558,17 @@ execution.setVariable("jobId", jobId);</bpmn:script>
           <dc:Bounds x="1881" y="1093" width="18" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_Contract_SendContract_di" bpmnElement="Flow_Contract_SendContract">
-        <di:waypoint x="2040" y="680" />
-        <di:waypoint x="2110" y="680" />
+      <bpmndi:BPMNEdge id="Flow_1yria8z_di" bpmnElement="Flow_1yria8z">
+        <di:waypoint x="2308" y="680" />
+        <di:waypoint x="2382" y="680" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0byl64l_di" bpmnElement="Flow_0byl64l">
         <di:waypoint x="2210" y="680" />
         <di:waypoint x="2272" y="680" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1yria8z_di" bpmnElement="Flow_1yria8z">
-        <di:waypoint x="2308" y="680" />
-        <di:waypoint x="2382" y="680" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0ll9fvo_di" bpmnElement="Flow_0ll9fvo">
-        <di:waypoint x="430" y="700" />
-        <di:waypoint x="460" y="700" />
-        <di:waypoint x="460" y="860" />
-        <di:waypoint x="490" y="860" />
+      <bpmndi:BPMNEdge id="Flow_Contract_SendContract_di" bpmnElement="Flow_Contract_SendContract">
+        <di:waypoint x="2040" y="680" />
+        <di:waypoint x="2110" y="680" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="Participant_10fph26_di" bpmnElement="Participant_10fph26" isHorizontal="true">
         <dc:Bounds x="160" y="80" width="1190" height="310" />
@@ -638,13 +638,6 @@ execution.setVariable("jobId", jobId);</bpmn:script>
         <di:waypoint x="1008" y="230" />
         <di:waypoint x="1050" y="230" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1jb6fbh_di" bpmnElement="Flow_1jb6fbh">
-        <di:waypoint x="260" y="510" />
-        <di:waypoint x="260" y="682" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="272" y="556" width="56" height="27" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0l16vzw_di" bpmnElement="Flow_0l16vzw">
         <di:waypoint x="820" y="820" />
         <di:waypoint x="820" y="510" />
@@ -671,6 +664,13 @@ execution.setVariable("jobId", jobId);</bpmn:script>
         <di:waypoint x="2160" y="510" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="2155" y="572" width="42" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1jb6fbh_di" bpmnElement="Flow_1jb6fbh">
+        <di:waypoint x="260" y="510" />
+        <di:waypoint x="260" y="682" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="272" y="556" width="56" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_10vwbxu_di" bpmnElement="Flow_10vwbxu">
