@@ -75,7 +75,7 @@ The implementation is intentionally **job-agnostic**: the same BPMN and DMN logi
 │   └── 9_Contract_Confirmation_blueprint.json
 │
 ├── index.html                     # GitHub Pages careers website (job tiles)
-├── apply.html                     # Job-specific application page ("Jetzt bewerben")
+├── apply.html                     # Job-specific application page ("Apply Now")
 │
 └── Old/                           # Archived / previous BPMN iterations
 ```
@@ -150,7 +150,7 @@ The process begins when the HR Manager requests a new position. The manager sele
 **Key artifacts:** `Application.bpmn`, `CV_Scoring.dmn`, `Evaluate.form`, `Contract.form`
 
 **Application Intake**  
-Candidates visit the [Alpenblick Consulting AG careers page](https://digibp.github.io/26SS_Tierpark_Goldau/), where active positions are displayed as tiles. Each tile features a **"Jetzt bewerben"** button that redirects the candidate to a job-specific application page (`apply.html`). On submission, Make scenario 4 receives the application, calls the **Claude API** to extract structured data from the uploaded CV PDF, stores the result in Google Sheets, and triggers the Camunda process via the REST API.
+Candidates visit the [Alpenblick Consulting AG careers page](https://digibp.github.io/26SS_Tierpark_Goldau/), where active positions are displayed as tiles. Each tile features a **"Apply Now"** button that redirects the candidate to a job-specific application page (`apply.html`). On submission, Make scenario 4 receives the application, calls the **Claude API** to extract structured data from the uploaded CV PDF, stores the result in Google Sheets, and triggers the Camunda process via the REST API.
 
 **CV Scoring**  
 Rather than manual CV review, the Claude API parses the CV and populates the variables consumed by `CV_Scoring.dmn`. The DMN evaluates education, experience, and language skills and produces a `cvScore`. Candidates scoring below 45 receive an automated rejection email (Make scenario 5). Candidates scoring 45 or above are automatically invited to a first interview (Make scenario 6).
@@ -164,7 +164,7 @@ If the hiring decision is positive, the HR Manager creates the contract via `Con
 **Full process flow:**
 
 ```
-Candidate clicks "Jetzt bewerben" on careers website (index.html)
+Candidate clicks "Apply Now" on careers website (index.html)
   → Redirected to application page (apply.html)
   → Candidate fills in details & uploads CV → submits form
   → Make 4: call Claude API for CV extraction, write to Google Sheets,
@@ -310,11 +310,11 @@ These variables are passed to Camunda as process variables and consumed directly
 
 | # | Scenario | BPMN Task | Webhook | Actions |
 |---|---|---|---|---|
-| 4 | **Application apply.html** | Application received / Collect & Structure Application | `application-webhook` | Reads job details from Google Sheets, sends CV PDF to Claude API for structured extraction, writes parsed application data to Google Sheets, triggers Camunda process via `/engine-rest/message` |
+| 4 | **Collect & Structure Application** | Application received / Collect & Structure Application | `application-webhook` | Reads job details from Google Sheets, sends CV PDF to Claude API for structured extraction, writes parsed application data to Google Sheets, triggers Camunda process via `/engine-rest/message` |
 | 5 | **Send Cancellation** | Send Cancellation | `camunda-send-cancellation` | Sends personalised rejection email to candidate via Gmail (*"Your application for {{jobTitle}} – Update"*) |
 | 6 | **Invite to first Interview** | Invite to first Interview | `camunda-invite-interview` | Sends interview invitation email with Calendly booking link via Gmail (*"Invitation to first Interview – {{jobTitle}}"*) |
 | 7 | **Invite to Assessment** | Invite to Assessment | `invite-to-assessment` | Sends assessment invitation email with Calendly booking link via Gmail (*"Invitation to Assessment – {{jobTitle}}"*) |
-| 8 | **Send Contract (Public-Link Variante)** | Send Contract | `send-contract-webhook` | Creates a personalised contract from a Google Docs template, exports it as PDF, and sends it to the candidate via Gmail (*"Your contract – {{jobTitle}} – Alpenblick Consulting AG"*) |
+| 8 | **Send Contract** | Send Contract | `send-contract-webhook` | Creates a personalised contract from a Google Docs template, exports it as PDF, and sends it to the candidate via Gmail (*"Your contract – {{jobTitle}} – Alpenblick Consulting AG"*) |
 | 9 | **Contract Confirmation** | Contract received | `contract-confirmation-webhook2` | Calls Camunda REST API (`/engine-rest/message`) to correlate the `Message_ContractReceived` event, resuming the process for onboarding; responds HTTP 200 to the candidate's browser |
 
 > **Note:** Make scenarios must be activated via the **Scheduling toggle** on the Make overview page (not just saved in the editor) to run automatically.
