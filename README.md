@@ -29,9 +29,7 @@
 6. [Decision Automation (DMN)](#6-decision-automation-dmn)
 7. [CV Scoring Architecture](#7-cv-scoring-architecture)
 8. [Service Integration (Make Scenarios)](#8-service-integration-make-scenarios)
-9. [Repository Structure](#9-repository-structure)
-10. [Live Demos & Links](#10-live-demos--links)
-11. [Limitations & Ethical Considerations](#11-limitations--ethical-considerations)
+9. [Limitations & Ethical Considerations](#9-limitations--ethical-considerations)
 
 ---
 
