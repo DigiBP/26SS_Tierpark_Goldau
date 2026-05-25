@@ -15,7 +15,7 @@
 | Dominic Däster | dominic.daester@students.fhnw.ch |
 | Keethan Nathan | keethan.nathan@students.fhnw.ch |
 
-**Supervisor:** Andreas Martin: andreas.martin@fhnw.ch, Charuta Pande: charuta.pande@fhnw.ch, Devid Montecchiari: devid.montecchiari@fhnw.chFHNW School of Business
+**Supervisor:** Andreas Martin: andreas.martin@fhnw.ch, Charuta Pande: charuta.pande@fhnw.ch, Devid Montecchiari: devid.montecchiari@fhnw.ch
 
 ---
 
