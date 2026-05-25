@@ -159,7 +159,7 @@ Rather than manual CV review, the Claude API parses the CV and populates the var
 The Hiring Manager conducts the first interview and evaluates the candidate using a structured digital form (`Evaluate.form`) within Camunda. If the candidate progresses, the system automatically sends an assessment invitation via Calendly (Make scenario 7). The Hiring Manager then conducts and assesses the candidate using the same `Evaluate.form`. If the candidate does not progress at any stage, a cancellation email is sent automatically.
 
 **Contract & Onboarding**  
-If the hiring decision is positive, the HR Manager creates the contract via `Contract.form` in Camunda. Make scenario 8 then automatically generates the contract from a Google Docs template, exports it as a PDF, and sends it to the candidate via Gmail. The candidate confirms acceptance by clicking a link, which triggers Make scenario 9 to correlate the `Message_ContractReceived` event in Camunda and resume the process. The onboarding workflow is then triggered automatically.
+If the hiring decision is positive, the HR Manager creates the contract via `Contract.form` in Camunda. Make scenario 8 then automatically generates the contract from a Google Docs template, exports it as a PDF, and sends it to the candidate via Gmail. The candidate confirms acceptance by clicking a link, which triggers Make scenario 9 to correlate the `Message_ContractReceived` event in Camunda.
 
 **Full process flow:**
 
