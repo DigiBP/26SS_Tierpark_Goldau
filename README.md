@@ -15,13 +15,7 @@
 | Dominic Däster | dominic.daester@students.fhnw.ch |
 | Keethan Nathan | keethan.nathan@students.fhnw.ch |
 
-**Supervisor:** Andreas Martin, FHNW School of Business
-
----
-
-## KEFD
-
-A fully automated process management system for employee recruitment – from job posting to onboarding.
+**Supervisor:** Andreas Martin: andreas.martin@fhnw.ch, Charuta Pande: charuta.pande@fhnw.ch, Devid Montecchiari: devid.montecchiari@fhnw.chFHNW School of Business
 
 ---
 
