@@ -54,11 +54,43 @@ The implementation is intentionally **job-agnostic**: the same BPMN and DMN logi
 
 ---
 
-## 2. AS-IS Process
+## 2. Repository Structure
+
+```
+26SS_Tierpark_Goldau/
+│
+├── Job_Posting.bpmn               # Job posting process
+├── Position.form                  # Camunda User Task form: select job title
+├── Position.dmn                   # DMN: Decide on Position (job details lookup)
+│
+├── Application.bpmn               # Main recruitment & application process
+├── CV_Scoring.dmn                 # DMN: CV Scoring (COLLECT SUM, 4 dimensions)
+├── Evaluate.form                  # Camunda User Task form: Evaluate & Assess Candidate
+├── Contract.form                  # Camunda User Task form: Create Contract
+│
+├── Make/
+│   ├── 1_Send_decision_to_Google_Sheets_blueprint.json
+│   ├── 2_Post_Job_to_GitHub_Pages_blueprint.json
+│   ├── 3_Close_Job_Posting_blueprint.json
+│   ├── 4_Application_apply_html_blueprint.json
+│   ├── 5_Send_Cancellation_blueprint.json
+│   ├── 6_Invite_to_first_Interview_blueprint.json
+│   ├── 7_Invite_to_Assessment_blueprint.json
+│   ├── 8_Send_Contract_blueprint.json
+│   └── 9_Contract_Confirmation_blueprint.json
+│
+├── index.html                     # GitHub Pages careers website (job tiles)
+├── apply.html                     # Job-specific application page ("Jetzt bewerben")
+│
+└── Old/                           # Archived / previous BPMN iterations
+```
+
+---
+## 3. AS-IS Process
 
 <img width="1826" height="347" alt="grafik" src="https://github.com/user-attachments/assets/0e76de74-e07f-4740-9437-8773be933462" />
 
-### 2.1 Process Description
+### 3.1 Process Description
 
 The recruitment process begins when a new position is requested within the organization. The HR Manager first defines the position, specifying requirements and responsibilities, and then advertises the position in a web portal to attract potential candidates.
 
@@ -74,7 +106,7 @@ Following the assessment, the Hiring Manager decides whether to hire the candida
 
 Once the signed contract is received back from the applicant, the HR Manager proceeds to onboard the new employee, concluding the process with the employee being successfully onboarded into the organization.
 
-### 2.2 Identified Challenges of the AS-IS Process
+### 3.2 Identified Challenges of the AS-IS Process
 
 The current recruitment process relies heavily on manual work and individual judgment, creating several significant challenges.
 
@@ -98,14 +130,14 @@ The final step, onboarding the new employee, is coordinated entirely by hand. Th
 
 ---
 
-## 3. TO-BE Process
+## 4. TO-BE Process
 
 The TO-BE recruitment process introduces significant automation across all stages, reducing manual effort and standardizing decision-making through system integrations. It consists of two BPMN processes deployed on **Camunda Platform 7.24**, with all service tasks implemented as **Make (Integromat) scenarios**.
 
 <img width="6930" height="3780" alt="TO_BE_Application_Model" src="https://github.com/user-attachments/assets/10efa578-8f13-4b8f-897b-755538a664fc" />
 
 
-### 3.1 Job Posting Sub-Process
+### 4.1 Job Posting Sub-Process
 
 **Key artifacts:** `Job_Posting.bpmn`, `Position.form`, `Position.dmn`
 
@@ -118,7 +150,7 @@ The process begins when the HR Manager requests a new position. The manager sele
 4. Make scenario 2 publishes HTML job card to GitHub Pages
 5. 30-day timer fires → Make scenario 3 closes the posting (updates Sheets, deletes HTML from GitHub)
 
-### 3.2 Recruitment & Application Process
+### 4.2 Recruitment & Application Process
 
 **Key artifacts:** `Application.bpmn`, `CV_Scoring.dmn`, `Evaluate.form`, `Contract.form`
 
@@ -157,7 +189,7 @@ Candidate clicks "Jetzt bewerben" on careers website (index.html)
   → Onboarding triggered → End: Employee onboarded
 ```
 
-### 3.3 Improvements and Benefits of the TO-BE Process
+### 4.3 Improvements and Benefits of the TO-BE Process
 
 **Automated Application Collection and Structuring**  
 Incoming applications via `apply.html` are automatically received and processed by Make scenario 4. All relevant applicant data, such as education level, years of experience, and language skills, are extracted by the Claude API and stored in a structured format in Google Sheets. This eliminates manual data entry and significantly speeds up the intake stage.
@@ -182,7 +214,7 @@ Once the HR Manager confirms the position details, the system automatically publ
 
 ---
 
-## 4. Technology Stack
+## 5. Technology Stack
 
 | Component | Tool / Service | Role |
 |---|---|---|
@@ -200,7 +232,7 @@ All service tasks in the BPMN are implemented as **Make scenarios** (webhook-tri
 
 ---
 
-## 5. Decision Automation (DMN)
+## 6. Decision Automation (DMN)
 
 CV scoring is implemented in `CV_Scoring.dmn` as a single decision table with **Hit Policy: COLLECT (SUM)**. All matching rules fire and their point values are summed into a final `cvScore`. The score is evaluated directly by a gateway in `Application.bpmn` — no separate shortlist table is needed.
 
@@ -251,7 +283,7 @@ Same scale as German: Native=10, C2=9, C1=8, B2=6, B1=4, A2=2, A1=1, None=0.
 
 ---
 
-## 6. CV Scoring Architecture
+## 7. CV Scoring Architecture
 
 CV parsing is performed by the **Claude API (claude-sonnet)**, called from within Make scenario 4 when a new application is submitted via `apply.html`. The LLM extracts structured data from the attached CV PDF according to a defined schema:
 
@@ -272,7 +304,7 @@ These variables are passed to Camunda as process variables and consumed directly
 
 ---
 
-## 7. Service Integration (Make Scenarios)
+## 8. Service Integration (Make Scenarios)
 
 **Job Posting Process**
 
@@ -294,39 +326,6 @@ These variables are passed to Camunda as process variables and consumed directly
 | 9 | **Contract Confirmation** | Contract received | `contract-confirmation-webhook2` | Calls Camunda REST API (`/engine-rest/message`) to correlate the `Message_ContractReceived` event, resuming the process for onboarding; responds HTTP 200 to the candidate's browser |
 
 > **Note:** Make scenarios must be activated via the **Scheduling toggle** on the Make overview page (not just saved in the editor) to run automatically.
-
----
-
-## 8. Repository Structure
-
-```
-26SS_Tierpark_Goldau/
-│
-├── Job_Posting.bpmn               # Job posting process
-├── Position.form                  # Camunda User Task form: select job title
-├── Position.dmn                   # DMN: Decide on Position (job details lookup)
-│
-├── Application.bpmn               # Main recruitment & application process
-├── CV_Scoring.dmn                 # DMN: CV Scoring (COLLECT SUM, 4 dimensions)
-├── Evaluate.form                  # Camunda User Task form: Evaluate & Assess Candidate
-├── Contract.form                  # Camunda User Task form: Create Contract
-│
-├── Make/
-│   ├── 1_Send_decision_to_Google_Sheets_blueprint.json
-│   ├── 2_Post_Job_to_GitHub_Pages_blueprint.json
-│   ├── 3_Close_Job_Posting_blueprint.json
-│   ├── 4_Application_apply_html_blueprint.json
-│   ├── 5_Send_Cancellation_blueprint.json
-│   ├── 6_Invite_to_first_Interview_blueprint.json
-│   ├── 7_Invite_to_Assessment_blueprint.json
-│   ├── 8_Send_Contract_blueprint.json
-│   └── 9_Contract_Confirmation_blueprint.json
-│
-├── index.html                     # GitHub Pages careers website (job tiles)
-├── apply.html                     # Job-specific application page ("Jetzt bewerben")
-│
-└── Old/                           # Archived / previous BPMN iterations
-```
 
 ---
 
