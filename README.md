@@ -1,4 +1,4 @@
-# Automated HR Recruitment Process – Alpenblick Consulting AG
+# 26SS_Tierpark_Goldau
 
 > **DigiBP Group Project** · Spring Semester 2026  
 > FHNW University of Applied Sciences and Arts Northwestern Switzerland  
@@ -6,13 +6,30 @@
 
 ---
 
+## Team Members
+
+| Name | Email |
+|---|---|
+| Ece Kaya | ece.kaya@students.fhnw.ch |
+| Furkan Aydin | furkan.aydin@students.fhnw.ch |
+| Dominic Däster | dominic.daester@students.fhnw.ch |
+| Keethan Nathan | keethan.nathan@students.fhnw.ch |
+
+**Supervisor:** Andreas Martin, FHNW School of Business
+
+---
+
+## KEFD
+
+A fully automated process management system for employee recruitment – from job posting to onboarding.
+
+---
+
 ## Table of Contents
 
-1. [Project Overview](#1-project-overview)
-2. [Company Context](#2-company-context)
-3. [Process Architecture](#3-process-architecture)
-   - [Job Posting Process](#31-job-posting-process)
-   - [Recruitment & Application Process](#32-recruitment--application-process)
+1. [Introduction](#1-introduction)
+2. [AS-IS Process](#2-as-is-process)
+3. [TO-BE Process](#3-to-be-process)
 4. [Technology Stack](#4-technology-stack)
 5. [Decision Automation (DMN)](#5-decision-automation-dmn)
 6. [CV Scoring Architecture](#6-cv-scoring-architecture)
@@ -20,13 +37,12 @@
 8. [Repository Structure](#8-repository-structure)
 9. [Live Demos & Links](#9-live-demos--links)
 10. [Limitations & Ethical Considerations](#10-limitations--ethical-considerations)
-11. [Team](#11-team)
 
 ---
 
-## 1. Project Overview
+## 1. Introduction
 
-This project fully automates the end-to-end HR recruitment process for **Alpenblick Consulting AG**, a fictional Swiss consulting firm. The system covers everything from publishing an open position to onboarding a hired candidate — with minimal human intervention required.
+Alpenblick Consulting AG is a Swiss consulting company with 10 employees. The company provides professional advisory services to small and medium-sized businesses in areas such as strategy, process improvement, and digital transformation. Due to its continuous growth, the company aims to optimize its recruitment process in order to attract qualified talent more efficiently, reduce administrative effort, and support future expansion.
 
 The implementation is intentionally **job-agnostic**: the same BPMN and DMN logic applies to any open role. Three demo positions are currently configured:
 
@@ -36,79 +52,132 @@ The implementation is intentionally **job-agnostic**: the same BPMN and DMN logi
 | Business Analyst | Consulting |
 | ERP Consultant | Enterprise Solutions |
 
-**Key goals of the digitalisation:**
-- Replace manual, subjective CV screening with an LLM-based, criteria-driven scoring system
-- Automate all candidate communication (invitations, rejections, contracts)
-- Provide a real-time public job listing website updated automatically by the process
-- Ensure consistent, auditable, and bias-reduced hiring decisions through DMN
+---
+
+## 2. AS-IS Process
+
+<img width="1826" height="347" alt="grafik" src="https://github.com/user-attachments/assets/0e76de74-e07f-4740-9437-8773be933462" />
+
+### 2.1 Process Description
+
+The recruitment process begins when a new position is requested within the organization. The HR Manager first defines the position, specifying requirements and responsibilities, and then advertises the position in a web portal to attract potential candidates.
+
+Once an applicant submits their application, the HR Manager receives the application and gathers it in the web portal. The HR Recruiter then reviews the submitted CV and evaluates whether the application is suitable.
+
+If the application is deemed unsuitable, the HR Recruiter sends a cancellation notice to the applicant, and the process ends with a denied application.
+
+If the application is suitable, the Hiring Manager invites the candidate to a first interview, which is subsequently conducted and evaluated. Based on this evaluation, the Hiring Manager decides whether to invite the candidate to an assessment.
+
+If the candidate is not invited to the assessment, a cancellation is sent and the process ends. Otherwise, the Hiring Manager invites the candidate to an assessment, which is then conducted and evaluated in detail.
+
+Following the assessment, the Hiring Manager decides whether to hire the candidate. If the decision is negative, a cancellation notice is sent to the applicant. If the decision is positive, the HR Manager creates an employment contract and sends it to the applicant.
+
+Once the signed contract is received back from the applicant, the HR Manager proceeds to onboard the new employee, concluding the process with the employee being successfully onboarded into the organization.
+
+### 2.2 Identified Challenges of the AS-IS Process
+
+The current recruitment process relies heavily on manual work and individual judgment, creating several significant challenges.
+
+**Fully Manual Application Handling**  
+In the AS-IS process, the HR Manager manually monitors the web portal for incoming applications and individually gathers each submission. There is no automated notification or data extraction in place. This means that application data must be collected, organised, and transferred by hand, which is both time-consuming and prone to oversight — particularly when application volumes are high.
+
+**Subjective CV Screening**  
+The HR Recruiter manually reviews each CV and decides purely based on personal judgment whether an application is suitable. Without defined scoring criteria or a standardised evaluation framework, this step introduces significant subjectivity. Two recruiters may assess the same CV differently, leading to inconsistent and potentially unfair screening outcomes.
+
+**Manual Interview Scheduling and Communication**  
+The Hiring Manager manually sends interview invitations and assessment invitations to candidates via e-mail. Similarly, cancellation notices are written and sent individually by the HR Recruiter. This manual communication approach creates a risk of delays, oversights, and inconsistent messaging, which negatively affects the candidate experience and the organisation's professional image.
+
+**Unstructured Interview and Evaluation Process**  
+Both the first interview and the subsequent candidate evaluation are conducted without a standardised format. Feedback and assessments are not captured in a unified system, making it difficult to compare candidates objectively or to revisit evaluation results at a later stage. This lack of structure increases the risk of biased hiring decisions.
+
+**Manual Contract Creation and Distribution**  
+Once a hiring decision is made, the HR Manager manually creates the employment contract, typically in a word processor, and sends it to the candidate via e-mail. This process is not only slow but also susceptible to errors in contract content, version inconsistencies, and delays in delivery or follow-up.
+
+**Manual Onboarding Coordination**  
+The final step, onboarding the new employee, is coordinated entirely by hand. The HR Manager must individually arrange IT access, workspace setup, team introductions, and other onboarding activities. Without automation or a structured workflow, onboarding steps can be forgotten, delayed, or inconsistently executed depending on the individual responsible.
 
 ---
 
-## 2. Company Context
+## 3. TO-BE Process
 
-**Alpenblick Consulting AG** is a fictional management and technology consulting firm headquartered in Zürich, Switzerland. The company operates across industries and regularly hires for both technical and business roles. Prior to this project, its recruitment process was entirely manual — reliant on individual judgment, ad-hoc email communication, and unstructured document handling.
+The TO-BE recruitment process introduces significant automation across all stages, reducing manual effort and standardizing decision-making through system integrations. It consists of two BPMN processes deployed on **Camunda Platform 7.24**, with all service tasks implemented as **Make (Integromat) scenarios**.
 
-The AS-IS process suffered from:
-- Fully manual application collection and CV review
-- Subjective, unstandardised screening decisions
-- Inconsistent candidate communication and delays
-- Manual contract creation and uncoordinated onboarding
+<img width="1703" height="724" alt="grafik" src="https://github.com/user-attachments/assets/7023e318-3a2d-40fe-a628-3b9ddd9bedf1" />
 
-The TO-BE process introduced here addresses each of these pain points through process automation, service integration, and decision logic.
-
----
-
-## 3. Process Architecture
-
-The solution consists of two interconnected BPMN processes deployed on **Camunda Platform 7.24**.
-
-### 3.1 Job Posting Process
-
-**Trigger:** HR Manager starts a new process instance via a Camunda User Task form.
-
-**Flow:**
-1. HR Manager selects a job title from a predefined Camunda form
-2. A **DMN Business Rule Task** evaluates the selected position and outputs all relevant job details (title, description, requirements, pensum, location, contact)
-3. A **Make scenario** writes the job data to **Google Sheets**
-4. A second **Make scenario** generates an HTML job card and publishes it to **GitHub Pages** via the GitHub API
-5. After a 30-day timer, the job is automatically closed (HTML file deleted from GitHub)
+### 3.1 Job Posting Sub-Process
 
 **Key artifacts:** `Job_Posting.bpmn`, `Position.form`, `Position.dmn`
 
----
+The process begins when the HR Manager requests a new position. The manager selects the position from a predefined Camunda form (`Position.form`), after which a DMN-based business rule task (`Position.dmn`) automatically retrieves the relevant position details (title, description, requirements, location, contact). A Make scenario then writes this data to Google Sheets, and a second Make scenario generates an HTML job card and publishes it to the public careers website via the GitHub API. After a 30-day timer, the job posting is automatically closed and removed from the website.
+
+**Flow:**
+1. HR Manager selects position via `Position.form` (Camunda User Task)
+2. DMN Business Rule Task (`Position.dmn`) outputs full job details
+3. Make scenario 1 writes job data to Google Sheets
+4. Make scenario 2 publishes HTML job card to GitHub Pages
+5. 30-day timer fires → Make scenario 3 closes the posting (updates Sheets, deletes HTML from GitHub)
 
 ### 3.2 Recruitment & Application Process
 
-**Trigger:** Candidates browse open positions on the public job listing website and submit their application via a job-specific application page.
-
-**Application Flow:**
-1. Candidates visit the [Alpenblick Consulting AG careers page](https://digibp.github.io/26SS_Tierpark_Goldau/), where active job openings are displayed as tiles (rendered from Google Sheets via the gviz API)
-2. Each tile shows the job details and a **"Jetzt bewerben"** button
-3. Clicking the button redirects the candidate to a job-specific application page (`apply.html`), where they fill in their personal details and upload their CV
-4. On submission, a **Make scenario** picks up the application, calls the Claude API to parse the CV, writes the data to Google Sheets, and triggers the Camunda process via the REST API
-
-**Flow:**
-
-```
-Candidate clicks "Jetzt bewerben" on job listing website (index.html)
-  → Redirected to job-specific application page (apply.html)
-  → Candidate fills in details & uploads CV → submits form
-  → Make: receive submission, call Claude API for CV extraction
-  → Make: write structured data to Google Sheets
-  → Make: trigger Camunda via REST API (Message Start Event)
-  → DMN: CV Scoring (COLLECT SUM → cvScore)
-  → [cvScore < 45]  Make: personalised rejection email (Gmail) → End
-  → [cvScore ≥ 45]  Make: interview invitation with Calendly link
-  → Hiring Manager: conducts interview (Camunda User Task)
-  → Hiring Manager: evaluates & assesses candidate (Camunda User Task / Evaluate.form)
-  → [If rejected] Make: rejection email → End
-  → [If approved] HR Manager: creates contract (Camunda User Task / Contract.form)
-  → Make: generate contract from Google Docs template, export as PDF, send via Gmail
-  → Candidate: clicks confirmation link → Make scenario 9 calls Camunda Message API (ContractReceived)
-  → End: Process complete
-```
-
 **Key artifacts:** `Application.bpmn`, `CV_Scoring.dmn`, `Evaluate.form`, `Contract.form`
+
+**Application Intake**  
+Candidates visit the [Alpenblick Consulting AG careers page](https://digibp.github.io/26SS_Tierpark_Goldau/), where active positions are displayed as tiles. Each tile features a **"Jetzt bewerben"** button that redirects the candidate to a job-specific application page (`apply.html`). On submission, Make scenario 4 receives the application, calls the **Claude API** to extract structured data from the uploaded CV PDF, stores the result in Google Sheets, and triggers the Camunda process via the REST API.
+
+**CV Scoring**  
+Rather than manual CV review, the Claude API parses the CV and populates the variables consumed by `CV_Scoring.dmn`. The DMN evaluates education, experience, and language skills and produces a `cvScore`. Candidates scoring below 45 receive an automated rejection email (Make scenario 5). Candidates scoring 45 or above are automatically invited to a first interview (Make scenario 6).
+
+**Interview & Assessment**  
+The Hiring Manager conducts the first interview and evaluates the candidate using a structured digital form (`Evaluate.form`) within Camunda. If the candidate progresses, the system automatically sends an assessment invitation via Calendly (Make scenario 7). The Hiring Manager then conducts and assesses the candidate using the same `Evaluate.form`. If the candidate does not progress at any stage, a cancellation email is sent automatically.
+
+**Contract & Onboarding**  
+If the hiring decision is positive, the HR Manager creates the contract via `Contract.form` in Camunda. Make scenario 8 then automatically generates the contract from a Google Docs template, exports it as a PDF, and sends it to the candidate via Gmail. The candidate confirms acceptance by clicking a link, which triggers Make scenario 9 to correlate the `Message_ContractReceived` event in Camunda and resume the process. The onboarding workflow is then triggered automatically.
+
+**Full process flow:**
+
+```
+Candidate clicks "Jetzt bewerben" on careers website (index.html)
+  → Redirected to application page (apply.html)
+  → Candidate fills in details & uploads CV → submits form
+  → Make 4: call Claude API for CV extraction, write to Google Sheets,
+             trigger Camunda via REST API (Message Start Event)
+  → DMN CV_Scoring.dmn: COLLECT SUM → cvScore
+  → [cvScore < 45]  Make 5: rejection email → End
+  → [cvScore ≥ 45]  Make 6: interview invitation with Calendly link
+  → Hiring Manager: conducts interview, evaluates candidate (Evaluate.form)
+  → [Not progressing] Make 5: rejection email → End
+  → [Progressing] Make 7: assessment invitation with Calendly link
+  → Hiring Manager: conducts assessment, assesses candidate (Evaluate.form)
+  → [Not hired] Make 5: rejection email → End
+  → [Hired] HR Manager: creates contract details (Contract.form)
+  → Make 8: generate contract (Google Docs template → PDF → Gmail)
+  → Candidate: clicks confirmation link
+  → Make 9: correlate Message_ContractReceived via Camunda REST API
+  → Onboarding triggered → End: Employee onboarded
+```
+
+### 3.3 Improvements and Benefits of the TO-BE Process
+
+**Automated Application Collection and Structuring**  
+Incoming applications via `apply.html` are automatically received and processed by Make scenario 4. All relevant applicant data — education level, years of experience, language skills — are extracted by the Claude API and stored in a structured format in Google Sheets. This eliminates manual data entry and significantly speeds up the intake stage.
+
+**Objective and Standardised CV Scoring**  
+Manual CV screening is replaced by an automated scoring system using the Claude API and `CV_Scoring.dmn`. Every candidate is evaluated against the same defined criteria and weighted rules, removing individual bias from the screening decision and ensuring consistent, transparent filtering.
+
+**Automated Candidate Communication**  
+All candidate-facing communications — interview invitations, assessment invitations, rejection notices, and contract delivery — are handled automatically by Make scenarios. Interview and assessment invitations include a self-service Calendly scheduling link, eliminating back-and-forth email exchanges and ensuring timely, professional communication at every stage.
+
+**Structured and Digitalised Interview Evaluation**  
+The TO-BE process introduces standardised digital forms (`Evaluate.form`) for conducting and evaluating both the interview and assessment. All feedback is captured centrally within Camunda, enabling objective comparison and a full audit trail of hiring decisions.
+
+**Automated Contract Generation and Distribution**  
+Rather than manually drafting contracts, the HR Manager completes `Contract.form` in Camunda. Make scenario 8 then automatically generates the contract from a Google Docs template, converts it to PDF, and delivers it via Gmail. The candidate confirms via a public link, which automatically resumes the Camunda process.
+
+**Automated Onboarding Workflow**  
+Upon contract confirmation, the system automatically triggers the full onboarding workflow — including creating a Google Workspace account, sending a welcome email, notifying the team via Slack, creating onboarding tasks in Asana, and scheduling calendar meetings — without any manual intervention.
+
+**Automated Job Posting Management**  
+Once the HR Manager confirms the position details, the system automatically publishes the job advertisement to the careers website. After 30 days, the posting is closed automatically, eliminating the need for manual advertising and follow-up.
 
 ---
 
@@ -119,21 +188,20 @@ Candidate clicks "Jetzt bewerben" on job listing website (index.html)
 | Process Engine | **Camunda Platform 7.24** | BPMN & DMN execution, User Tasks |
 | Middleware / Automation | **Make (formerly Integromat)** | All service task execution, webhooks |
 | LLM / CV Parsing | **Claude API (Anthropic)** | LLM-based CV extraction from PDF |
-| Job Listings Backend | **Google Sheets** | Stores job data; public read via gviz API |
-| Job Listings Frontend | **GitHub Pages** | Renders open positions as a public website |
+| Job Listings Backend | **Google Sheets** | Stores job data and application data |
+| Job Listings Frontend | **GitHub Pages** | Public careers website (`index.html`, `apply.html`) |
 | Email | **Gmail** | Candidate communication (invitations, rejections, contracts) |
-| Calendar / Scheduling | **Calendly** | Self-service interview booking links |
+| Calendar / Scheduling | **Calendly** | Self-service interview and assessment booking links |
 | Contract Generation | **Google Docs + Gmail** | Template-based contract creation & PDF delivery |
-| Data Storage | **Google Sheets** | Job data (Jobs tab) and application data (Applications tab) |
-| Process Messaging | **Camunda REST API** | Correlating messages to running instances (`/engine-rest/message`) |
+| Process Messaging | **Camunda REST API** | Message correlation via `/engine-rest/message` |
 
-All service tasks in the BPMN are implemented as **Make scenarios** (webhook-triggered or scheduled). No external Python workers or Docker containers are used.
+All service tasks in the BPMN are implemented as **Make scenarios** (webhook-triggered). No external Python workers or Docker containers are used.
 
 ---
 
 ## 5. Decision Automation (DMN)
 
-CV scoring is implemented in `CV_Scoring.dmn` as a single decision table with **Hit Policy: COLLECT (SUM)**. All matching rules fire and their point values are summed into a final `cvScore`. The score drives a gateway in the BPMN directly — no separate shortlist table is needed.
+CV scoring is implemented in `CV_Scoring.dmn` as a single decision table with **Hit Policy: COLLECT (SUM)**. All matching rules fire and their point values are summed into a final `cvScore`. The score is evaluated directly by a gateway in `Application.bpmn` — no separate shortlist table is needed.
 
 **Threshold:** `cvScore < 45` → Send Cancellation · `cvScore ≥ 45` → Invite to First Interview
 
@@ -238,7 +306,7 @@ These variables are passed to Camunda as process variables and consumed directly
 ├── Position.dmn                   # DMN: Decide on Position (job details lookup)
 │
 ├── Application.bpmn               # Main recruitment & application process
-├── CV_Scoring.dmn                 # DMN: CV Scoring (Knockout + COLLECT SUM + Shortlist)
+├── CV_Scoring.dmn                 # DMN: CV Scoring (COLLECT SUM, 4 dimensions)
 ├── Evaluate.form                  # Camunda User Task form: Evaluate & Assess Candidate
 ├── Contract.form                  # Camunda User Task form: Create Contract
 │
@@ -253,7 +321,7 @@ These variables are passed to Camunda as process variables and consumed directly
 │   ├── 8_Send_Contract_blueprint.json
 │   └── 9_Contract_Confirmation_blueprint.json
 │
-├── index.html                     # GitHub Pages job listing website (job tiles)
+├── index.html                     # GitHub Pages careers website (job tiles)
 ├── apply.html                     # Job-specific application page ("Jetzt bewerben")
 │
 └── Old/                           # Archived / previous BPMN iterations
@@ -265,40 +333,27 @@ These variables are passed to Camunda as process variables and consumed directly
 
 | Resource | Link |
 |---|---|
-| 🌐 **Job Listing Website** | [https://digibp.github.io/26SS_Tierpark_Goldau/](https://digibp.github.io/26SS_Tierpark_Goldau/) |
+| 🌐 **Careers Website** | [https://digibp.github.io/26SS_Tierpark_Goldau/](https://digibp.github.io/26SS_Tierpark_Goldau/) |
 | ⚙️ **Camunda Instance** | *(link to be added)* |
 | 📊 **Presentation Slides** | *(link to be added)* |
 
-> To start a new recruitment process instance, navigate to the Camunda Tasklist and initiate the **Job Posting** process. Once a position is live on the careers page, a candidate can apply by clicking **"Jetzt bewerben"** on the job tile and submitting the application form.
+> To start a new recruitment process instance, navigate to the Camunda Tasklist and initiate the **Job Posting** process. Once a position is live on the careers page, a candidate can apply by clicking **"Jetzt bewerben"** on the job tile and submitting the application form on `apply.html`.
 
 ---
 
 ## 10. Limitations & Ethical Considerations
 
-### LLM-based CV Parsing
+**LLM-based CV Parsing**  
 The use of the Claude API for CV extraction introduces inherent variability — parsing quality depends on CV formatting and language. In a production context, human review of parsed fields would be recommended before they are passed to scoring logic.
 
-### DMN Scoring Subjectivity
+**DMN Scoring Subjectivity**  
 While the DMN replaces ad-hoc human judgment, the score weights and thresholds themselves reflect design choices made by the team. These should be reviewed and validated with domain experts (e.g., HR professionals) before real-world use.
 
-### EU AI Act & Swiss DSG
+**EU AI Act & Swiss DSG**  
 Automated hiring decisions fall under the scope of **high-risk AI systems** as defined by the EU AI Act (Annex III). In a real deployment, the system would need to ensure transparency, human oversight, and the right to explanation for rejected candidates. Under the **Swiss Federal Act on Data Protection (DSG/nDSG)**, candidate data must be processed with a legal basis, stored for the minimum necessary duration, and candidates must be informed of automated processing.
 
-### Demo Scope
+**Demo Scope**  
 This system is an academic prototype. Live credentials, API keys, and webhook URLs used in Make scenarios are for demonstration purposes only and should be rotated before any real-world use.
-
----
-
-## 11. Team
-
-| Name | Role |
-|---|---|
-| *(Team member 1)* | *(Role)* |
-| *(Team member 2)* | *(Role)* |
-| *(Team member 3)* | *(Role)* |
-| *(Team member 4)* | *(Role)* |
-
-**Supervisor:** Andreas Martin, FHNW School of Business
 
 ---
 
