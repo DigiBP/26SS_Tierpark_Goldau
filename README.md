@@ -321,19 +321,7 @@ These variables are passed to Camunda as process variables and consumed directly
 
 ---
 
-## 9. Live Demos & Links
-
-| Resource | Link |
-|---|---|
-| 🌐 **Careers Website** | [https://digibp.github.io/26SS_Tierpark_Goldau/](https://digibp.github.io/26SS_Tierpark_Goldau/) |
-| ⚙️ **Camunda Instance** | *(link to be added)* |
-| 📊 **Presentation Slides** | *(link to be added)* |
-
-> To start a new recruitment process instance, navigate to the Camunda Tasklist and initiate the **Job Posting** process. Once a position is live on the careers page, a candidate can apply by clicking **"Jetzt bewerben"** on the job tile and submitting the application form on `apply.html`.
-
----
-
-## 10. Limitations & Ethical Considerations
+## 9. Limitations & Ethical Considerations
 
 **LLM-based CV Parsing**  
 The use of the Claude API for CV extraction introduces inherent variability, parsing quality depends on CV formatting and language. In a production context, human review of parsed fields would be recommended before they are passed to scoring logic.
