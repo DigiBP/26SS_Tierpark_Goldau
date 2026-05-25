@@ -22,15 +22,16 @@
 ## Table of Contents
 
 1. [Introduction](#1-introduction)
-2. [AS-IS Process](#2-as-is-process)
-3. [TO-BE Process](#3-to-be-process)
-4. [Technology Stack](#4-technology-stack)
-5. [Decision Automation (DMN)](#5-decision-automation-dmn)
-6. [CV Scoring Architecture](#6-cv-scoring-architecture)
-7. [Service Integration (Make Scenarios)](#7-service-integration-make-scenarios)
-8. [Repository Structure](#8-repository-structure)
-9. [Live Demos & Links](#9-live-demos--links)
-10. [Limitations & Ethical Considerations](#10-limitations--ethical-considerations)
+2. [Repository Structure](#2-repository-structure)
+3. [AS-IS Process](#3-as-is-process)
+4. [TO-BE Process](#4-to-be-process)
+5. [Technology Stack](#5-technology-stack)
+6. [Decision Automation (DMN)](#6-decision-automation-dmn)
+7. [CV Scoring Architecture](#7-cv-scoring-architecture)
+8. [Service Integration (Make Scenarios)](#8-service-integration-make-scenarios)
+9. [Repository Structure](#9-repository-structure)
+10. [Live Demos & Links](#10-live-demos--links)
+11. [Limitations & Ethical Considerations](#11-limitations--ethical-considerations)
 
 ---
 
