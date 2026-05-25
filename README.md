@@ -192,7 +192,7 @@ Incoming applications via `apply.html` are automatically received and processed 
 Manual CV screening is replaced by an automated scoring system using the Claude API and `CV_Scoring.dmn`. Every candidate is evaluated against the same defined criteria and weighted rules, removing individual bias from the screening decision and ensuring consistent, transparent filtering.
 
 **Automated Candidate Communication**  
-All candidate-facing communications — interview invitations, assessment invitations, rejection notices, and contract delivery — are handled automatically by Make scenarios. Interview and assessment invitations include a self-service Calendly scheduling link, eliminating back-and-forth email exchanges and ensuring timely, professional communication at every stage.
+All candidate-facing communications, such as interview invitations, assessment invitations, rejection notices, and contract delivery, are handled automatically by Make scenarios. Interview and assessment invitations include a self-service Calendly scheduling link, eliminating back-and-forth email exchanges and ensuring timely, professional communication at every stage.
 
 **Structured and Digitalised Interview Evaluation**  
 The TO-BE process introduces standardised digital forms (`Evaluate.form`) for conducting and evaluating both the interview and assessment. All feedback is captured centrally within Camunda, enabling objective comparison and a full audit trail of hiring decisions.
@@ -201,7 +201,7 @@ The TO-BE process introduces standardised digital forms (`Evaluate.form`) for co
 Rather than manually drafting contracts, the HR Manager completes `Contract.form` in Camunda. Make scenario 8 then automatically generates the contract from a Google Docs template, converts it to PDF, and delivers it via Gmail. The candidate confirms via a public link, which automatically resumes the Camunda process.
 
 **Automated Onboarding Workflow**  
-Upon contract confirmation, the system automatically triggers the full onboarding workflow — including creating a Google Workspace account, sending a welcome email, notifying the team via Slack, creating onboarding tasks in Asana, and scheduling calendar meetings — without any manual intervention.
+Upon contract confirmation, the system automatically triggers the full onboarding workflow, including creating a Google Workspace account, sending a welcome email, notifying the team via Slack, creating onboarding tasks in Asana, and scheduling calendar meetings — without any manual intervention.
 
 **Automated Job Posting Management**  
 Once the HR Manager confirms the position details, the system automatically publishes the job advertisement to the careers website. After 30 days, the posting is closed automatically, eliminating the need for manual advertising and follow-up.
@@ -228,7 +228,7 @@ All service tasks in the BPMN are implemented as **Make scenarios** (webhook-tri
 
 ## 6. Decision Automation (DMN)
 
-CV scoring is implemented in `CV_Scoring.dmn` as a single decision table with **Hit Policy: COLLECT (SUM)**. All matching rules fire and their point values are summed into a final `cvScore`. The score is evaluated directly by a gateway in `Application.bpmn` — no separate shortlist table is needed.
+CV scoring is implemented in `CV_Scoring.dmn` as a single decision table with **Hit Policy: COLLECT (SUM)**. All matching rules fire and their point values are summed into a final `cvScore`. The score is evaluated directly by a gateway in `Application.bpmn`. No separate shortlist table is needed.
 
 **Threshold:** `cvScore < 45` → Send Cancellation · `cvScore ≥ 45` → Invite to First Interview
 
@@ -338,7 +338,7 @@ These variables are passed to Camunda as process variables and consumed directly
 ## 10. Limitations & Ethical Considerations
 
 **LLM-based CV Parsing**  
-The use of the Claude API for CV extraction introduces inherent variability — parsing quality depends on CV formatting and language. In a production context, human review of parsed fields would be recommended before they are passed to scoring logic.
+The use of the Claude API for CV extraction introduces inherent variability, parsing quality depends on CV formatting and language. In a production context, human review of parsed fields would be recommended before they are passed to scoring logic.
 
 **DMN Scoring Subjectivity**  
 While the DMN replaces ad-hoc human judgment, the score weights and thresholds themselves reflect design choices made by the team. These should be reviewed and validated with domain experts (e.g., HR professionals) before real-world use.
