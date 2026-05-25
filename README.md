@@ -160,7 +160,7 @@ Candidate clicks "Jetzt bewerben" on careers website (index.html)
 ### 3.3 Improvements and Benefits of the TO-BE Process
 
 **Automated Application Collection and Structuring**  
-Incoming applications via `apply.html` are automatically received and processed by Make scenario 4. All relevant applicant data — education level, years of experience, language skills — are extracted by the Claude API and stored in a structured format in Google Sheets. This eliminates manual data entry and significantly speeds up the intake stage.
+Incoming applications via `apply.html` are automatically received and processed by Make scenario 4. All relevant applicant data, such as education level, years of experience, and language skills, are extracted by the Claude API and stored in a structured format in Google Sheets. This eliminates manual data entry and significantly speeds up the intake stage.
 
 **Objective and Standardised CV Scoring**  
 Manual CV screening is replaced by an automated scoring system using the Claude API and `CV_Scoring.dmn`. Every candidate is evaluated against the same defined criteria and weighted rules, removing individual bias from the screening decision and ensuring consistent, transparent filtering.
