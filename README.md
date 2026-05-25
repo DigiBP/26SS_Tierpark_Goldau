@@ -278,18 +278,9 @@ These variables are passed to Camunda as process variables and consumed directly
 
 | # | Scenario | BPMN Service Task | Webhook | Actions |
 |---|---|---|---|---|
-| 1 | **Send decision to Google Sheets** | Send decision to Make (Google Sheets) | `camunda-send-decision` | Writes job details (title, description, requirements, etc.) as a new row to Google Sheets |
-
-<img width="756" height="381" alt="1-Send_decision_to_Google_Sheets" src="https://github.com/user-attachments/assets/5659a8ed-3199-4acc-be4b-7371e7022735" />
-
-| 2 | **Post Job to GitHub Pages** | Post Job to GitHub Pages | `camunda-post-job` | Reads job data from Google Sheets, generates an HTML job card, and publishes it to the GitHub Pages repo via the GitHub API |
-
-<img width="807" height="212" alt="2-Post-Job-to-GitJub-Pages" src="https://github.com/user-attachments/assets/b71b8b42-4814-4685-8db1-cad2cb1b0a50" />
-
-| 3 | **Close Job Posting** | Close Job Posting | `camunda-close-job` | Updates the job status in Google Sheets to CLOSED, then deletes the job HTML file from GitHub Pages via the GitHub API |
-
-<img width="804" height="170" alt="3-Close_Job_Posting" src="https://github.com/user-attachments/assets/1302959f-5a32-490b-a1ee-ab108615461b" />
-
+| 1 | **Send decision to Google Sheets** | Send decision to Make (Google Sheets) | `camunda-send-decision` | Writes job details (title, description, requirements, etc.) as a new row to Google Sheets <br><br> <img width="756" height="381" alt="1-Send_decision_to_Google_Sheets" src="https://github.com/user-attachments/assets/5659a8ed-3199-4acc-be4b-7371e7022735" /> |
+| 2 | **Post Job to GitHub Pages** | Post Job to GitHub Pages | `camunda-post-job` | Reads job data from Google Sheets, generates an HTML job card, and publishes it to the GitHub Pages repo via the GitHub API <br><br> <img width="807" height="212" alt="2-Post-Job-to-GitJub-Pages" src="https://github.com/user-attachments/assets/b71b8b42-4814-4685-8db1-cad2cb1b0a50" /> |
+| 3 | **Close Job Posting** | Close Job Posting | `camunda-close-job` | Updates the job status in Google Sheets to CLOSED, then deletes the job HTML file from GitHub Pages via the GitHub API <br><br> <img width="804" height="170" alt="3-Close_Job_Posting" src="https://github.com/user-attachments/assets/1302959f-5a32-490b-a1ee-ab108615461b" /> |
 
 **Recruitment & Application Process**
 
