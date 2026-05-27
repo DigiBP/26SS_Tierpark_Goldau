@@ -83,7 +83,7 @@ The implementation is intentionally **job-agnostic**: the same BPMN and DMN logi
 ---
 ## 3. AS-IS Process
 
-<img width="2150" height="411" alt="image" src="https://github.com/user-attachments/assets/6f384371-28ae-4ea7-b288-3534d7648adc" />
+<img width="2149" height="411" alt="image" src="https://github.com/user-attachments/assets/e6a96702-f02d-43f0-8d66-6e93a303ab77" />
 
 
 ### 3.1 Process Description
@@ -100,7 +100,7 @@ If the candidate is not invited to the assessment, a cancellation is sent and th
 
 Following the assessment, the Hiring Manager decides whether to hire the candidate. If the decision is negative, a cancellation notice is sent to the applicant. If the decision is positive, the HR Manager creates an employment contract and sends it to the applicant.
 
-Once the signed contract is received back from the applicant, the recruitment process concludes with the employee being successfully hired.
+Once the signed contract is received back from the applicant, the recruitment process concludes with hiring being done.
 
 ### 3.2 Identified Challenges of the AS-IS Process
 
