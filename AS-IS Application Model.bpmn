@@ -147,7 +147,7 @@
       <bpmn:outgoing>Flow_03e3jbn</bpmn:outgoing>
       <bpmn:messageEventDefinition id="MessageEventDefinition_03vlbhq" />
     </bpmn:intermediateCatchEvent>
-    <bpmn:endEvent id="Event_0z08fts" name="Employee onboarded">
+    <bpmn:endEvent id="Event_0z08fts" name="Hiring done">
       <bpmn:incoming>Flow_03e3jbn</bpmn:incoming>
     </bpmn:endEvent>
   </bpmn:process>
@@ -261,7 +261,7 @@
       <bpmndi:BPMNShape id="Event_0z08fts_di" bpmnElement="Event_0z08fts">
         <dc:Bounds x="2952" y="277" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="2944" y="320" width="53" height="27" />
+          <dc:Bounds x="2942" y="320" width="57" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_1ybv8zx_di" bpmnElement="Flow_1ybv8zx">
