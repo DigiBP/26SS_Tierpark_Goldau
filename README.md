@@ -83,7 +83,8 @@ The implementation is intentionally **job-agnostic**: the same BPMN and DMN logi
 ---
 ## 3. AS-IS Process
 
-<img width="1826" height="347" alt="grafik" src="https://github.com/user-attachments/assets/0e76de74-e07f-4740-9437-8773be933462" />
+<img width="2150" height="411" alt="image" src="https://github.com/user-attachments/assets/6f384371-28ae-4ea7-b288-3534d7648adc" />
+
 
 ### 3.1 Process Description
 
@@ -99,7 +100,7 @@ If the candidate is not invited to the assessment, a cancellation is sent and th
 
 Following the assessment, the Hiring Manager decides whether to hire the candidate. If the decision is negative, a cancellation notice is sent to the applicant. If the decision is positive, the HR Manager creates an employment contract and sends it to the applicant.
 
-Once the signed contract is received back from the applicant, the HR Manager proceeds to onboard the new employee, concluding the process with the employee being successfully onboarded into the organization.
+Once the signed contract is received back from the applicant, the recruitment process concludes with the employee being successfully hired.
 
 ### 3.2 Identified Challenges of the AS-IS Process
 
@@ -119,9 +120,6 @@ Both the first interview and the subsequent candidate evaluation are conducted w
 
 **Manual Contract Creation and Distribution**  
 Once a hiring decision is made, the HR Manager manually creates the employment contract, typically in a word processor, and sends it to the candidate via e-mail. This process is not only slow but also susceptible to errors in contract content, version inconsistencies, and delays in delivery or follow-up.
-
-**Manual Onboarding Coordination**  
-The final step, onboarding the new employee, is coordinated entirely by hand. The HR Manager must individually arrange IT access, workspace setup, team introductions, and other onboarding activities. Without automation or a structured workflow, onboarding steps can be forgotten, delayed, or inconsistently executed depending on the individual responsible.
 
 ---
 
