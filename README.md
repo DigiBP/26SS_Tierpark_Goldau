@@ -29,7 +29,9 @@
 6. [Decision Automation (DMN)](#6-decision-automation-dmn)
 7. [CV Scoring Architecture](#7-cv-scoring-architecture)
 8. [Service Integration (Make Scenarios)](#8-service-integration-make-scenarios)
-9. [Limitations & Ethical Considerations](#9-limitations--ethical-considerations)
+9. [Deployment](#9-deployment)
+10. [Demo Video](#10-demo-video)
+11. [Limitations & Ethical Considerations](#11-limitations--ethical-considerations)
 
 ---
 
@@ -319,7 +321,39 @@ These variables are passed to Camunda as process variables and consumed directly
 
 ---
 
-## 9. Limitations & Ethical Considerations
+## 9. Deployment
+
+**Step 1 – Deploy BPMN processes to Camunda**
+
+1. Open [DigiBP Camunda](https://digibp.engine.martinlab.science) and log in.
+2. Navigate to **Admin → Deployments → Create Deployment**.
+3. Upload `Job_Posting.bpmn` together with `Position.dmn` and `Position.form`.
+4. Upload `Application.bpmn` together with `CV_Scoring.dmn`, `Evaluate.form`, and `Contract.form`.
+
+**Step 2 – Open the careers website**
+
+Open [`index.html` via GitHub Pages](https://digibp.github.io/26SS_Tierpark_Goldau/) to confirm the job listings page is live.
+
+The system is now ready. For a full walkthrough, see the [Demo Video](#10-demo-video).
+
+---
+
+## 10. Demo Video
+
+A full end-to-end walkthrough of the process — from job posting to candidate onboarding — is available here:
+
+**[▶ Watch Demo Video on Google Drive](https://drive.google.com/file/d/1LHzsdmXu-PgD2sdbzADCW7Hn8tShikO4/view?usp=sharing)**
+
+The video covers:
+- Creating and publishing a job posting via the Camunda HR Manager task
+- Submitting an application through the GitHub Pages careers website
+- Automated CV parsing via the Claude API and DMN-based scoring
+- Interview and assessment invitation emails (Gmail + Calendly)
+- Contract generation, delivery, and confirmation 
+
+---
+
+## 11. Limitations & Ethical Considerations
 
 **LLM-based CV Parsing**  
 The use of the Claude API for CV extraction introduces inherent variability, parsing quality depends on CV formatting and language. In a production context, human review of parsed fields would be recommended before they are passed to scoring logic.
