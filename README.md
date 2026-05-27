@@ -332,7 +332,7 @@ These variables are passed to Camunda as process variables and consumed directly
 
 **Step 2 – Open the careers website**
 
-Open [`index.html` via GitHub Pages](https://digibp.github.io/26SS_Tierpark_Goldau/) to confirm the job listings page is live.
+Open https://digibp.github.io/26SS_Tierpark_Goldau/ to confirm the job listings page is live.
 
 The system is now ready. For a full walkthrough, see the [Demo Video](#10-demo-video).
 
@@ -340,7 +340,7 @@ The system is now ready. For a full walkthrough, see the [Demo Video](#10-demo-v
 
 ## 10. Demo Video
 
-A full end-to-end walkthrough of the process — from job posting to candidate onboarding — is available here:
+A full end-to-end walkthrough of the process, from job posting to candidate onboarding, is available here:
 
 **[▶ Watch Demo Video on Google Drive](https://drive.google.com/file/d/1LHzsdmXu-PgD2sdbzADCW7Hn8tShikO4/view?usp=sharing)**
 
