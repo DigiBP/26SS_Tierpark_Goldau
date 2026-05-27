@@ -323,10 +323,13 @@ These variables are passed to Camunda as process variables and consumed directly
 
 **Step 1 – Deploy BPMN processes to Camunda**
 
-1. Open [DigiBP Camunda](https://digibp.engine.martinlab.science) and log in.
-2. Navigate to **Admin → Deployments → Create Deployment**.
-3. Upload `Job_Posting.bpmn` together with `Position.dmn` and `Position.form`.
-4. Upload `Application.bpmn` together with `CV_Scoring.dmn`, `Evaluate.form`, and `Contract.form`.
+1. Download `Job_Posting.bpmn`, `Application.bpmn`, `Position.dmn`, `Position.form`, `CV_Scoring.dmn`, `Evaluate.form`, and `Contract.form`.
+2. Open `Job_Posting.bpmn` and `Application.bpmn` in Camunda Modeler.
+3. Click on the rocket icon at the bottom.
+4. For `Job_Posting.bpmn`, add `Position.dmn` and `Position.form` in "Include additional files".
+5. For `Application.bpmn`, add `CV_Scoring.dmn`, `Evaluate.form`, and `Contract.form` in "Include additional files".
+6. Fill in the Tenant ID and the REST Endpoint (https://digibp.engine.martinlab.science/engine-rest) for both and hit "Deploy".
+7. Go to https://digibp.engine.martinlab.science and then to "Tasklist" to start the process Job_Posting.
 
 **Step 2 – Open the careers website**
 
